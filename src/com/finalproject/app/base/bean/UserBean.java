@@ -1,6 +1,6 @@
 package com.finalproject.app.base.bean;
 
-public interface BaseUserBean {
+public interface UserBean {
 	public String getUserName();
 	public String getEmail();
 	public String getFullName();

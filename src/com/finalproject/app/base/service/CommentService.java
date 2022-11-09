@@ -5,7 +5,7 @@ import java.util.List;
 import com.finalproject.app.entity.Comment;
 import com.finalproject.app.entity.Post;
 
-public interface BaseCommentService extends BaseUserGeneratedContentService<Comment> {
+public interface CommentService extends UserGeneratedContentService<Comment> {
 
-	public List<Comment> getFromPost(Post post);
+	public List<Comment> getCommentFromPost(Post post);
 }

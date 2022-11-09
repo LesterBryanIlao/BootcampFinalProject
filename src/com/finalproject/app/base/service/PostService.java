@@ -5,6 +5,6 @@ import java.util.List;
 import com.finalproject.app.entity.Post;
 import com.finalproject.app.entity.User;
 
-public interface BasePostService extends BaseUserGeneratedContentService<Post> {
+public interface PostService extends UserGeneratedContentService<Post> {
 	public List<Post> getUserPosts(User user);
 }

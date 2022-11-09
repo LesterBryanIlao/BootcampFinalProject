@@ -1,8 +1,8 @@
 package com.finalproject.app.entity;
 
-import com.finalproject.app.base.entity.BaseUserGeneratedContent;
+import com.finalproject.app.base.entity.UserGeneratedContent;
 
-public class Comment implements BaseUserGeneratedContent{
+public class Comment implements UserGeneratedContent{
 
 	@Override
 	public long getId() {

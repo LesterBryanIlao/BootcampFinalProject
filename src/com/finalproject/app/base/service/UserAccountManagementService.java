@@ -2,6 +2,6 @@ package com.finalproject.app.base.service;
 
 import com.finalproject.app.entity.User;
 
-public interface BaseUserAccountManagementService {
+public interface UserAccountManagementService {
 	public void registerUser(User user);
 }

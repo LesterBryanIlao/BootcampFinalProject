@@ -4,6 +4,6 @@ import java.util.List;
 
 import com.finalproject.app.entity.Post;
 
-interface BasePostRepository extends BaseRepository<Post> {
+interface PostRepository extends Repository<Post> {
 	public List<Post> getViaUserId(long userId);
 }

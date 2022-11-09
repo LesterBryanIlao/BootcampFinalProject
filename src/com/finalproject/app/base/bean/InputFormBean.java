@@ -1,6 +1,6 @@
 package com.finalproject.app.base.bean;
 
-public interface BaseInputFormBean {
+public interface InputFormBean {
 
 	public void validateInput();
 

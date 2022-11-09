@@ -4,6 +4,6 @@ import java.util.List;
 
 import com.finalproject.app.entity.Comment;
 
-public interface BaseCommentRepository  extends BaseRepository<Comment> {
+public interface CommentRepository  extends Repository<Comment> {
 	public List<Comment> getViaPostId(String postId);
 }

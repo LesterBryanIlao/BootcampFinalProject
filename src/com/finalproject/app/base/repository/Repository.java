@@ -1,6 +1,6 @@
 package com.finalproject.app.base.repository;
 
-interface BaseRepository<T extends Object> {
+interface Repository<T extends Object> {
 	public void create(T content);
 
 	public void delete(long id);

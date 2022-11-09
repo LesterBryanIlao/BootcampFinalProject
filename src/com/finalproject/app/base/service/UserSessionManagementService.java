@@ -4,6 +4,6 @@ import com.finalproject.app.entity.User;
 
 public interface UserSessionManagementService {
 	public User loginUser(String email, String password);
-	public boolean isLoggedIn();
+//	public boolean isLoggedIn();
 	public void logoutUser() ;
 }

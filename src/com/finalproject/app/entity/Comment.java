@@ -1,16 +1,12 @@
 package com.finalproject.app.entity;
 
-import com.finalproject.app.base.entity.UserGeneratedContent;
 
-public class Comment implements UserGeneratedContent{
+public class Comment{
 
-	@Override
-	public long getId() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	
-	
+	private long id;
+	private long userId;
+	private long postId;
+	private String content;
+	private long time;
 
 }

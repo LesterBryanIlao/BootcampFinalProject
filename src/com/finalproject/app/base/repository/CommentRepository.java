@@ -5,12 +5,12 @@ import java.util.List;
 import com.finalproject.app.entity.Comment;
 
 public interface CommentRepository {
-	public void create(Comment comment);
+	public void deleteByCommentId(String commentId);
 
-	public void delete(String commentId);
+	public void deleteByPostId(String postId);
 
-	public void update(Comment comment);
+	public void updateContent(String commentId, String newContent);
 
-	public List<Comment> getViaPostId(String postId, long start, long end);
+	public List<Comment> getByPostId(String postId, long start, long end);
 
 }

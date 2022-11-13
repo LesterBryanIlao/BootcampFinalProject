@@ -1,5 +1,8 @@
 package com.finalproject.app.entity;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpSession;
+
 public class LoginSession {
 	private User user;
 	private HttpSession httpSession;
@@ -15,7 +18,7 @@ public class LoginSession {
 		return user;
 	}
 
-	public String getCookies() {
+	public Cookie[] getCookies() {
 		return cookies;
 	}
 

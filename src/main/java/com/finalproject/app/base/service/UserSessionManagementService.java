@@ -9,7 +9,7 @@ import com.finalproject.app.entity.LoginSession;
 
 public interface UserSessionManagementService {
 	public LoginSession loginUserViaEmailAndPassword(UserRepository userRepository, HttpServlet request, String email, String password);
-	public LoginSession loginUserViaExistingSession(UserRepository userRepository, HttpSession session, Cookie [] cookies);
+	public LoginSession loginUserViaExistingSession(UserRepository userRepository, HttpServlet request);
 	public boolean isLoggedIn(UserRepository userRepository, HttpSession session, Cookie [] cookies);
 	public void logoutUser(LoginSession loginSession) ;
 }

@@ -16,19 +16,14 @@
         <put-attribute name="body" value="/WEB-INF/views/pages/home.jsp" />
     </definition>
     
-    <definition name="loginForm" extends="main_template">
-        <put-attribute name="title" value="Login Form" />
-        <put-attribute name="body" value="/WEB-INF/views/pages/login/form.jsp" />
+    <definition name="postForm" extends="main_template">
+        <put-attribute name="title" value="Post Form" />
+        <put-attribute name="body" value="/WEB-INF/views/pages/post/form.jsp" />
     </definition>
     
-    <definition name="studentForm" extends="main_template">
-        <put-attribute name="title" value="Login Form" />
-        <put-attribute name="body" value="/WEB-INF/views/pages/student/form.jsp" />
-    </definition>
-    
-    <definition name="studentSuccess" extends="main_template">
-        <put-attribute name="title" value="Student Registration: Successful" />
-        <put-attribute name="body" value="/WEB-INF/views/pages/student/success.jsp" />
+    <definition name="commentForm" extends="main_template">
+        <put-attribute name="title" value="Comment Form" />
+        <put-attribute name="body" value="/WEB-INF/views/pages/comment/form.jsp" />
     </definition>
     
 </tiles-definitions> 

@@ -1,6 +1,8 @@
 package app.service;
 
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -51,12 +53,43 @@ public class UserSessionManagementServiceImpl implements UserSessionManagementSe
 
 	@Override
 	public User getCurrentLoggedInUser(HttpServletRequest request) {
-		User dummyUser = new User();
-		dummyUser.setId(10);
-		dummyUser.setFirstName("User_10");
-		dummyUser.setLastName("Doe");
-		dummyUser.setPassword("Test");
-		return dummyUser;
+		HttpSession session = request.getSession();
+//		if (session == null) {
+//			return null;
+//		}
+
+		User currentUser = null;
+
+		Map<String, Cookie> cookiesMap = new HashMap<>();
+		for (Cookie cookie : request.getCookies()) {
+			cookiesMap.put(cookie.getName(), cookie);
+		}
+
+		if (cookiesMap.size() > 0) {
+			Cookie creationTimeCookie = cookiesMap.get("creationTime");
+			Cookie userIdCookie = cookiesMap.get("userIdCookie");
+			Cookie hashVerifierCookie = cookiesMap.get("hashVerifierCookie");
+
+			User tempUser = userRepository.getOne(Long.parseLong(userIdCookie.getValue()));
+			if (tempUser != null) {
+
+				String password = tempUser.getPassword();
+				String actualHashVerifier = hashVerifierCookie.getValue();
+				String expectedHashVerifier = this.cookieHashVerifierGenerator(String.valueOf(session.getId()),
+						creationTimeCookie.getValue(), String.valueOf(tempUser.getId()), password);
+
+				if (actualHashVerifier == expectedHashVerifier) {
+					currentUser = tempUser;
+				}
+			}
+		}
+
+		currentUser = new User();
+		currentUser.setId(10);
+		currentUser.setFirstName("User_10");
+		currentUser.setLastName("Doe");
+		currentUser.setPassword("Test");
+		return currentUser;
 	}
 
 	@Override

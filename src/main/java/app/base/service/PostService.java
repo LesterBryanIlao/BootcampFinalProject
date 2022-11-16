@@ -19,4 +19,6 @@ public interface PostService  {
 
 	public List<Post> getUserPosts(User user);
 	
+	public Post getByPostId(long postId);
+	
 }

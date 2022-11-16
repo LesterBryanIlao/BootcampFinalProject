@@ -56,8 +56,8 @@ public class PostFormController {
 				postService.createPost(dummyUser, post);
 			} else {
 				long postid = Long.parseLong(postForm.getExistingPostId());
-				
-				postService.updatePostContent(dummyUser,);
+				Post existingPost = postService.getByPostId(postid);
+				postService.updatePostContent(dummyUser,existingPost);
 			}
 		} catch (Exception e) {
 

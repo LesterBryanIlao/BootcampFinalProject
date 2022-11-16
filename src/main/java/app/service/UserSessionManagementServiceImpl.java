@@ -2,6 +2,8 @@ package app.service;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.stereotype.Service;
+
 import app.base.service.UserSessionManagementService;
 import app.entity.LoginSession;
 import app.entity.User;

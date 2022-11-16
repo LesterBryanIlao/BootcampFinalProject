@@ -15,7 +15,7 @@ import javax.persistence.Table;
 
 import lombok.Data;
 
-@Table(name = "RedditUserPosts")
+@Table(name = "Posts")
 @Entity
 @Data
 public class Post implements Serializable{

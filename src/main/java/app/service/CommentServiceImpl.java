@@ -21,41 +21,61 @@ public class CommentServiceImpl implements CommentService{
     private CommentRepository commentRepository;
     
     @Override
-    public void createComment(Post post, Comment comment, String content) {
-        final Optional<Post> existingPost = postRepository.findById(post.getId());
+    public void createComment(User user, Comment comment) {
+        final Optional<Post> existingPost = postRepository.findById(comment.getPost().getId());
         if(!existingPost.isPresent()) {
             throw new RuntimeException("Post not found.");
         }
-        
+        if (!(user.getId() == comment.getUser().getId())) {
+            throw new RuntimeException("Different User");
+        }
         comment = new Comment();
         comment.setPost(existingPost.get());
-        comment.setContent(content);
+        comment.setContent(comment.getContent());
         comment.setTime(new Date());
         
     }
 
     @Override
-    public void deleteComment(Comment comment) {
+    public void deleteComment(User user, Comment comment) {
+        final Optional<Comment> existingComment = commentRepository.findById(comment.getId());
+        if(!existingComment.isPresent()) {
+            throw new RuntimeException("Comment not found.");
+        }
+        if (!(user.getId() == comment.getUser().getId())) {
+            throw new RuntimeException("You are not authorized to remove content");
+        }
         commentRepository.deleteById(comment.getId());
     }
 
     @Override
-    public void deletePostComments(Post post) {
+    public void deletePostComments(User user, Post post) {
+        final Optional<Post> existingPostComment = postRepository.findById(post.getId());
+        if(!existingPostComment.isPresent()) {
+            throw new RuntimeException("Post not found.");
+        }
+        if (!(user.getId() == post.getUser().getId())) {
+            throw new RuntimeException("You are not authorized to remove content");
+        }
         commentRepository.deleteByPostId(post.getId());
         
     }
 
     @Override
-    public void updateComment(Comment comment, Comment newComment) {
-        commentRepository.updateContent(comment.getId(), newComment.getContent());
+    public void updateComment(User user, Comment comment) {
+        if (!(user.getId() == comment.getUser().getId())) {
+            throw new RuntimeException("You are not authorized to edit content");
+        }
+        if (!(user.getId() == comment.getUser().getId())) {
+            throw new RuntimeException("You are not authorized to remove content");
+        }
+        commentRepository.updateContent(comment.getId(), comment.getContent());
         
     }
 
     @Override
     public List<Comment> getCommentFromPost(Post post) {
-        post = new Post();
         return  commentRepository.getByPostId(post.getId());
-
     }
     
 }

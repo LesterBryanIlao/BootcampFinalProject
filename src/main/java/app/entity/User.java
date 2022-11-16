@@ -7,7 +7,7 @@ import javax.persistence.Table;
 
 import lombok.Data;
 
-@Table(name = "RedditUserDetails")
+@Table(name = "Users")
 @Entity
 @Data
 public class User {

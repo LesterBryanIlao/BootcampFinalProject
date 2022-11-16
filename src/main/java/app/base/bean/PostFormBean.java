@@ -26,7 +26,7 @@ public class PostFormBean implements PostBean{
 	@Past(message = "Invalid post date")
 	private long time;
 
-	@NotNull(message = "Upvote value is require.")
+	@NotNull(message = "Upvote value is required.")
 	@Min(value = 0, message = "Minimum value is 0.")
 	private int upvotes;
 

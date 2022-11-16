@@ -42,5 +42,4 @@ public class PostFormBean implements PostBean{
 		return this.postContent.substring(0, 50) + "...";
 	}
 	
-
 }

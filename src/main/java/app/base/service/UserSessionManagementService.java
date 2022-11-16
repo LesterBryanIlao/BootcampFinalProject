@@ -10,7 +10,7 @@ public interface UserSessionManagementService {
 
 	public LoginSession loginUserViaExistingSession(HttpServletRequest request);
 
-	public boolean isLoggedIn(HttpServletRequest request);
+	public boolean getCurrentLoggedInUser(HttpServletRequest request);
 
 	public void logoutUser(HttpServletRequest request);
 }

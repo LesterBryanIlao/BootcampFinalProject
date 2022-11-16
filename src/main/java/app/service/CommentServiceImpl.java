@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import app.base.service.CommentService;
 import app.entity.Comment;
@@ -13,6 +14,7 @@ import app.entity.User;
 import app.repository.CommentRepository;
 import app.repository.PostRepository;
 
+@Service
 public class CommentServiceImpl implements CommentService{
     
     @Autowired

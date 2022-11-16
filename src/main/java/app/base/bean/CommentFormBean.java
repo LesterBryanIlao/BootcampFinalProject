@@ -29,7 +29,7 @@ public class CommentFormBean implements CommentBean {
 
 	@Min(value = 1, message = "Content must not be empty")
 	@Max(value = 255, message = "Content should not exceed 255 characters")
-	private String content;
+	private String commentContent;
 
 	@DateTimeFormat(pattern = "MM/dd/yyyy hh:mm")
 	@Past(message = "Invalid post date")
@@ -37,13 +37,13 @@ public class CommentFormBean implements CommentBean {
 
 	@Override
 	public String getCommentString() {
-		return this.content;
+		return this.commentContent;
 	}
 
 	@Override
 	public String getCommentStringPreview() {
 		// TODO Auto-generated method stub
-		return this.content;
+		return this.commentContent.substring(0, 50) + "...";
 	}
 
 }

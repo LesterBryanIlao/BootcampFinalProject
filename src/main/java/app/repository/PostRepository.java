@@ -1,6 +1,5 @@
 package app.repository;
 
-import java.awt.print.Pageable;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,9 +11,11 @@ import app.entity.Post;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
-
-	public List<Post> getByUserId(long userId, Pageable pageable);
-
+	public static final String SELECT_ALL = "SELECT post_id, user_id, post_content, date_posted, up_votes FROM RedditUserPosts ";
+	
+	@Query(SELECT_ALL + "WHERE user_id = :user_id")
+	public List<Post> getByUserId(@Param("user_id") long userId);
+	
 	@Query("Delete FROM RedditUserPosts rp where rp.post_id = :post_id")
 	public void deleteByPostId(@Param("post_id") long postId);
 
@@ -23,5 +24,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
 	@Query("UPDATE RedditUserPosts rp SET rp.post_content = :new_content WHERE rp.post_id = :post_id")
 	public void updateContent(@Param("post_id") long postid, @Param("new_content") String newContent);
+
+	public List<Post> findAllById(long postId);
+	
 
 }

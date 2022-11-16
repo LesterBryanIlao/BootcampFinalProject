@@ -12,8 +12,8 @@ import app.entity.Comment;
 
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
-	public List<Comment> getByPostId(long postId, Pageable pageable);
-
+	
+	
 	@Query("DELETE FROM RedditPostComments rpc WHERE rpc.comment_id = :comment_id")
 	public void deleteByCommentId(@Param("comment_id") long commentId);
 

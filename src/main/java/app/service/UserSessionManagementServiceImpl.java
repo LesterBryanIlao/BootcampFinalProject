@@ -2,11 +2,9 @@ package app.service;
 
 import javax.servlet.http.HttpServletRequest;
 
-import app.base.service.UserAccountManagementService;
 import app.base.service.UserSessionManagementService;
 import app.entity.LoginSession;
 import app.entity.User;
-import app.repository.UserRepository;
 
 public class UserSessionManagementServiceImpl implements UserSessionManagementService{
 

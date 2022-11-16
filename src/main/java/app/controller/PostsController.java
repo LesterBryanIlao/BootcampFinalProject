@@ -36,7 +36,7 @@ public class PostsController {
 			posts = postService.getUserPosts(dummyUser);
 		}
 		modelMap.addAttribute("posts", posts);
-		return new ModelAndView("home");
+		return new ModelAndView("posts");
 	}
 
 }

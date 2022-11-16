@@ -38,7 +38,7 @@ public class CommentController {
         return "commentForm";
     }
     try {
-        userCommenetService.newComment(commentForm.getUserId(), commentForm.getCommentContent());
+        userCommentService.newComment(commentForm.getUserId(), commentForm.getCommentContent());
     }catch (Exception e) {
         model.addAttribute("useError", e.getMessage());
         return "commentForm";

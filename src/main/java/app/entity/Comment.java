@@ -1,6 +1,7 @@
 package app.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
 import lombok.Data;
 
@@ -8,6 +9,7 @@ import lombok.Data;
 @Data
 public class Comment {
 
+    @Id
 	private long id;
 	private long userId;
 	private long postId;

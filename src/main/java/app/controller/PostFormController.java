@@ -58,7 +58,7 @@ public class PostFormController {
 				if (existingPost != null) {
 					existingPost.setContent(content);
 					postService.updatePostContent(dummyUser, existingPost);
-					return "home";
+					return "posts";
 				} else {
 					model.addAttribute("postCreateError", POST_CREATE_ERROR);
 				}

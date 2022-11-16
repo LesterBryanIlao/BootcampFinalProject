@@ -8,13 +8,13 @@ import app.entity.User;
 
 public interface CommentService {
 
-	public void createComment(Post post, Comment comment, String content);
+	public void createComment(User user, Comment comment);
 
-	public void deleteComment(Comment comment);
+	public void deleteComment(User user, Comment comment);
 
-	public void deletePostComments(Post post);
+	public void deletePostComments(User user, Post post);
 
-	public void updateComment(Comment comment, Comment newComment);
+	public void updateComment(User User, Comment comment);
 
 	public List<Comment> getCommentFromPost(Post post);
 

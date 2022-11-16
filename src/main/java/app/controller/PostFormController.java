@@ -40,6 +40,7 @@ public class PostFormController {
 			return "postForm";
 		}
 
+		
 		try {
 			User dummyUser = new User();
 			dummyUser.setId(10);
@@ -47,11 +48,17 @@ public class PostFormController {
 			dummyUser.setLastName("Doe");
 			dummyUser.setPassword("Test");
 
-			Post post = new Post();
-			post.setContent(postForm.getContent());
-			post.setUpvotes(0);
-			post.setTime(System.currentTimeMillis());
-			postService.createPost(dummyUser, post);
+			if(postForm.getExistingPostId() == null) {
+				Post post = new Post();
+				post.setContent(postForm.getContent());
+				post.setUpvotes(0);
+				post.setTime(System.currentTimeMillis());
+				postService.createPost(dummyUser, post);
+			} else {
+				long postid = Long.parseLong(postForm.getExistingPostId());
+				
+				postService.updatePostContent(dummyUser,);
+			}
 		} catch (Exception e) {
 
 		}

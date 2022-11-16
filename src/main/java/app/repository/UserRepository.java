@@ -9,5 +9,6 @@ import app.entity.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-	
+	@Query("SELECT  u.id, u.userName, u.firstName, u.lastName, u.password FROM User WHERE u.email=:email AND u.password=:password")
+	public List<User> getViaEmailAndPassword(String email, String password);
 }

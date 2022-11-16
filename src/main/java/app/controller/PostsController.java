@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import app.base.service.PostService;
+import app.base.service.UserSessionManagementService;
 import app.entity.Post;
 import app.entity.User;
 
@@ -21,6 +22,9 @@ public class PostsController {
 	@Autowired
 	private PostService postService;
 
+	@Autowired
+	private UserSessionManagementService userSessionManagementService;
+
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView showPosts(HttpServletRequest request, ModelMap modelMap) {
 		String userId = request.getAttribute("userId").toString();
@@ -28,11 +32,7 @@ public class PostsController {
 		if (userId == null) {
 			posts = postService.getPosts();
 		} else {
-			User dummyUser = new User();
-			dummyUser.setId(10);
-			dummyUser.setFirstName("User_10");
-			dummyUser.setLastName("Doe");
-			dummyUser.setPassword("Test");
+			User dummyUser = userSessionManagementService.getCurrentLoggedInUser(request);
 			posts = postService.getUserPosts(dummyUser);
 		}
 		modelMap.addAttribute("posts", posts);

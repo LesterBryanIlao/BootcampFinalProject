@@ -1,5 +1,6 @@
 package app.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import app.base.service.PostService;
+import app.base.service.UserSessionManagementService;
 import app.bean.PostForm;
 import app.entity.Post;
 import app.entity.User;
@@ -22,6 +24,10 @@ import app.entity.User;
 public class PostFormController {
 	@Autowired
 	private PostService postService;
+
+	@Autowired
+	private UserSessionManagementService userSessionManagementService;
+
 	private final static String POST_CREATE_ERROR = "Unexpected error occured while creating post";
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -31,7 +37,7 @@ public class PostFormController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String submitForm(@Valid @ModelAttribute("postForm") PostForm postForm, BindingResult bindingResult,
+	public String submitForm(@Valid @ModelAttribute("postForm") PostForm postForm, HttpServletRequest request, BindingResult bindingResult,
 			Model model) {
 
 		if (bindingResult.hasErrors()) {
@@ -39,11 +45,7 @@ public class PostFormController {
 		}
 
 		try {
-			User dummyUser = new User();
-			dummyUser.setId(10);
-			dummyUser.setFirstName("User_10");
-			dummyUser.setLastName("Doe");
-			dummyUser.setPassword("Test");
+			User dummyUser = userSessionManagementService.getCurrentLoggedInUser(request);
 
 			String content = postForm.getContent();
 			if (postForm.getExistingPostId() == null) {

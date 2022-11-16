@@ -46,20 +46,20 @@ public class PostFormController {
 			dummyUser.setLastName("Doe");
 			dummyUser.setPassword("Test");
 
+			String content = postForm.getContent();
 			if (postForm.getExistingPostId() == null) {
-				Post post = new Post();
-				post.setContent(postForm.getContent());
-				post.setUpvotes(0);
-				post.setTime(System.currentTimeMillis());
-				postService.createPost(dummyUser, post);
+				Post newPost = createPostInstance(dummyUser, content);
+				postService.createPost(dummyUser, newPost);
 			} else {
 				long postid = Long.parseLong(postForm.getExistingPostId());
 				Post existingPost = postService.getByPostId(postid);
 
-				if (existingPost == null) {
-					model.addAttribute("postCreateError", POST_CREATE_ERROR);
-				} else {
+				if (existingPost != null) {
+					existingPost.setContent(content);
 					postService.updatePostContent(dummyUser, existingPost);
+					return "home";
+				} else {
+					model.addAttribute("postCreateError", POST_CREATE_ERROR);
 				}
 
 			}
@@ -67,7 +67,16 @@ public class PostFormController {
 			model.addAttribute("postCreateError", POST_CREATE_ERROR);
 		}
 
-		return "home";
+		return "postForm";
 	}
 
+	private Post createPostInstance(User user, String content) {
+		Post post = new Post();
+		post.setUser(user);
+		post.setContent(content);
+		post.setUpvotes(0);
+		post.setTime(System.currentTimeMillis());
+		post.setUser(user);
+		return post;
+	}
 }

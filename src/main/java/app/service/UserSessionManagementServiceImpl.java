@@ -6,6 +6,7 @@ import app.base.service.UserSessionManagementService;
 import app.entity.LoginSession;
 import app.entity.User;
 
+@Service
 public class UserSessionManagementServiceImpl implements UserSessionManagementService{
 
 	@Override

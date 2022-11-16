@@ -27,9 +27,9 @@ public class PostsController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView showPosts(HttpServletRequest request, ModelMap modelMap) {
-		String userId = request.getAttribute("userId").toString();
+		Object userIdData = request.getAttribute("userId");
 		List<Post> posts = null;
-		if (userId == null) {
+		if (userIdData == null) {
 			posts = postService.getPosts();
 		} else {
 			User dummyUser = userSessionManagementService.getCurrentLoggedInUser(request);

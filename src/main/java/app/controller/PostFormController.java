@@ -1,7 +1,5 @@
 package app.controller;
 
-import java.util.Random;
-
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
@@ -21,6 +19,7 @@ import app.entity.User;
 @Controller
 public class PostFormController {
 	private final PostService postService;
+	private final static String POST_CREATE_ERROR = "Unexpected error occured while creating post";
 
 	public PostFormController(PostService postService) {
 		this.postService = postService;
@@ -40,7 +39,6 @@ public class PostFormController {
 			return "postForm";
 		}
 
-		
 		try {
 			User dummyUser = new User();
 			dummyUser.setId(10);
@@ -48,7 +46,7 @@ public class PostFormController {
 			dummyUser.setLastName("Doe");
 			dummyUser.setPassword("Test");
 
-			if(postForm.getExistingPostId() == null) {
+			if (postForm.getExistingPostId() == null) {
 				Post post = new Post();
 				post.setContent(postForm.getContent());
 				post.setUpvotes(0);
@@ -57,10 +55,16 @@ public class PostFormController {
 			} else {
 				long postid = Long.parseLong(postForm.getExistingPostId());
 				Post existingPost = postService.getByPostId(postid);
-				postService.updatePostContent(dummyUser,existingPost);
+
+				if (existingPost == null) {
+					model.addAttribute("postCreateError", POST_CREATE_ERROR);
+				} else {
+					postService.updatePostContent(dummyUser, existingPost);
+				}
+
 			}
 		} catch (Exception e) {
-
+			model.addAttribute("postCreateError", POST_CREATE_ERROR);
 		}
 
 		return "home";

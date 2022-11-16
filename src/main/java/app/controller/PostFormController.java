@@ -52,7 +52,7 @@ public class PostFormController {
 				postService.createPost(dummyUser, newPost);
 			} else {
 				long postid = Long.parseLong(postForm.getExistingPostId());
-				Post existingPost = postService.getByPostId(postid);
+				Post existingPost = postService.getPostById(postid);
 
 				if (existingPost != null) {
 					existingPost.setContent(content);

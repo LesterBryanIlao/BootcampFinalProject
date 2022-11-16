@@ -54,7 +54,7 @@ public class CommentServiceImpl implements CommentService{
     @Override
     public List<Comment> getCommentFromPost(Post post) {
         post = new Post();
-        return  commentRepository.getByPostId(post.getId(), null);
+        return  commentRepository.getByPostId(post.getId());
 
     }
     

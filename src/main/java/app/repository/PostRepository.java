@@ -13,6 +13,11 @@ import app.entity.Post;
 public interface PostRepository extends JpaRepository<Post, Long> {
 	public static final String SELECT_ALL = "SELECT post_id, user_id, post_content, date_posted, up_votes FROM RedditUserPosts ";
 	
+	public List<Post> getByPostId(long postId);
+	
+	@Query(SELECT_ALL + "WHERE post_id = :post_id")
+	public List<Post> findAllById(@Param("post_id")long postId);
+	
 	@Query(SELECT_ALL + "WHERE user_id = :user_id")
 	public List<Post> getByUserId(@Param("user_id") long userId);
 	
@@ -24,8 +29,4 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
 	@Query("UPDATE RedditUserPosts rp SET rp.post_content = :new_content WHERE rp.post_id = :post_id")
 	public void updateContent(@Param("post_id") long postid, @Param("new_content") String newContent);
-
-	public List<Post> findAllById(long postId);
-	
-
 }

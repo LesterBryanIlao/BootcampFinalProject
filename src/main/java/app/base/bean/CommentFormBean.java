@@ -16,34 +16,34 @@ import lombok.Setter;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommentFormBean implements CommentBean{
-    
-    @NotNull(message = "User ID is required")
-    private long id;
-    
-    @NotNull(message = "Post ID is required")
-    private long postId;
-    
-    @NotNull(message = "User ID is required")
-    private long userId;
-    
-    @Min(value = 1, message = "Content must not be empty")
-    @Max(value = 255, message = "Content should not exceed 255 characters")
-    private String content;
-    
-    @DateTimeFormat(pattern = "MM/dd/yyyy hh:mm")
-    @Past(message = "Invalid post date")
-    private long time;
-    
-    @Override
-    public String getCommentString() {
-        return this.content;
-    }
+public class CommentFormBean implements CommentBean {
 
-    @Override
-    public String getCommentStringPreview() {
-        // TODO Auto-generated method stub
-        return this.content;
-    }
+	@NotNull(message = "User ID is required")
+	private long id;
+
+	@NotNull(message = "Post ID is required")
+	private long postId;
+
+	@NotNull(message = "User ID is required")
+	private long userId;
+
+	@Min(value = 1, message = "Content must not be empty")
+	@Max(value = 255, message = "Content should not exceed 255 characters")
+	private String content;
+
+	@DateTimeFormat(pattern = "MM/dd/yyyy hh:mm")
+	@Past(message = "Invalid post date")
+	private long time;
+
+	@Override
+	public String getCommentString() {
+		return this.content;
+	}
+
+	@Override
+	public String getCommentStringPreview() {
+		// TODO Auto-generated method stub
+		return this.content;
+	}
 
 }

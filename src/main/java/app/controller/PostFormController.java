@@ -2,6 +2,7 @@ package app.controller;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -17,13 +18,11 @@ import app.entity.Post;
 import app.entity.User;
 
 @Controller
+@RequestMapping("/postForm")
 public class PostFormController {
-	private final PostService postService;
+	@Autowired
+	private PostService postService;
 	private final static String POST_CREATE_ERROR = "Unexpected error occured while creating post";
-
-	public PostFormController(PostService postService) {
-		this.postService = postService;
-	}
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView showForm(ModelMap modelMap) {
@@ -52,7 +51,7 @@ public class PostFormController {
 				postService.createPost(dummyUser, newPost);
 			} else {
 				long postid = Long.parseLong(postForm.getExistingPostId());
-				Post existingPost = postService.getByPostId(postid);
+				Post existingPost = postService.getPostById(postid);
 
 				if (existingPost != null) {
 					existingPost.setContent(content);

@@ -3,17 +3,33 @@
 
 ### Create the schema
 ```
-CREATE USER sample_db IDENTIFIED BY sample_db;
-GRANT CONNECT TO sample_db;
-GRANT CONNECT, RESOURCE, DBA TO sample_db;
-GRANT CREATE SESSION TO sample_db;
-GRANT CREATE TABLE TO sample_db;
-GRANT CREATE VIEW TO sample_db;
-GRANT CREATE ANY TRIGGER TO sample_db;
-GRANT CREATE ANY PROCEDURE TO sample_db;
-GRANT CREATE SEQUENCE TO sample_db;
-GRANT CREATE SYNONYM TO sample_db;
-GRANT UNLIMITED TABLESPACE TO sample_db;
+CREATE TABLE RedditUserDetails(
+    user_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY NOT NULL,
+    first_name VARCHAR(30) NOT NULL,
+    last_name VARCHAR(20) NOT NULL,
+    username VARCHAR(20) NOT NULL,
+    email VARCHAR (20) NOT NULL,
+    user_password VARCHAR (20) NOT NULL 
+);
+
+CREATE TABLE RedditUserPosts(
+    post_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY NOT NULL,
+    user_id INT NOT NULL,
+    post_content VARCHAR(500),
+    date_posted DATE NOT NULL,
+    up_votes INT NOT NULL,
+    FOREIGN KEY(user_id) REFERENCES RedditUserDetails(user_id)
+);
+
+CREATE TABLE RedditPostComments(
+    comment_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY NOT NULL,
+    post_id INT NOT NULL,
+    user_id INT NOT NULL,
+    comment_content VARCHAR (500) NOT NULL,
+    date_posted DATE NOT NULL,
+    FOREIGN KEY (post_id) REFERENCES RedditUserPosts(post_id),
+    FOREIGN KEY (user_id) REFERENCES RedditUserDetails(user_id)
+);
 ```
 
 ### Update persistence.xml unit name

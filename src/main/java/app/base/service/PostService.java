@@ -13,12 +13,12 @@ public interface PostService  {
 
 	public void updatePostContent(User user, Post newPost);
 	
-	public void upVotePost(User user);
+	public void upVotePost(User user, Post post);
 	
 	public List<Post> getPosts();
 
 	public List<Post> getUserPosts(User user);
 	
-	public Post getByPostId(long postId);
-	
+	public Post getPostById(long postId);
+
 }

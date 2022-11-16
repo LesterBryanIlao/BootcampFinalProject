@@ -27,6 +27,9 @@ public class User {
     
     @Column(name ="user_password", columnDefinition = "VARCHAR(20)", nullable = false)
 	private String password;
+    
+    @Column(name ="email", columnDefinition = "VARCHAR(20)", nullable = false)
+    private String email;
 
 
 

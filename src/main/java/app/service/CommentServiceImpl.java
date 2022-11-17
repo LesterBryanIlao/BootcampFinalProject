@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,7 @@ public class CommentServiceImpl implements CommentService{
     @Autowired
     private CommentRepository commentRepository;
     
+    @Transactional
     @Override
     public void createComment(User user, Comment comment) {
         final Optional<Post> existingPost = postRepository.findById(comment.getPost().getId());
@@ -38,6 +41,7 @@ public class CommentServiceImpl implements CommentService{
         
     }
 
+    @Transactional
     @Override
     public void deleteComment(User user, Comment comment) {
         final Optional<Comment> existingComment = commentRepository.findById(comment.getId());
@@ -50,6 +54,7 @@ public class CommentServiceImpl implements CommentService{
         commentRepository.deleteById(comment.getId());
     }
 
+    @Transactional
     @Override
     public void deletePostComments(User user, Post post) {
         final Optional<Post> existingPostComment = postRepository.findById(post.getId());
@@ -63,6 +68,7 @@ public class CommentServiceImpl implements CommentService{
         
     }
 
+    @Transactional
     @Override
     public void updateComment(User user, Comment comment) {
         if (!(user.getId() == comment.getUser().getId())) {

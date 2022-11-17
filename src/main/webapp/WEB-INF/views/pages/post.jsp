@@ -9,6 +9,12 @@ Posted by
 
 
 <form:form method="POST" modelAttribute="commentForm">
+
+	<form:label path="userId">UserID</form:label>
+	<form:textarea path="userId" />
+	<form:errors path="userId" />
+	
+	
 	<form:label path="content">Comment</form:label>
 	<form:textarea path="content" />
 	<form:errors path="content" />

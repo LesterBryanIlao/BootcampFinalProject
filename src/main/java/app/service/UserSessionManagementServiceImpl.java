@@ -1,6 +1,5 @@
 package app.service;
 
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,11 +11,10 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.google.common.hash.Hashing;
-
 import app.base.service.UserSessionManagementService;
 import app.entity.User;
 import app.repository.UserRepository;
+import app.util.HashingUtil;
 
 @Service
 public class UserSessionManagementServiceImpl implements UserSessionManagementService {
@@ -26,7 +24,7 @@ public class UserSessionManagementServiceImpl implements UserSessionManagementSe
 	@Override
 	public void loginUserViaEmailAndPassword(HttpServletRequest request, HttpServletResponse response, String email,
 			String password) {
-		String passwordHash = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
+		String passwordHash = HashingUtil.toSHA256(password);
 		User user = userRepository.getViaEmailAndPassword(email, passwordHash);
 
 		if (user == null) {
@@ -39,7 +37,7 @@ public class UserSessionManagementServiceImpl implements UserSessionManagementSe
 		String sessionId = request.getSession().getId();
 		String userId = String.valueOf(user.getId());
 		String hashVerifier = this.cookieHashVerifierGenerator(sessionId, sessionCreationTime, userId,
-				user.getPassword());
+				user.getPasswordHash());
 
 		Cookie creationTimeCookie = new Cookie("creationTime", sessionCreationTime);
 		Cookie userIdCookie = new Cookie("userId", userId);
@@ -73,10 +71,10 @@ public class UserSessionManagementServiceImpl implements UserSessionManagementSe
 			User tempUser = userRepository.getOne(Long.parseLong(userIdCookie.getValue()));
 			if (tempUser != null) {
 
-				String password = tempUser.getPassword();
+				String passwordHash = tempUser.getPasswordHash();
 				String actualHashVerifier = hashVerifierCookie.getValue();
 				String expectedHashVerifier = this.cookieHashVerifierGenerator(String.valueOf(session.getId()),
-						creationTimeCookie.getValue(), String.valueOf(tempUser.getId()), password);
+						creationTimeCookie.getValue(), String.valueOf(tempUser.getId()), passwordHash);
 
 				if (actualHashVerifier == expectedHashVerifier) {
 					currentUser = tempUser;
@@ -88,7 +86,7 @@ public class UserSessionManagementServiceImpl implements UserSessionManagementSe
 		currentUser.setId(10);
 		currentUser.setFirstName("User_10");
 		currentUser.setLastName("Doe");
-		currentUser.setPassword("Test");
+		currentUser.setPasswordHash("Test");
 		return currentUser;
 	}
 
@@ -103,7 +101,7 @@ public class UserSessionManagementServiceImpl implements UserSessionManagementSe
 		String hashVerifierBasisString = new StringBuilder().append(sessionId).append(sessionCreationTime)
 				.append(userId).append(password).toString();
 
-		return Hashing.sha256().hashString(hashVerifierBasisString, StandardCharsets.UTF_8).toString();
+		return HashingUtil.toSHA256(hashVerifierBasisString);
 	}
 
 }

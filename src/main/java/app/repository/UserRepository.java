@@ -8,6 +8,6 @@ import app.entity.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-	@Query("SELECT  u.id, u.userName, u.firstName, u.lastName, u.password FROM User u  WHERE u.email=:email AND u.password=:password")
-	public User getViaEmailAndPassword(String email, String password);
+	@Query("SELECT  u.id, u.userName, u.firstName, u.lastName, u.passwordHash FROM User u  WHERE u.email=:email AND u.passwordHash=:passwordHash")
+	public User getViaEmailAndPassword(String email, String passwordHash);
 }

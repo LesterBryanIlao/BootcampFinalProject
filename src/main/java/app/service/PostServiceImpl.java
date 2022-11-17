@@ -3,6 +3,8 @@ package app.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +22,8 @@ public class PostServiceImpl implements PostService {
 
 	@Autowired
 	PostRepository postRepository;
-
+	
+	@Transactional
 	@Override
 	public void createPost(User user, Post post) {
 		// TODO Auto-generated method stub
@@ -31,6 +34,7 @@ public class PostServiceImpl implements PostService {
 		postRepository.save(post);
 	}
 
+	@Transactional
 	@Override
 	public void deletePost(User user, Post post) {
 		// TODO Auto-generated method stub
@@ -40,6 +44,7 @@ public class PostServiceImpl implements PostService {
 		postRepository.delete(post);
 	}
 
+	@Transactional
 	@Override
 	public void updatePostContent(User user, Post newPost) {
 		// TODO Auto-generated method stub
@@ -49,6 +54,7 @@ public class PostServiceImpl implements PostService {
 		postRepository.save(newPost);
 	}
 
+	@Transactional
 	@Override
 	public void upVotePost(User user, Post post) {
 		// TODO Auto-generated method stub

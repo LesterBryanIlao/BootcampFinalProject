@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 public class PostForm {
-	@NotEmpty
+	
 	private long existingPostId;
 
 	@NotEmpty(message = "Please write something.")

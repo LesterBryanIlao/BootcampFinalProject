@@ -20,7 +20,6 @@ public class UserAccountManagementServiceImpl implements UserAccountManagementSe
 
 	@Override
 	public void registerUser(User user) {
-		
-		
+		userRepository.save(user);
 	}
 }

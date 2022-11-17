@@ -3,19 +3,23 @@
 
 
 
-Posted by <c:out value="${userName} at ${time}" />
+Posted by
+<c:out value="${post.userName} at ${post.time}" />
 <br />
-<c:out value="${content}" />
+<c:out value="${post.content}" />
 
 
 <form:form method="POST" modelAttribute="commentForm">
 	<form:label path="content">Comment</form:label>
-	<form:input path="content" />
+	<form:textarea path="content" />
 	<form:errors path="content" />
+	<br />
+	<input type="submit" value="Comment" />
 </form:form>
 
 <c:forEach items="${comments }" var="comment">
-	<c:out value="${comment.userName } ${comment.time }" /><br/>
+	<c:out value="${comment.userName } ${comment.time }" />
+	<br />
 	<c:out value="${comment.content }" />
 </c:forEach>
 

@@ -39,6 +39,6 @@ public class Post implements Serializable{
 	private long upvotes;
 
 	@Column(name = "date_posted", columnDefinition = "DATE", nullable = false)
-	private Date datePosted;
+	private Date time;
 
 }

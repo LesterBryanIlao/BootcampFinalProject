@@ -78,7 +78,7 @@ public class PostFormController {
 		post.setUser(user);
 		post.setContent(content);
 		post.setUpvotes(0);
-		post.setDatePosted(new Date());
+		post.setTime(new Date());
 		post.setUser(user);
 		return post;
 	}

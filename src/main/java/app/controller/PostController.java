@@ -48,7 +48,7 @@ public class PostController {
 			return "commentForm";
 		}
 		try {
-			
+
 			Comment comment = createCommentInstance(null, commentForm.getCommentString(),
 					postService.getPostById(commentForm.getPostId()));
 			commentService.createComment(null, comment);
@@ -62,7 +62,7 @@ public class PostController {
 
 	public Comment createCommentInstance(User user, String content, Post post) {
 		Comment comment = new Comment();
-
+		
 		comment.setUser(user);
 		comment.setContent(content);
 		comment.setPost(post);

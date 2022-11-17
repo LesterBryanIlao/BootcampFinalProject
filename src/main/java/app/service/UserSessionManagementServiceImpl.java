@@ -39,7 +39,7 @@ public class UserSessionManagementServiceImpl implements UserSessionManagementSe
 		String sessionId = request.getSession().getId();
 		String userId = String.valueOf(user.getId());
 		String hashVerifier = this.cookieHashVerifierGenerator(sessionId, sessionCreationTime, userId,
-				user.getPassword());
+				user.getPasswordHash());
 
 		Cookie creationTimeCookie = new Cookie("creationTime", sessionCreationTime);
 		Cookie userIdCookie = new Cookie("userId", userId);
@@ -73,10 +73,10 @@ public class UserSessionManagementServiceImpl implements UserSessionManagementSe
 			User tempUser = userRepository.getOne(Long.parseLong(userIdCookie.getValue()));
 			if (tempUser != null) {
 
-				String password = tempUser.getPassword();
+				String passwordHash = tempUser.getPasswordHash();
 				String actualHashVerifier = hashVerifierCookie.getValue();
 				String expectedHashVerifier = this.cookieHashVerifierGenerator(String.valueOf(session.getId()),
-						creationTimeCookie.getValue(), String.valueOf(tempUser.getId()), password);
+						creationTimeCookie.getValue(), String.valueOf(tempUser.getId()), passwordHash);
 
 				if (actualHashVerifier == expectedHashVerifier) {
 					currentUser = tempUser;
@@ -88,7 +88,7 @@ public class UserSessionManagementServiceImpl implements UserSessionManagementSe
 		currentUser.setId(10);
 		currentUser.setFirstName("User_10");
 		currentUser.setLastName("Doe");
-		currentUser.setPassword("Test");
+		currentUser.setPasswordHash("Test");
 		return currentUser;
 	}
 

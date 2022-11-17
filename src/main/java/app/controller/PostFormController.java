@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import app.base.service.PostService;
@@ -36,8 +37,10 @@ public class PostFormController {
 	private UserAccountManagementService userAccountManagementService;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView showForm(ModelMap modelMap) {
-		modelMap.addAttribute("postForm", new PostForm());
+	public ModelAndView showForm(@RequestParam("userId") long userId, ModelMap modelMap) {
+		PostForm postForm = new PostForm();
+		postForm.setUserId(userId);
+		modelMap.addAttribute("postForm", postForm);
 		return new ModelAndView("postForm");
 	}
 
@@ -45,26 +48,27 @@ public class PostFormController {
 	public String submitForm(@Valid @ModelAttribute("postForm") PostForm postForm, BindingResult bindingResult,
 			Model model) {
 
-		if (bindingResult.hasErrors()) {
-			model.addAttribute("error", "Unexpected error while creating the post");
-			return "postForm";
-		}
-
 		try {
+			if (bindingResult.hasErrors()) {
+				throw new IllegalArgumentException();
+			}
 
 			User existingUser = userAccountManagementService.getUserById(postForm.getUserId());
 
 			Post post = createPostInstance(existingUser, postForm.getContent());
 
-			String existingPostIdString = postForm.getExistingPostId();
-			if (!existingPostIdString.isEmpty()) {
-				post.setId(Long.parseLong(existingPostIdString));
+			long existingId = postForm.getExistingPostId();
+			if (existingId > 0) {
+				post.setId(existingId);
 			}
 
 			postService.createPost(existingUser, post);
 
 		} catch (EntityNotFoundException e) {
 			model.addAttribute("error", "Need to login");
+			return "postForm";
+		} catch (Exception e) {
+			model.addAttribute("error", "Unexpected error while creating the post");
 			return "postForm";
 		}
 		return "home";

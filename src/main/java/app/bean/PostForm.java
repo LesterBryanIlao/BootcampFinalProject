@@ -3,6 +3,7 @@ package app.bean;
 import java.util.Date;
 
 import javax.validation.constraints.Min;
+
 import org.hibernate.validator.constraints.NotEmpty;
 import lombok.Data;
 

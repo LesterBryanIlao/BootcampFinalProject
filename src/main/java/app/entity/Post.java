@@ -31,8 +31,11 @@ public class Post implements Serializable{
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
 	private User user;
+	
+	@Column(name = "date_posted", columnDefinition = "DATE",nullable = false, insertable = false, updatable=false)
+	private Date date;
 
-	@Column(name = "post_content", columnDefinition = "VARCHAR(500)")
+	@Column(name = "post_content", columnDefinition = "VARCHAR(500)", nullable = false)
 	private String content;
 
 	@Column(name = "up_votes", columnDefinition = "INT", nullable = false)
@@ -40,5 +43,7 @@ public class Post implements Serializable{
 
 	@Column(name = "date_posted", columnDefinition = "DATE", nullable = false)
 	private Date time;
+	
+
 
 }

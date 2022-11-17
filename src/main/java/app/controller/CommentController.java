@@ -2,6 +2,7 @@ package app.controller;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -9,25 +10,30 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import app.bean.CommentForm;
+import app.base.service.CommentService;
+import app.base.service.PostService;
+//import app.bean.CommentForm;
+import app.entity.Post;
 
 @Controller
 @RequestMapping("/comments")
 public class CommentController {
 
-	/*
-	 * @Autowired private UserCommentService userCommenetService;
-	 * 
-	 */
-
+    @Autowired
+    CommentService commentService;
+    
+    @Autowired
+    PostService postService;
 	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView showForm(ModelMap map) {
-		/*
-		 * map.addAttribute("commentForm", new CommentForm());
-		 * map.addAttribute("comments", userCommentService.getAllCommentsInPost());
-		 */
+	public ModelAndView showForm(ModelMap map, @RequestParam("postId")long postId) {
+		 
+	     Post post = postService.getPostById(postId);
+		 //map.addAttribute("commentForm", new CommentForm());
+		 map.addAttribute("comments", commentService.getCommentFromPost(post));
+		 
 		return new ModelAndView("commentForm");
 
 	}
@@ -40,7 +46,7 @@ public class CommentController {
 		}
 
 		try {
-//        userCommentService.newComment(commentForm.getUserId(), commentForm.getCommentContent());
+		    commentService.createComment(commentForm.getUserId(), commentForm.getCommentContent());
 		} catch (Exception e) {
 			model.addAttribute("useError", e.getMessage());
 			return "commentForm";

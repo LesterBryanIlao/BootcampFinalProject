@@ -19,19 +19,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAllUsers() {
         // TODO Auto-generated method stub
-        return null;
+        return userRepository.findAll();
     }
 
     @Override
-    public String getUserName(int userId) {
-        // TODO Auto-generated method stub
-        return null;
+    public String getUserName(Long userId) {
+        
+        return userRepository.getOne(userId).getUserName();
     }
 
     @Override
     public User getUserBasedOnUserId(Long userId) {
         // TODO Auto-generated method stub
-        return userRepository.getOne(null);
+        return userRepository.getOne(userId);
     }
 
 }

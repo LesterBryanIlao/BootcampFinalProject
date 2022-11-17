@@ -18,10 +18,6 @@
         <put-attribute name="body" value="/WEB-INF/views/pages/home.jsp" />
     </definition>
     
-     <definition name="postSuccess" extends="main_template">
-        <put-attribute name="title" value="Welcome to Laway!" />
-        <put-attribute name="body" value="/WEB-INF/views/pages/student/postSuccess.jsp" />
-    </definition>
     
     <definition name="postForm" extends="main_template">
         <put-attribute name="title" value="Post Form" />

@@ -11,7 +11,7 @@ import app.entity.Post;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
-	public static final String SELECT_ALL = "SELECT p.id, p.user.id, p.content, p.time, p.upvotes FROM Post p ";
+	public static final String SELECT_ALL = "SELECT p.id, p.user.id, p.content, p.datePosted, p.upvotes FROM Post p ";
 	
 	@Query(SELECT_ALL + "WHERE p.id = :post_id")
 	public List<Post> getByPostId(@Param("post_id") long postId);

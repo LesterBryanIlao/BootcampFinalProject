@@ -1,6 +1,7 @@
 package app.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -38,6 +39,6 @@ public class Post implements Serializable{
 	private long upvotes;
 
 	@Column(name = "date_posted", columnDefinition = "DATE", nullable = false)
-	private long time;
+	private Date datePosted;
 
 }

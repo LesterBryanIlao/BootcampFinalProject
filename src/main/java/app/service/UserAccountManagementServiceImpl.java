@@ -9,10 +9,10 @@ import app.repository.UserRepository;
 
 @Service
 public class UserAccountManagementServiceImpl implements UserAccountManagementService {
-	
+
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Override
 	public User getUserById(long userId) {
 		return userRepository.getOne(userId);
@@ -20,6 +20,10 @@ public class UserAccountManagementServiceImpl implements UserAccountManagementSe
 
 	@Override
 	public void registerUser(User user) {
+		User existingUser = userRepository.getOne(user.getId());
+		if (existingUser != null) {
+			throw new IllegalArgumentException("User provided already exists");
+		}
 		userRepository.save(user);
 	}
 }

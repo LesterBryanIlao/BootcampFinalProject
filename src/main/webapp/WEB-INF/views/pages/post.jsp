@@ -3,5 +3,5 @@
 
 
 
-Posted by <c:out value="${userName} at ${datePosted}"/>
+Posted by <c:out value="${userName} at ${time}"/>
 <c:out value="${content}"/>

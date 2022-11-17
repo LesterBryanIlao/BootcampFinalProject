@@ -1,5 +1,8 @@
 package app.controller;
 
+import java.util.Date;
+import java.util.NoSuchElementException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -18,66 +21,56 @@ import app.base.service.UserSessionManagementService;
 import app.bean.PostForm;
 import app.entity.Post;
 import app.entity.User;
+import javassist.expr.NewArray;
 
 @Controller
 @RequestMapping("/postForm")
 public class PostFormController {
-	@Autowired
-	private PostService postService;
+    @Autowired
+    private PostService postService;
 
-	@Autowired
-	private UserSessionManagementService userSessionManagementService;
+    @Autowired
+    private UserSessionManagementService userSessionManagementService;
 
-	private final static String POST_CREATE_ERROR = "Unexpected error occured while creating post";
+    private final static String POST_CREATE_ERROR = "Unexpected error occured while creating post";
 
-	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView showForm(ModelMap modelMap) {
-		modelMap.addAttribute("postForm", new PostForm());
-		return new ModelAndView("postForm");
-	}
+    @RequestMapping(method = RequestMethod.GET)
+    public ModelAndView showForm(ModelMap modelMap) {
+        System.out.println("here in get  post form");
 
-	@RequestMapping(method = RequestMethod.POST)
-	public String submitForm(@Valid @ModelAttribute("postForm") PostForm postForm, HttpServletRequest request, BindingResult bindingResult,
-			Model model) {
+        modelMap.addAttribute("postForm", new PostForm());
+        return new ModelAndView("postForm");
+    }
 
-		if (bindingResult.hasErrors()) {
-			return "postForm";
-		}
+    @RequestMapping(method = RequestMethod.POST)
+    public String submitForm(@Valid @ModelAttribute("postForm") PostForm postForm, BindingResult bindingResult, Model model) {
+        System.out.println("here in POST  post form");
 
-		try {
-			User dummyUser = userSessionManagementService.getCurrentLoggedInUser(request);
+        if (bindingResult.hasErrors()) {
+            return "postForm";
+        }
 
-			String content = postForm.getContent();
-			if (postForm.getExistingPostId() == null) {
-				Post newPost = createPostInstance(dummyUser, content);
-				postService.createPost(dummyUser, newPost);
-			} else {
-				long postid = Long.parseLong(postForm.getExistingPostId());
-				Post existingPost = postService.getPostById(postid);
+        Post post = createPostInstance(null, postForm.getContent());
 
-				if (existingPost != null) {
-					existingPost.setContent(content);
-					postService.updatePostContent(dummyUser, existingPost);
-					return "posts";
-				} else {
-					model.addAttribute("postCreateError", POST_CREATE_ERROR);
-				}
+        String existingPostIdString = postForm.getExistingPostId();
+        if (!existingPostIdString.isEmpty()) {
+            post.setId(Long.parseLong(existingPostIdString));
+        }
 
-			}
-		} catch (Exception e) {
-			model.addAttribute("postCreateError", POST_CREATE_ERROR);
-		}
+        //try catch PostServiceImpl
+        postService.createPost(null, post);
 
-		return "postForm";
-	}
+        return "postForm";
+    }
 
-	private Post createPostInstance(User user, String content) {
-		Post post = new Post();
-		post.setUser(user);
-		post.setContent(content);
-		post.setUpvotes(0);
-		post.setTime(System.currentTimeMillis());
-		post.setUser(user);
-		return post;
-	}
+    private Post createPostInstance(User user, String content) {
+        Post post = new Post();
+        post.setUser(user);
+        post.setContent(content);
+        post.setUpvotes(0);
+        post.setTime(new Date());
+        post.setUser(user);
+        return post;
+    }
+
 }

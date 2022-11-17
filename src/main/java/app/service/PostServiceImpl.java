@@ -23,11 +23,12 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public void createPost(User user, Post post) {
-		// TODO Auto-generated method stub
-		final Optional<User> existingUser = userRepository.findById(user.getId());
-		if (!existingUser.isPresent()) {
-			throw new RuntimeException("User not found.");
-		}
+	    System.out.println("here in create post");
+//		// TODO Auto-generated method stub
+//		final Optional<User> existingUser = userRepository.findById(user.getId());
+//		if (!existingUser.isPresent()) {
+//			throw new RuntimeException("User not found.");
+//		}
 		postRepository.save(post);
 	}
 

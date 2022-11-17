@@ -1,5 +1,7 @@
 package app.controller;
 
+import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -76,7 +78,7 @@ public class PostFormController {
 		post.setUser(user);
 		post.setContent(content);
 		post.setUpvotes(0);
-		post.setTime(System.currentTimeMillis());
+		post.setDatePosted(new Date());
 		post.setUser(user);
 		return post;
 	}

@@ -1,1 +1,1 @@
-<% response.sendRedirect(request.getContextPath() + "/app/posts");  %>
+<% response.sendRedirect(request.getContextPath() + "/app/home");  %>

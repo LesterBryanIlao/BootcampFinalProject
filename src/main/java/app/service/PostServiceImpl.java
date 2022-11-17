@@ -52,7 +52,8 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public void upVotePost(User user, Post post) {
 		// TODO Auto-generated method stub
-		postRepository.updateUpvotes(post.getId(), 1);
+		
+		postRepository.updateUpvotes(post.getId(), post.getUpvotes() + 1);
 
 	}
 

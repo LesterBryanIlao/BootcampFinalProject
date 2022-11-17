@@ -14,6 +14,7 @@
 </head>
 <body>
 	<c:forEach items="${posts}" var ="post">
+	
     <div class="container">
         <div class="col-md-12 col-lg-12">
             <article class="post vt-post">
@@ -27,11 +28,14 @@
                             <ul class="list-inline">
                                 <li>
                                     <div class="info">
+                                    <a href="/ToBeDecided">
                                         <p style="font-weight: bold;"><c:out value="Hello ${post.getUser().getUserName()}"></c:out></p>
                                         <p>Posted on:</p>
                                         
                                         <strong><c:out value="${post.getDate()}"></c:out></strong>
+                                    </a>
                                     </div>
+                                     
                                 </li>
                                 <li>                      
                                 </li>
@@ -50,4 +54,5 @@
             <div class="clearfix"></div>
         </div>
     </div>
+   
     </c:forEach>

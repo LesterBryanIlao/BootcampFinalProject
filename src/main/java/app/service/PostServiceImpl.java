@@ -22,11 +22,10 @@ public class PostServiceImpl implements PostService {
 
 	@Autowired
 	PostRepository postRepository;
-	
+
 	@Transactional
 	@Override
 	public void createPost(User user, Post post) {
-		// TODO Auto-generated method stub
 		final Optional<User> existingUser = userRepository.findById(user.getId());
 		if (!existingUser.isPresent()) {
 			throw new RuntimeException("User not found.");
@@ -37,7 +36,6 @@ public class PostServiceImpl implements PostService {
 	@Transactional
 	@Override
 	public void deletePost(User user, Post post) {
-		// TODO Auto-generated method stub
 		if (!(post.getUser().getId() == user.getId())) {
 			throw new RuntimeException("Current user not allowed to delete the post.");
 		}
@@ -47,7 +45,7 @@ public class PostServiceImpl implements PostService {
 	@Transactional
 	@Override
 	public void updatePostContent(User user, Post newPost) {
-		// TODO Auto-generated method stub
+
 		if (!(newPost.getUser().getId() == user.getId())) {
 			throw new RuntimeException("Current user not allowed to update the post.");
 		}
@@ -57,21 +55,17 @@ public class PostServiceImpl implements PostService {
 	@Transactional
 	@Override
 	public void upVotePost(User user, Post post) {
-		// TODO Auto-generated method stub
-		
 		postRepository.updateUpvotes(post.getId(), post.getUpvotes() + 1);
 
 	}
 
 	@Override
 	public List<Post> getPosts() {
-		// TODO Auto-generated method stub
 		return postRepository.findAll();
 	}
 
 	@Override
 	public List<Post> getUserPosts(User user) {
-		// TODO Auto-generated method stub
 		final Optional<User> existingUser = userRepository.findById(user.getId());
 		if (!existingUser.isPresent()) {
 			throw new RuntimeException("User not found.");
@@ -81,7 +75,6 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public Post getPostById(long postId) {
-		// TODO Auto-generated method stub
 		return postRepository.findById(postId).get();
 	}
 }

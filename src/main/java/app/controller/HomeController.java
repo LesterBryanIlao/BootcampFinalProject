@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import app.base.service.PostService;
-import app.base.service.UserService;
-import app.base.service.UserSessionManagementService;
+import app.base.service.UserAccountManagementService;
 import app.entity.Post;
 import app.entity.User;
 
@@ -25,7 +24,7 @@ public class HomeController {
 	private PostService postService;
 
 	@Autowired
-	private UserService userService;
+	private UserAccountManagementService userAccountManagementService;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView showPosts(HttpServletRequest request, ModelMap modelMap,
@@ -36,7 +35,7 @@ public class HomeController {
 			posts = this.getAllPosts();
 		} else {
 			try {
-				User dummyUser = userService.getUserById(Long.parseLong(userId));
+				User dummyUser = userAccountManagementService.getUserById(Long.parseLong(userId));
 				posts = postService.getUserPosts(dummyUser);
 			} catch (Exception e) {
 				posts = this.getAllPosts();

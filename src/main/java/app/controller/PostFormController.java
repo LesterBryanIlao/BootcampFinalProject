@@ -3,6 +3,7 @@ package app.controller;
 import java.util.Date;
 import java.util.NoSuchElementException;
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -26,6 +27,7 @@ import javassist.expr.NewArray;
 @Controller
 @RequestMapping("/postForm")
 public class PostFormController {
+
     @Autowired
     private PostService postService;
 

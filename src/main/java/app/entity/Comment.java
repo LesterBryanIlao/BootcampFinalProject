@@ -14,18 +14,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "COMMENTS")
-@Setter
-@Getter
-@EqualsAndHashCode
-@NoArgsConstructor
-@AllArgsConstructor
+@Table(name = "Comments")
+@Data
 public class Comment implements Serializable{
     private static final long serialVersionUID = 2688176559336870324L;
     

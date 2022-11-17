@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" isELIgnored="false"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,36 +13,24 @@
 
 </head>
 <body>
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-danger">
-    <a class="navbar-brand" href="#">LawayReddit</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-        </li>        
-    </div>
-</nav>
+	<c:forEach items="${posts}" var ="post">
     <div class="container">
         <div class="col-md-12 col-lg-12">
             <article class="post vt-post">
                 <div class="row">
                     <div class="col-xs-10 col-sm-5 col-md-5 col-lg-4">
                         <div class="post-type post-img">
-                            <a href="#"><img src="https://www.worldfuturecouncil.org/wp-content/uploads/2020/06/blank-profile-picture-973460_1280-1-705x705.png" 
-                                ></a>
+                            <!-- <a href="#"><img src="https://www.worldfuturecouncil.org/wp-content/uploads/2020/06/blank-profile-picture-973460_1280-1-705x705.png" 
+                                ></a> -->
                         </div>
                         <div class="author-info author-info-2">
                             <ul class="list-inline">
                                 <li>
                                     <div class="info">
-                                        <p style="font-weight: bold;">Donn Lester</p>
+                                        <p style="font-weight: bold;"><c:out value="Hello ${post.getUser().getUserName()}"></c:out></p>
                                         <p>Posted on:</p>
-                                        <strong>Mar 21, 2015</strong>
+                                        
+                                        <strong><c:out value="${post.getDate()}"></c:out></strong>
                                     </div>
                                 </li>
                                 <li>                      
@@ -52,7 +41,7 @@
                     <div class="content">
                         <div class="caption">
                             <h3 class="heading">The Heading Text Size Should Match</h3>
-                            <p> Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec ullamcorper nulla non metus auctor fringilla. </p>
+                            <p> <c:out value="${post.getContent()}"></c:out></p>
                             <!--<a class="btn btn-default" href="#" role="button">Read More</a> -->
                         </div>
                     </div>
@@ -61,3 +50,4 @@
             <div class="clearfix"></div>
         </div>
     </div>
+    </c:forEach>

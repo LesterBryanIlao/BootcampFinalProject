@@ -27,11 +27,6 @@
     <form:errors path="existingPostId" cssClass="error" />
     <br />
       
-    <form:label path="time">Date</form:label>	
-    <form:input path="time" name="formatted-date" value="${now}" }/>
-    <form:errors path="time" cssClass="error" />
-    
-    <br />
     
     <form:label path="upvotes">up votes</form:label>
     <form:input path="upvotes"  />

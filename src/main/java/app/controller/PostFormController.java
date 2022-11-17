@@ -49,7 +49,8 @@ public class PostFormController {
         if (bindingResult.hasErrors()) {
             return "postForm";
         }
-
+        
+        
         Post post = createPostInstance(null, postForm.getContent());
 
         String existingPostIdString = postForm.getExistingPostId();
@@ -69,7 +70,6 @@ public class PostFormController {
         post.setContent(content);
         post.setUpvotes(0);
         post.setTime(new Date());
-        post.setUser(user);
         return post;
     }
 

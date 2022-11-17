@@ -28,7 +28,7 @@ public class Post implements Serializable{
 	@Column(name="post_id", columnDefinition = "INT", nullable = false)
 	private long id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
 	private User user;
 	

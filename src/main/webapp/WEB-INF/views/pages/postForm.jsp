@@ -17,22 +17,22 @@
 
 
 
-    
-
-
 
 <h1>Share your thoughts</h1>
 <form:form method = "POST" modelAttribute = "postForm">
 
-
-
-
-    
-    <form:label path="existingPostId">Post ID</form:label>
+  <form:label path="userId">User ID</form:label>
+	<form:hidden path="userId"/>
+    <form:input path="userId" />
+    <form:errors path="userId" cssClass="error" />
+    <br />
+	
+	<form:label path="existingPostId">Post ID</form:label>
     <form:input path="existingPostId" />
     <form:errors path="existingPostId" cssClass="error" />
     <br />
-      
+
+    <br />
     
     <form:label path="upvotes">up votes</form:label>
     <form:input path="upvotes"  />

@@ -3,7 +3,7 @@ package app.controller;
 import java.util.Date;
 import java.util.NoSuchElementException;
 
-
+import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import app.base.service.PostService;
+import app.base.service.UserAccountManagementService;
 import app.base.service.UserSessionManagementService;
 import app.bean.PostForm;
 import app.entity.Post;
@@ -28,51 +29,55 @@ import javassist.expr.NewArray;
 @RequestMapping("/postForm")
 public class PostFormController {
 
-    @Autowired
-    private PostService postService;
+	@Autowired
+	private PostService postService;
 
-    @Autowired
-    private UserSessionManagementService userSessionManagementService;
+	@Autowired
+	private UserAccountManagementService userAccountManagementService;
 
-    private final static String POST_CREATE_ERROR = "Unexpected error occured while creating post";
+	@RequestMapping(method = RequestMethod.GET)
+	public ModelAndView showForm(ModelMap modelMap) {
+		modelMap.addAttribute("postForm", new PostForm());
+		return new ModelAndView("postForm");
+	}
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView showForm(ModelMap modelMap) {
-        System.out.println("here in get  post form");
+	@RequestMapping(method = RequestMethod.POST)
+	public String submitForm(@Valid @ModelAttribute("postForm") PostForm postForm, BindingResult bindingResult,
+			Model model) {
 
-        modelMap.addAttribute("postForm", new PostForm());
-        return new ModelAndView("postForm");
-    }
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("error", "Unexpected error while creating the post");
+			return "postForm";
+		}
 
-    @RequestMapping(method = RequestMethod.POST)
-    public String submitForm(@Valid @ModelAttribute("postForm") PostForm postForm, BindingResult bindingResult, Model model) {
-        System.out.println("here in POST  post form");
+		try {
 
-        if (bindingResult.hasErrors()) {
-            return "postForm";
-        }
+			User existingUser = userAccountManagementService.getUserById(postForm.getUserId());
 
-        Post post = createPostInstance(null, postForm.getContent());
+			Post post = createPostInstance(existingUser, postForm.getContent());
 
-        String existingPostIdString = postForm.getExistingPostId();
-        if (!existingPostIdString.isEmpty()) {
-            post.setId(Long.parseLong(existingPostIdString));
-        }
+			String existingPostIdString = postForm.getExistingPostId();
+			if (!existingPostIdString.isEmpty()) {
+				post.setId(Long.parseLong(existingPostIdString));
+			}
 
-        //try catch PostServiceImpl
-        postService.createPost(null, post);
+			postService.createPost(existingUser, post);
 
-        return "postForm";
-    }
+		} catch (EntityNotFoundException e) {
+			model.addAttribute("error", "Need to login");
+			return "postForm";
+		}
+		return "home";
+	}
 
-    private Post createPostInstance(User user, String content) {
-        Post post = new Post();
-        post.setUser(user);
-        post.setContent(content);
-        post.setUpvotes(0);
-        post.setTime(new Date());
-        post.setUser(user);
-        return post;
-    }
+	private Post createPostInstance(User user, String content) {
+		Post post = new Post();
+		post.setUser(user);
+		post.setContent(content);
+		post.setUpvotes(0);
+		post.setTime(new Date());
+		post.setUser(user);
+		return post;
+	}
 
 }

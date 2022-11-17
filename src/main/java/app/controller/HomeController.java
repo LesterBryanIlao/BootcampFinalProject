@@ -29,7 +29,7 @@ public class HomeController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView showPosts(HttpServletRequest request, ModelMap modelMap,
-			@RequestParam("userId") String userId) {
+			@RequestParam(value="userId", required=false) String userId) {
 
 		List<Post> posts = null;
 		if (userId == null) {

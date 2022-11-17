@@ -17,8 +17,8 @@ import app.entity.Post;
 import app.entity.User;
 
 @Controller
-@RequestMapping("/posts")
-public class PostsController {
+@RequestMapping("/home")
+public class HomeController {
 	@Autowired
 	private PostService postService;
 
@@ -36,7 +36,7 @@ public class PostsController {
 			posts = postService.getUserPosts(dummyUser);
 		}
 		modelMap.addAttribute("posts", posts);
-		return new ModelAndView("posts");
+		return new ModelAndView("home");
 	}
 
 }

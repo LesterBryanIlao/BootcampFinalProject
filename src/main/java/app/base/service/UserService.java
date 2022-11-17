@@ -1,5 +1,7 @@
 package app.base.service;
 
-public interface UserService {
+import app.entity.User;
 
+public interface UserService {
+	public User getUserById(long userId);
 }

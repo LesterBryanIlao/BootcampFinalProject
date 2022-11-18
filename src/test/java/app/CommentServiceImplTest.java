@@ -87,7 +87,7 @@ public class CommentServiceImplTest {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void delete_post_comments_deleting_not_owned_post_comments_should_throw_exception() {
+	public void deleting_not_owned_post_comments_should_throw_exception() {
 		Post post = new Post();
 		post.setId(1);
 

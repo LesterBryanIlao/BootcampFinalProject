@@ -8,7 +8,7 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" 
     type="text/css" >
-        <link href="<c:url value="/static/css/style.css" />" rel="stylesheet">
+    <link href="<c:url value="/static/css/style.css" />" rel="stylesheet">
 
 </head>
 
@@ -40,22 +40,14 @@
 			                            </ul>
 			                        </div>
 			                    </div>
-<<<<<<< Updated upstream
-			                    <div class="content">
-			                        <div class="caption">
-			                            <h3 class="heading">The Heading Text Size Should Match</h3>
-			                            <p> <c:out value="${post.getContent()}"></c:out></p>
-			                            <!--<a class="btn btn-default" href="#" role="button">Read More</a> -->
-			                      </div>
-		                    </div>
-=======
+
 			                    <a href="/post">
 			                    <div class="content">
 			                            <p> <c:out value="${post.getContent()}"></c:out></p>
 			                            <!--<a class="btn btn-default" href="#" role="button">Read More</a> -->
 		                    	</div>
 		                    </a>
->>>>>>> Stashed changes
+
 		                </div>
 		            </article>                                
 		            <div class="clearfix"></div>
@@ -63,8 +55,5 @@
 		    </div>
 	
 	   
-<<<<<<< Updated upstream
+
 	    </c:forEach>
-=======
-	    </c:forEach>
->>>>>>> Stashed changes

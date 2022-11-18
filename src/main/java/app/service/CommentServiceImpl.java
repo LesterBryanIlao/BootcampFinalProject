@@ -16,30 +16,29 @@ import app.repository.CommentRepository;
 import app.repository.PostRepository;
 
 @Service
-public class CommentServiceImpl implements CommentService {
-
-	@Autowired
-	private PostRepository postRepository;
-	@Autowired
-	private CommentRepository commentRepository;
-
-	@Transactional
-	@Override
-	public void createComment(User user, Comment comment) {
-		final Optional<Post> existingPost = postRepository.findById(comment.getPost().getId());
-		if (!existingPost.isPresent()) {
-			throw new IllegalArgumentException("Post not found.");
-		}
-		if (!(user.getId() == comment.getUser().getId())) {
-			throw new IllegalArgumentException("Different User");
-		}
-		comment = new Comment();
-		comment.setPost(existingPost.get());
-		comment.setContent(comment.getContent());
-		comment.setTime(new Date());
-		commentRepository.save(comment);
-
-	}
+public class CommentServiceImpl implements CommentService{
+    
+    @Autowired
+    private PostRepository postRepository;
+    @Autowired
+    private CommentRepository commentRepository;
+    
+    @Override
+    public void createComment(User user, Comment comment) {
+        final Optional<Post> existingPost = postRepository.findById(comment.getPost().getId());
+        if(!existingPost.isPresent()) {
+            throw new RuntimeException("Post not found.");
+        }
+        if (!(user.getId() == comment.getUser().getId())) {
+            throw new RuntimeException("Different User");
+        }
+        comment = new Comment();
+        comment.setPost(existingPost.get());
+        comment.setContent(comment.getContent());
+        comment.setTime(new Date());
+        
+        commentRepository.save(comment);
+    }
 
 	@Transactional
 	@Override

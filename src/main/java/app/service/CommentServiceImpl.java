@@ -36,6 +36,7 @@ public class CommentServiceImpl implements CommentService{
         comment.setContent(comment.getContent());
         comment.setTime(new Date());
         
+        commentRepository.save(comment);
     }
 
     @Override

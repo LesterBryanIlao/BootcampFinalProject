@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String getUserName(int userId) {
+    public String getUserName(Long userId) {
         // TODO Auto-generated method stub
         return null;
     }

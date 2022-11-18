@@ -1,6 +1,6 @@
 package app.bean;
 
-import java.text.SimpleDateFormat;
+//import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.validation.constraints.Max;
@@ -27,20 +27,20 @@ public class CommentForm {
 	@Max(value = 255, message = "Comment should not exceed 255 characters")
 	private String content;
 
-	private Date time;
+//	private Date time;
 
-	public String getFormattedTime() {
-		SimpleDateFormat formatter = new SimpleDateFormat();
-		return String.format("Date posted: %s", formatter.format(time));
-	}
-
-	public String getCommentString() {
-		// TODO Auto-generated method stub
-		return this.content;
-	}
-
-	public String getCommentStringPreview() {
-		// TODO Auto-generated method stub
-		return this.content.substring(0, 50) + "...";
-	}
+//	public String getFormattedTime() {
+//		SimpleDateFormat formatter = new SimpleDateFormat();
+//		return String.format("Date posted: %s", formatter.format(time));
+//	}
+//
+//	public String getCommentString() {
+//		// TODO Auto-generated method stub
+//		return this.content;
+//	}
+//
+//	public String getCommentStringPreview() {
+//		// TODO Auto-generated method stub
+//		return this.content.substring(0, 50) + "...";
+//	}
 }

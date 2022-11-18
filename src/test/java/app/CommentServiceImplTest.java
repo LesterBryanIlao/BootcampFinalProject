@@ -1,9 +1,6 @@
 package app;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
@@ -27,16 +24,27 @@ public class CommentServiceImplTest {
 	private PostRepository postRepository = mock(PostRepository.class);
 	@Mock
 	private CommentRepository commentRepository = mock(CommentRepository.class);
-
 	@Mock
 	private CommentServiceImpl mockedCommentServiceImpl = mock(CommentServiceImpl.class);
 
 	private CommentServiceImpl commentServiceImpl;
+	private User currentUser;
+	private Post currentPost;
+	private Comment currentComment;
 
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
 		commentServiceImpl = new CommentServiceImpl();
+
+		currentPost = new Post();
+		currentPost.setId(1);
+
+		currentUser = new User();
+		currentUser.setId(1);
+
+		currentComment = new Comment();
+		currentComment.setId(1);
 
 		Whitebox.setInternalState(commentServiceImpl, "postRepository", postRepository);
 		Whitebox.setInternalState(commentServiceImpl, "commentRepository", commentRepository);
@@ -45,108 +53,67 @@ public class CommentServiceImplTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void create_comment_with_different_user_should_throw_illegal_argument_exception() {
-		Post post = new Post();
-		post.setId(1);
-
-		User user1 = new User();
-		user1.setId(1);
-
 		User user2 = new User();
 		user2.setId(2);
 
-		Comment comment = new Comment();
-		comment.setUser(user2);
+		currentComment.setUser(user2);
+		currentComment.setPost(currentPost);
 
-		comment.setPost(post);
-
-		when(postRepository.findById(1L)).thenReturn(Optional.of(post));
-		commentServiceImpl.createComment(user1, comment);
+		mockPostRepositoryFindById(1);
+		commentServiceImpl.createComment(currentUser, currentComment);
 
 	}
 
 	@Test(expected = Test.None.class)
 	public void create_comment_with_same_user_should_be_successful() {
-		Post post = new Post();
-		post.setId(1);
+		currentComment.setUser(currentUser);
+		currentComment.setPost(currentPost);
 
-		User user1 = new User();
-		user1.setId(1);
-
-		Comment comment = new Comment();
-		comment.setUser(user1);
-
-		comment.setPost(post);
-
-		when(postRepository.findById(1L)).thenReturn(Optional.of(post));
-
-		commentServiceImpl.createComment(user1, comment);
+		mockPostRepositoryFindById(1);
+		commentServiceImpl.createComment(currentUser, currentComment);
 
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void create_comment_for_non_existent_post_should_throw_illegal_argument_exception() {
-		Post post = new Post();
-		post.setId(1);
+		currentComment.setUser(currentUser);
+		currentComment.setPost(currentPost);
 
-		User user = new User();
-		user.setId(1);
-
-		Comment comment = new Comment();
-		comment.setUser(user);
-
-		comment.setPost(post);
-
-		when(postRepository.findById(1L)).thenReturn(Optional.ofNullable(null));
-		commentServiceImpl.createComment(user, comment);
+		mockPostRepositoryFindById(1);
+		commentServiceImpl.createComment(currentUser, currentComment);
 	}
 
 	@Test(expected = Test.None.class)
 	public void create_comment_existent_post_should_succeed() {
-		Post post = new Post();
-		post.setId(1);
+		currentComment.setUser(currentUser);
+		currentComment.setPost(currentPost);
 
-		User user = new User();
-		user.setId(1);
-
-		Comment comment = new Comment();
-		comment.setUser(user);
-
-		comment.setPost(post);
-
-		when(postRepository.findById(1L)).thenReturn(Optional.of(post));
-		commentServiceImpl.createComment(user, comment);
+		mockPostRepositoryFindById(1);
+		commentServiceImpl.createComment(currentUser, currentComment);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void deleting_not_owned_post_comments_should_throw_exception() {
-		Post post = new Post();
-		post.setId(1);
-
-		User user1 = new User();
-		user1.setId(1);
-
 		User user2 = new User();
 		user2.setId(2);
 
-		post.setUser(user2);
+		currentPost.setUser(user2);
 
-		when(postRepository.findById(1L)).thenReturn(Optional.of(post));
-		commentServiceImpl.deletePostComments(user1, post);
-
+		mockPostRepositoryFindById(1);
+		commentServiceImpl.deletePostComments(currentUser, currentPost);
 	}
 
 	@Test(expected = Test.None.class)
 	public void deleting_owned_post_comments_should_succeed() {
-		Post post = new Post();
-		post.setId(1);
+		currentPost.setUser(currentUser);
 
-		User user1 = new User();
-		user1.setId(1);
+		mockPostRepositoryFindById(1);
+		commentServiceImpl.deletePostComments(currentUser, currentPost);
 
-		post.setUser(user1);
-
-		when(postRepository.findById(1L)).thenReturn(Optional.of(post));
-		commentServiceImpl.deletePostComments(user1, post);
-
+	}
+	
+	private void mockPostRepositoryFindById(long id) {
+		when(postRepository.findById(id)).thenReturn(Optional.of(currentPost));
+		
 	}
 }

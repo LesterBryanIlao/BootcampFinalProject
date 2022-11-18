@@ -5,6 +5,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+<<<<<<< Updated upstream
+=======
+//import org.springframework.transaction.annotation.Transactional;
+
+>>>>>>> Stashed changes
 import lombok.Data;
 
 @Table(name = "Users")

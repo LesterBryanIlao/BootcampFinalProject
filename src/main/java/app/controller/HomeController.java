@@ -43,6 +43,7 @@ public class HomeController {
 				posts = this.getAllPosts();
 			}
 		}
+		System.out.println(posts.size());
 		modelMap.addAttribute("posts", posts);
 		return new ModelAndView("home");
 	}

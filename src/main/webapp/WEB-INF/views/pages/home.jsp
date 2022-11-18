@@ -40,6 +40,7 @@
 			                            </ul>
 			                        </div>
 			                    </div>
+<<<<<<< Updated upstream
 			                    <div class="content">
 			                        <div class="caption">
 			                            <h3 class="heading">The Heading Text Size Should Match</h3>
@@ -47,6 +48,14 @@
 			                            <!--<a class="btn btn-default" href="#" role="button">Read More</a> -->
 			                      </div>
 		                    </div>
+=======
+			                    <a href="/post">
+			                    <div class="content">
+			                            <p> <c:out value="${post.getContent()}"></c:out></p>
+			                            <!--<a class="btn btn-default" href="#" role="button">Read More</a> -->
+		                    	</div>
+		                    </a>
+>>>>>>> Stashed changes
 		                </div>
 		            </article>                                
 		            <div class="clearfix"></div>
@@ -54,4 +63,8 @@
 		    </div>
 	
 	   
+<<<<<<< Updated upstream
 	    </c:forEach>
+=======
+	    </c:forEach>
+>>>>>>> Stashed changes

@@ -1,6 +1,7 @@
 package app.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,8 +16,8 @@ import javax.persistence.Table;
 
 import lombok.Data;
 
-@Entity
 @Table(name = "Posts")
+@Entity
 @Data
 public class Post implements Serializable{
 
@@ -27,17 +28,22 @@ public class Post implements Serializable{
 	@Column(name="post_id", columnDefinition = "INT", nullable = false)
 	private long id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
 	private User user;
+	
+	@Column(name = "date_posted", columnDefinition = "DATE",nullable = false, insertable = false, updatable=false)
+	private Date date;
 
-	@Column(name = "post_content", columnDefinition = "VARCHAR(500)")
+	@Column(name = "post_content", columnDefinition = "VARCHAR(500)", nullable = false)
 	private String content;
 
 	@Column(name = "up_votes", columnDefinition = "INT", nullable = false)
 	private long upvotes;
 
 	@Column(name = "date_posted", columnDefinition = "DATE", nullable = false)
-	private long time;
+	private Date time;
+	
+
 
 }

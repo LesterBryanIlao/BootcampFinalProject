@@ -14,13 +14,11 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 	
 	public List<Comment> getByPostId(long postId);
 	
-	@Query("DELETE FROM RedditPostComments rpc WHERE rpc.comment_id = :comment_id")
+	@Query("DELETE FROM Comment c WHERE c.id = :comment_id")
 	public void deleteByCommentId(@Param("comment_id") long commentId);
 
-	@Query("DELETE FROM RedditPostComments rpc WHERE rpc.post_id = :post_id")
+	@Query("DELETE FROM Comment c WHERE c.post.id = :post_id")
 	public void deleteByPostId(@Param("post_id") long postId);
 
-	@Query("UPDATE RedditPostComments rpc SET rpc.comment_content = :new_content WHERE rpc.comment_id = :comment_id")
-	public void updateContent(long commentId, String newContent);
 
 }

@@ -14,26 +14,21 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "COMMENTS")
-@Setter
-@Getter
-@EqualsAndHashCode
-@NoArgsConstructor
-@AllArgsConstructor
+@Table(name = "Comments")
+@Data
 public class Comment implements Serializable{
     private static final long serialVersionUID = 2688176559336870324L;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "custom_comment_sequence")
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "custom_comment_sequence")
     @SequenceGenerator(sequenceName = "comment_sequence", name = "custom_comment_sequence", allocationSize = 1)
-
-
     private long id;
     
     @ManyToOne(fetch = FetchType.LAZY)

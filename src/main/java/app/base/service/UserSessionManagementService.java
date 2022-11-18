@@ -1,16 +1,15 @@
 package app.base.service;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-import app.entity.LoginSession;
+import app.entity.User;
 
 public interface UserSessionManagementService {
-	public LoginSession loginUserViaEmailAndPassword( HttpServletRequest request, String email,
+	public void loginUserViaEmailAndPassword( HttpServletRequest request, HttpServletResponse response,String email,
 			String password);
 
-	public LoginSession loginUserViaExistingSession(HttpServletRequest request);
-
-	public boolean isLoggedIn(HttpServletRequest request);
+	public User getCurrentLoggedInUser(HttpServletRequest request);
 
 	public void logoutUser(HttpServletRequest request);
 }

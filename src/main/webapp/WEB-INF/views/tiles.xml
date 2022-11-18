@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE tiles-definitions PUBLIC  "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"  "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 
+
+
 <tiles-definitions>
 
-    <definition name="main_template" template="/WEB-INF/views/template/layout.jsp">
+   <definition name="main_template" template="/WEB-INF/views/template/layout.jsp">
         <put-attribute name="title"  value="" />
         <put-attribute name="header" value="/WEB-INF/views/template/header.jsp" />
         <put-attribute name="menu"   value="/WEB-INF/views/template/menu.jsp" />
@@ -11,25 +13,30 @@
         <put-attribute name="footer" value="/WEB-INF/views/template/footer.jsp" />
     </definition>
 
-    <definition name="home" extends="main_template">
-        <put-attribute name="title" value="Welcome" />
+   <definition name="home" extends="main_template">
+        <put-attribute name="title" value="Welcome to Laway!" />
         <put-attribute name="body" value="/WEB-INF/views/pages/home.jsp" />
     </definition>
     
-    <definition name="loginForm" extends="main_template">
-        <put-attribute name="title" value="Login Form" />
-        <put-attribute name="body" value="/WEB-INF/views/pages/login/form.jsp" />
+     <definition name="postSuccess" extends="main_template">
+        <put-attribute name="title" value="Welcome to Laway!" />
+        <put-attribute name="body" value="/WEB-INF/views/pages/student/postSuccess.jsp" />
     </definition>
     
-    <definition name="studentForm" extends="main_template">
-        <put-attribute name="title" value="Login Form" />
-        <put-attribute name="body" value="/WEB-INF/views/pages/student/form.jsp" />
+    <definition name="postForm" extends="main_template">
+        <put-attribute name="title" value="Post Form" />
+        <put-attribute name="body" value="/WEB-INF/views/pages/postForm.jsp" />
     </definition>
     
-    <definition name="studentSuccess" extends="main_template">
-        <put-attribute name="title" value="Student Registration: Successful" />
-        <put-attribute name="body" value="/WEB-INF/views/pages/student/success.jsp" />
+    <definition name="commentForm" extends="main_template">
+        <put-attribute name="title" value="Comment Form" />
+        <put-attribute name="body" value="/WEB-INF/views/pages/comment/form.jsp" />
     </definition>
     
-</tiles-definitions> 
- 
+    
+      <definition name="post" extends="main_template">
+        <put-attribute name="title" value="Comment Form" />
+        <put-attribute name="body" value="/WEB-INF/views/pages/comment/post.jsp" />
+    </definition>
+    
+</tiles-definitions>

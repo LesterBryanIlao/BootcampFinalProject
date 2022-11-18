@@ -10,11 +10,7 @@ public interface CommentService {
 
 	public void createComment(User user, Comment comment);
 
-	public void deleteComment(User user, Comment comment);
-
 	public void deletePostComments(User user, Post post);
-
-	public void updateComment(User User, Comment comment);
 
 	public List<Comment> getCommentFromPost(Post post);
 

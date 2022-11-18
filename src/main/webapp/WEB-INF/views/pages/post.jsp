@@ -2,6 +2,24 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
 
+
+<form:form method="POST" modelAttribute="deleteForm">
+
+	
+	<form:label path="postId">PostId</form:label>
+	<form:input path="postId" />
+	<form:errors path="postId" />
+	
+	
+	<form:label path="userId">UserId</form:label>
+	<form:input path="userId" />
+	<form:errors path="userId" />
+	
+	<br />
+	<input type="submit" value="Delete" />
+</form:form>
+
+
 Posted by
 <c:out value="${post.userName} at ${post.time}" />
 <br />

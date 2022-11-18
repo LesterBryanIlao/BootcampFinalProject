@@ -6,15 +6,10 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.sql.Date;
 import java.util.Optional;
 
-import javax.annotation.Resource;
-
-import org.apache.velocity.exception.MathException;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
@@ -33,10 +28,10 @@ public class CommentServiceImplTest {
 	@Mock
 	private CommentRepository commentRepository = mock(CommentRepository.class);
 
-	private CommentServiceImpl commentServiceImpl;
-
 	@Mock
 	private CommentServiceImpl mockedCommentServiceImpl = mock(CommentServiceImpl.class);
+
+	private CommentServiceImpl commentServiceImpl;
 
 	@Before
 	public void setup() {
@@ -69,6 +64,25 @@ public class CommentServiceImplTest {
 
 	}
 
+	@Test(expected = Test.None.class)
+	public void create_comment_with_same_user_should_be_successful() {
+		Post post = new Post();
+		post.setId(1);
+
+		User user1 = new User();
+		user1.setId(1);
+
+		Comment comment = new Comment();
+		comment.setUser(user1);
+
+		comment.setPost(post);
+
+		when(postRepository.findById(1L)).thenReturn(Optional.of(post));
+
+		commentServiceImpl.createComment(user1, comment);
+
+	}
+
 	@Test(expected = IllegalArgumentException.class)
 	public void create_comment_for_non_existent_post_should_throw_illegal_argument_exception() {
 		Post post = new Post();
@@ -83,6 +97,23 @@ public class CommentServiceImplTest {
 		comment.setPost(post);
 
 		when(postRepository.findById(1L)).thenReturn(Optional.ofNullable(null));
+		commentServiceImpl.createComment(user, comment);
+	}
+
+	@Test(expected = Test.None.class)
+	public void create_comment_existent_post_should_succeed() {
+		Post post = new Post();
+		post.setId(1);
+
+		User user = new User();
+		user.setId(1);
+
+		Comment comment = new Comment();
+		comment.setUser(user);
+
+		comment.setPost(post);
+
+		when(postRepository.findById(1L)).thenReturn(Optional.of(post));
 		commentServiceImpl.createComment(user, comment);
 	}
 
@@ -104,4 +135,18 @@ public class CommentServiceImplTest {
 
 	}
 
+	@Test(expected = Test.None.class)
+	public void deleting_owned_post_comments_should_succeed() {
+		Post post = new Post();
+		post.setId(1);
+
+		User user1 = new User();
+		user1.setId(1);
+
+		post.setUser(user1);
+
+		when(postRepository.findById(1L)).thenReturn(Optional.of(post));
+		commentServiceImpl.deletePostComments(user1, post);
+
+	}
 }

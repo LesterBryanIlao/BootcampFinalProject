@@ -58,8 +58,8 @@ public class CommentServiceImpl implements CommentService{
     @Transactional
     @Override
     public void deletePostComments(User user, Post post) {
-        final Optional<Post> existingPostComment = postRepository.findById(post.getId());
-        if(!existingPostComment.isPresent()) {
+        final Optional<Post> exstingPost = postRepository.findById(post.getId());
+        if(!exstingPost.isPresent()) {
             throw new IllegalArgumentException("Post not found.");
         }
         if (!(user.getId() == post.getUser().getId())) {

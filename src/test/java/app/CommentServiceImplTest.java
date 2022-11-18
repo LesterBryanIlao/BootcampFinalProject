@@ -2,9 +2,11 @@ package app;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.sql.Date;
 import java.util.Optional;
 
 import javax.annotation.Resource;
@@ -33,21 +35,23 @@ public class CommentServiceImplTest {
 
 	private CommentServiceImpl commentServiceImpl;
 
+	@Mock
+	private CommentServiceImpl mockedCommentServiceImpl = mock(CommentServiceImpl.class);
+
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
 		commentServiceImpl = new CommentServiceImpl();
-		
-		Whitebox.setInternalState(commentServiceImpl, "postRepository" , postRepository);
-		Whitebox.setInternalState(commentServiceImpl, "commentRepository" , commentRepository);
-		
+
+		Whitebox.setInternalState(commentServiceImpl, "postRepository", postRepository);
+		Whitebox.setInternalState(commentServiceImpl, "commentRepository", commentRepository);
+
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void create_comment_with_different_user_should_throw_illegal_argument_exception() {
 		Post post = new Post();
 		post.setId(1);
-	
 
 		User user1 = new User();
 		user1.setId(1);
@@ -59,12 +63,10 @@ public class CommentServiceImplTest {
 		comment.setUser(user2);
 
 		comment.setPost(post);
-		
-		
+
 		when(postRepository.findById(1L)).thenReturn(Optional.of(post));
 		commentServiceImpl.createComment(user1, comment);
-		
-		
+
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -80,12 +82,26 @@ public class CommentServiceImplTest {
 
 		comment.setPost(post);
 
-
 		when(postRepository.findById(1L)).thenReturn(Optional.ofNullable(null));
 		commentServiceImpl.createComment(user, comment);
 	}
-	
-	
-	
+
+	@Test(expected = IllegalArgumentException.class)
+	public void delete_post_comments_deleting_not_owned_post_comments_should_throw_exception() {
+		Post post = new Post();
+		post.setId(1);
+
+		User user1 = new User();
+		user1.setId(1);
+
+		User user2 = new User();
+		user2.setId(2);
+
+		post.setUser(user2);
+
+		when(postRepository.findById(1L)).thenReturn(Optional.of(post));
+		commentServiceImpl.deletePostComments(user1, post);
+
+	}
 
 }

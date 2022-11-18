@@ -29,15 +29,16 @@ public class CommentServiceImpl implements CommentService{
     public void createComment(User user, Comment comment) {
         final Optional<Post> existingPost = postRepository.findById(comment.getPost().getId());
         if(!existingPost.isPresent()) {
-            throw new RuntimeException("Post not found.");
+            throw new IllegalArgumentException("Post not found.");
         }
         if (!(user.getId() == comment.getUser().getId())) {
-            throw new RuntimeException("Different User");
+            throw new IllegalArgumentException("Different User");
         }
         comment = new Comment();
         comment.setPost(existingPost.get());
         comment.setContent(comment.getContent());
         comment.setTime(new Date());
+        commentRepository.save(comment);
         
     }
 
@@ -46,10 +47,10 @@ public class CommentServiceImpl implements CommentService{
     public void deleteComment(User user, Comment comment) {
         final Optional<Comment> existingComment = commentRepository.findById(comment.getId());
         if(!existingComment.isPresent()) {
-            throw new RuntimeException("Comment not found.");
+            throw new IllegalArgumentException("Comment not found.");
         }
         if (!(user.getId() == comment.getUser().getId())) {
-            throw new RuntimeException("You are not authorized to remove content");
+            throw new IllegalArgumentException("You are not authorized to remove content");
         }
         commentRepository.deleteById(comment.getId());
     }
@@ -59,10 +60,10 @@ public class CommentServiceImpl implements CommentService{
     public void deletePostComments(User user, Post post) {
         final Optional<Post> existingPostComment = postRepository.findById(post.getId());
         if(!existingPostComment.isPresent()) {
-            throw new RuntimeException("Post not found.");
+            throw new IllegalArgumentException("Post not found.");
         }
         if (!(user.getId() == post.getUser().getId())) {
-            throw new RuntimeException("You are not authorized to remove content");
+            throw new IllegalArgumentException("You are not authorized to remove content");
         }
         commentRepository.deleteByPostId(post.getId());
         
@@ -72,10 +73,10 @@ public class CommentServiceImpl implements CommentService{
     @Override
     public void updateComment(User user, Comment comment) {
         if (!(user.getId() == comment.getUser().getId())) {
-            throw new RuntimeException("You are not authorized to edit content");
+            throw new IllegalArgumentException("You are not authorized to edit content");
         }
         if (!(user.getId() == comment.getUser().getId())) {
-            throw new RuntimeException("You are not authorized to remove content");
+            throw new IllegalArgumentException("You are not authorized to remove content");
         }
         commentRepository.updateContent(comment.getId(), comment.getContent());
         

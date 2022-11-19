@@ -43,7 +43,6 @@ public class PostFormController {
 				throw new EntityNotFoundException("Invalid user or not currently logged in");
 			}
 
-			
 			PostForm postForm = new PostForm();
 			postForm.setExistingPostId(postId);
 			postForm.setUserId(userId);
@@ -86,12 +85,9 @@ public class PostFormController {
 
 			postService.createPost(existingUser, post);
 
-		} catch (EntityNotFoundException e) {
-			model.addAttribute("error", "Need to login");
-			return "redirect:postForm";
 		} catch (Exception e) {
 			model.addAttribute("error", "Unexpected error while creating the post");
-			return "redirect:postForm";
+			return "postForm";
 		}
 
 		return "redirect:home";

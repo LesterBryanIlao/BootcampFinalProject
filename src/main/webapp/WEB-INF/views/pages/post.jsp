@@ -7,7 +7,8 @@
 <c:url value="post/deletePost" var="deletePostActionUrl"/>
 <form:form method="POST" modelAttribute="deleteForm" action="${deletePostActionUrl }">
 	${requestS }
-	<form:label type="hidden" path="existingPostId"/>
+	<form:input type="hidden" path="userId"/>
+	<form:input type="hidden" path="postId"/>
 	<input type="submit" value="Delete"/>
 </form:form>
 

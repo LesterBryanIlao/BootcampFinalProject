@@ -3,8 +3,12 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" isELIgnored="false"%>
 <br />
 
-<form:form method="POST" modelAttribute="deleteForm">
-	<form:label type="hidden" path="existingPostId"/>
+
+<c:url value="post/deletePost" var="deletePostActionUrl"/>
+<form:form method="POST" modelAttribute="deleteForm" action="${deletePostActionUrl }">
+	${requestS }
+	<form:input type="hidden" path="userId"/>
+	<form:input type="hidden" path="postId"/>
 	<input type="submit" value="Delete"/>
 </form:form>
 

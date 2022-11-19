@@ -33,8 +33,8 @@ public class HomeController {
 			posts = this.getAllPosts();
 		} else {
 			try {
-				User dummyUser = userAccountManagementService.getUserById(userId);
-				posts = postService.getUserPosts(dummyUser);
+				User postOwner = userAccountManagementService.getUserById(userId);
+				posts = postService.getUserPosts(postOwner);
 			} catch (Exception e) {
 				posts = this.getAllPosts();
 			}

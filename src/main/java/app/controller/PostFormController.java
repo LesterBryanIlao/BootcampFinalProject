@@ -63,6 +63,7 @@ public class PostFormController {
 		}
 
 		return modelAndView;
+
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
@@ -89,7 +90,6 @@ public class PostFormController {
 			model.addAttribute("error", "Unexpected error while creating the post");
 			return "postForm";
 		}
-
 		return "redirect:home";
 	}
 

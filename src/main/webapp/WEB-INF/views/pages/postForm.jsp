@@ -1,9 +1,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<jsp:useBean id="now" class="java.util.Date" />
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1" isELIgnored="false"%>
+
+<jsp:useBean id="now" class="java.util.Date" />
 
 <head>
 <meta charset="UTF-8">
@@ -17,35 +19,42 @@
 	crossorigin="anonymous" type="text/css">
 </head>
 <body>
-	<h1>Share your thoughts</h1>
-	<form:form method="POST" modelAttribute="postForm">
+
+	<div class="post-area">
+		<div class="post-box" id="post-box">
+
+			<div class="post-fields">
+				<h1>Share your thoughts</h1>
+				<p>${user.getUserName() }</p>
+				<form:form method="POST" modelAttribute="postForm">
 
 
-		<form:label path="userId" type="hidden">User ID</form:label>
-		<form:hidden path="userId" />
-		<form:input path="userId" />
-		<form:errors path="userId" cssClass="error" />
-		<br />
+					<!-- Hidden inputs -->
+					<form:hidden path="userId" />
+					<form:errors path="userId" cssClass="error" />
 
-		<form:label path="existingPostId">Post ID</form:label>
-		<form:input path="existingPostId" />
-		<form:errors path="existingPostId" cssClass="error" />
-		<br />
+					<form:hidden path="existingPostId" />
+					<form:errors path="existingPostId" cssClass="error" />
 
 
-		<form:label path="upvotes">up votes</form:label>
-		<form:input path="upvotes" />
-		<form:errors path="upvotes" cssClass="error" />
-		<br />
+					<form:hidden path="upvotes" />
 
-		<!--  name="start_date-${task.taskId}" value="<fmt:formatDate value='${task.startDate}'
-    var='startFormat' type='date' pattern='yyyy-MM-dd'/>" -->
+					<br />
 
-		<form:label path="content">What is in your mind?</form:label>
-		<form:textarea path="content" />
-		<form:errors path="content" cssClass="error" />
-		<br />
-		<input type="submit" value="Post" />
-	</form:form>
+					<!--  name="start_date-${task.taskId}" value="<fmt:formatDate value='${task.startDate}'
+		    var='startFormat' type='date' pattern='yyyy-MM-dd'/>" -->
+
+
+					<form:textarea path="content" name="post-content" />
+					<form:errors path="content" cssClass="error" />
+					<br />
+					<input type="submit" value="Post" name="submit-button"
+						id="postSubmit" />
+				</form:form>
+			</div>
+		</div>
+	</div>
+
+
 
 </body>

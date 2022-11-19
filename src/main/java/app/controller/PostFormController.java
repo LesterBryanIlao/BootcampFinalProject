@@ -40,7 +40,7 @@ public class PostFormController {
 		try {
 			User existingUser = userAccountManagementService.getUserById(userId);
 			if (existingUser == null) {
-				throw new EntityNotFoundException("Invalid user or not currently logged in");
+				throw new Exception("Invalid user or not currently logged in");
 			}
 
 			PostForm postForm = new PostForm();
@@ -50,6 +50,10 @@ public class PostFormController {
 
 			Post post = postService.getPostById(postId);
 			if (post != null) {
+				if(post.getUser().getId() != userId) {
+					throw new Exception("You don't have the permission to do the action");
+				}
+				
 				postForm.setContent(post.getContent());
 				postForm.setUpvotes(post.getUpvotes());
 				postForm.setUpvotes(post.getUpvotes());
@@ -58,7 +62,7 @@ public class PostFormController {
 			modelMap.addAttribute("postForm", postForm);
 			modelAndView = new ModelAndView("postForm");
 
-		} catch (EntityNotFoundException e) {
+		} catch (Exception e) {
 			modelAndView = new ModelAndView(String.format("redirect:error?error=%s", e.getMessage()));
 		}
 

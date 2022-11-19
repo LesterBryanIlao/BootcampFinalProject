@@ -1,6 +1,5 @@
 package app.service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,31 +27,26 @@ public class CommentServiceImpl implements CommentService {
 	public void createComment(User user, Comment comment) {
 		final Optional<Post> existingPost = postRepository.findById(comment.getPost().getId());
 		if (!existingPost.isPresent()) {
-			throw new IllegalArgumentException("Post not found.");
+			throw new RuntimeException("Post not found.");
 		}
 		if (!(user.getId() == comment.getUser().getId())) {
-			throw new IllegalArgumentException("Different User");
+			throw new RuntimeException("Different User");
 		}
-		comment = new Comment();
-		comment.setPost(existingPost.get());
-		comment.setContent(comment.getContent());
-		comment.setTime(new Date());
-		commentRepository.save(comment);
 
+		commentRepository.save(comment);
 	}
 
 	@Transactional
 	@Override
 	public void deletePostComments(User user, Post post) {
-		final Optional<Post> exstingPost = postRepository.findById(post.getId());
-		if (!exstingPost.isPresent()) {
-			throw new IllegalArgumentException("Post not found.");
+		final Optional<Post> existingPostComment = postRepository.findById(post.getId());
+		if (!existingPostComment.isPresent()) {
+			throw new RuntimeException("Post not found.");
 		}
 		if (!(user.getId() == post.getUser().getId())) {
-			throw new IllegalArgumentException("You are not authorized to remove content");
+			throw new RuntimeException("You are not authorized to remove content");
 		}
 		commentRepository.deleteByPostId(post.getId());
-
 	}
 
 	@Override

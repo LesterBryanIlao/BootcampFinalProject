@@ -7,6 +7,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.logging.log4j.core.config.plugins.validation.constraints.Required;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,9 +38,11 @@ public class PostFormController {
 	private UserAccountManagementService userAccountManagementService;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView showForm(@RequestParam("userId") long userId,
+  
+public ModelAndView showForm(@RequestParam("userId") long userId,
 			@RequestParam(name = "postId", defaultValue = "0", required = false) long postId, ModelMap modelMap) {
 		PostForm postForm = new PostForm();
+		postForm.setExistingPostId(postId);
 		postForm.setUserId(userId);
 		postForm.setExistingPostId(postId);
 		modelMap.addAttribute("postForm", postForm);

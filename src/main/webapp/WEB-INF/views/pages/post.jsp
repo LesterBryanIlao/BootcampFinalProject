@@ -3,7 +3,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" isELIgnored="false"%>
 <br />
 
-<form:form method="POST" modelAttribute="deleteForm">
+<form:form method="POST" modelAttribute="deleteForm" action="./postDelete">
 	<form:label type="hidden" path="existingPostId"/>
 	<input type="submit" value="Delete"/>
 </form:form>

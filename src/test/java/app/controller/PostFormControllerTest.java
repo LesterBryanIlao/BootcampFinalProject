@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import app.base.service.PostService;
 import app.base.service.UserAccountManagementService;
 import app.bean.PostForm;
+import app.entity.Post;
 import app.entity.User;
 
 public class PostFormControllerTest {
@@ -44,27 +45,83 @@ public class PostFormControllerTest {
 	}
 
 	@Test
-	public void show_form_method_view_name_should_be_equal_to_postForm() {
+	public void show_form_method_view_name_should_be_equal_to_postForm_when_everything_is_successful() {
 		long userId = 1;
 		long postId = 1;
+
+		User user = mock(User.class);
+		Post post = mock(Post.class);
+		when(userAccountManagementService.getUserById(userId)).thenReturn(user);
+		when(postService.getPostById(postId)).thenReturn(post);
+		when(post.getUser()).thenReturn(user);
+		when(post.getContent()).thenReturn("");
+		when(post.getUpvotes()).thenReturn(0L);
+		when(user.getId()).thenReturn(userId);
+
 		ModelAndView modelAndView = postFormController.showForm(userId, postId, new ModelMap());
 		assertTrue(modelAndView.getViewName().equals("postForm"));
 	}
 
 	@Test
-	public void show_form_method_should_return_the_passed_user_id_inside_a_PostForm_model() {
-		ModelMap modelMap = new ModelMap();
-		long userId = 10;
+	public void show_form_method_should_return_the_passed_user_id_inside_a_PostForm_model_if_everything_is_successful() {
+		long userId = 1;
 		long postId = 1;
-		postFormController.showForm(userId, postId, modelMap);
+
+		User user = mock(User.class);
+		Post post = mock(Post.class);
+		when(userAccountManagementService.getUserById(userId)).thenReturn(user);
+		when(postService.getPostById(postId)).thenReturn(post);
+		when(post.getUser()).thenReturn(user);
+		when(post.getContent()).thenReturn("");
+		when(post.getUpvotes()).thenReturn(0L);
+		when(user.getId()).thenReturn(userId);
+
+		ModelMap modelMap = new ModelMap();
+		ModelAndView modelAndView = postFormController.showForm(userId, postId, modelMap);
+		assertTrue(modelAndView.getViewName().equals("postForm"));
+
 		assertTrue(((PostForm) modelMap.get("postForm")).getUserId() == userId);
+	}
+
+	@Test
+	public void submit_form_method_should_return_error_when_updating_not_owned_post() {
+		long userId = 1;
+		long userId2 = 2;
+		long postId = 1;
+
+		User user = mock(User.class);
+		User user2 = mock(User.class);
+		Post post = mock(Post.class);
+		when(userAccountManagementService.getUserById(userId)).thenReturn(user);
+		when(postService.getPostById(postId)).thenReturn(post);
+		when(post.getUser()).thenReturn(user2);
+		when(post.getContent()).thenReturn("");
+		when(post.getUpvotes()).thenReturn(0L);
+		when(user.getId()).thenReturn(userId);
+		when(user2.getId()).thenReturn(userId2);
+
+		ModelAndView modelAndView = postFormController.showForm(userId, postId, new ModelMap());
+		assertTrue(modelAndView.getViewName().contains("redirect:error"));
+	}
+
+	@Test
+	public void submit_form_method_should_return_error_when_user_not_exist() {
+		long userId = 1;
+		long postId = 1;
+
+		Post post = mock(Post.class);
+		when(userAccountManagementService.getUserById(userId)).thenReturn(null);
+		when(postService.getPostById(postId)).thenReturn(post);
+
+		ModelAndView modelAndView = postFormController.showForm(userId, postId, new ModelMap());
+		assertTrue(modelAndView.getViewName().contains("redirect:error"));
 	}
 
 	@Test
 	public void submit_form_method_should_return_home_when_successful() throws Exception {
 		User user = new User();
 		boolean bindingResultHasErrors = false;
-		String expectedReturnPath = "home";
+		String expectedReturnPath = "redirect:home";
 		executeSubmitFormFlow(user, bindingResultHasErrors, expectedReturnPath);
 	}
 
@@ -102,4 +159,5 @@ public class PostFormControllerTest {
 
 		assertTrue(result == expectedReturnPath);
 	}
+
 }

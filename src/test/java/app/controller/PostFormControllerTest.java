@@ -28,8 +28,6 @@ public class PostFormControllerTest {
 	@Mock
 	private BindingResult bindingResult = mock(BindingResult.class);
 	@Mock
-	private UserAccountManagementService userAccountManagementService = mock(UserAccountManagementService.class);
-	@Mock
 	private UserSessionManagementService userSessionManagementService = mock(UserSessionManagementService.class);
 	@Mock
 	private Model model = mock(Model.class);
@@ -42,8 +40,6 @@ public class PostFormControllerTest {
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
 		postFormController = new PostFormController();
-
-		Whitebox.setInternalState(postFormController, "userAccountManagementService", userAccountManagementService);
 		Whitebox.setInternalState(postFormController, "postService", postService);
 		Whitebox.setInternalState(postFormController, "userSessionManagementService", userSessionManagementService);
 	}
@@ -55,7 +51,7 @@ public class PostFormControllerTest {
 
 		User user = mock(User.class);
 		Post post = mock(Post.class);
-		
+
 		when(userSessionManagementService.getCurrentLoggedInUser(null)).thenReturn(user);
 		when(postService.getPostById(postId)).thenReturn(post);
 		when(post.getUser()).thenReturn(user);
@@ -74,7 +70,7 @@ public class PostFormControllerTest {
 
 		User user = mock(User.class);
 		Post post = mock(Post.class);
-		
+
 		when(userSessionManagementService.getCurrentLoggedInUser(null)).thenReturn(user);
 		when(postService.getPostById(postId)).thenReturn(post);
 		when(post.getUser()).thenReturn(user);
@@ -98,9 +94,8 @@ public class PostFormControllerTest {
 		User user = mock(User.class);
 		User user2 = mock(User.class);
 		Post post = mock(Post.class);
-		
+
 		when(userSessionManagementService.getCurrentLoggedInUser(null)).thenReturn(user);
-		when(userAccountManagementService.getUserById(userId)).thenReturn(user);
 		when(postService.getPostById(postId)).thenReturn(post);
 		when(post.getUser()).thenReturn(user2);
 		when(post.getContent()).thenReturn("");
@@ -116,11 +111,11 @@ public class PostFormControllerTest {
 	public void submit_form_method_should_return_error_when_user_not_exist() {
 		long postId = 1;
 		Post post = mock(Post.class);
-		
+
 		when(userSessionManagementService.getCurrentLoggedInUser(null)).thenReturn(null);
 		when(postService.getPostById(postId)).thenReturn(post);
 
-		ModelAndView modelAndView = postFormController.showForm( postId, new ModelMap());
+		ModelAndView modelAndView = postFormController.showForm(postId, new ModelMap());
 		assertTrue(modelAndView.getViewName().contains("redirect:error"));
 	}
 
@@ -154,8 +149,7 @@ public class PostFormControllerTest {
 
 		when(bindingResult.hasErrors()).thenReturn(bindingResultHasErrors);
 
-		OngoingStubbing<User> getByUserIdStubbing = when(
-				userAccountManagementService.getUserById(postForm.getUserId()));
+		OngoingStubbing<User> getByUserIdStubbing = when(userSessionManagementService.getCurrentLoggedInUser(null));
 		if (postOwner == null) {
 			getByUserIdStubbing.thenThrow(EntityNotFoundException.class);
 		} else {

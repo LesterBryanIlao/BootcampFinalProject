@@ -1,13 +1,10 @@
 package app.controller;
 
 import java.util.Date;
-import java.util.NoSuchElementException;
 
 import javax.persistence.EntityNotFoundException;
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.apache.logging.log4j.core.config.plugins.validation.constraints.Required;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,11 +18,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import app.base.service.PostService;
 import app.base.service.UserAccountManagementService;
-import app.base.service.UserSessionManagementService;
 import app.bean.PostForm;
 import app.entity.Post;
 import app.entity.User;
-import javassist.expr.NewArray;
 
 @Controller
 @RequestMapping("/postForm")
@@ -38,15 +33,37 @@ public class PostFormController {
 	private UserAccountManagementService userAccountManagementService;
 
 	@RequestMapping(method = RequestMethod.GET)
-  
-public ModelAndView showForm(@RequestParam("userId") long userId,
+	public ModelAndView showForm(@RequestParam(name = "userId", required = false, defaultValue = "0") long userId,
 			@RequestParam(name = "postId", defaultValue = "0", required = false) long postId, ModelMap modelMap) {
-		PostForm postForm = new PostForm();
-		postForm.setExistingPostId(postId);
-		postForm.setUserId(userId);
-		postForm.setExistingPostId(postId);
-		modelMap.addAttribute("postForm", postForm);
-		return new ModelAndView("postForm");
+
+		ModelAndView modelAndView = null;
+		try {
+			User existingUser = userAccountManagementService.getUserById(userId);
+			if (existingUser == null) {
+				throw new EntityNotFoundException("Invalid user or not currently logged in");
+			}
+
+			
+			PostForm postForm = new PostForm();
+			postForm.setExistingPostId(postId);
+			postForm.setUserId(userId);
+			postForm.setExistingPostId(postId);
+
+			Post post = postService.getPostById(postId);
+			if (post != null) {
+				postForm.setContent(post.getContent());
+				postForm.setUpvotes(post.getUpvotes());
+				postForm.setUpvotes(post.getUpvotes());
+			}
+
+			modelMap.addAttribute("postForm", postForm);
+			modelAndView = new ModelAndView("postForm");
+
+		} catch (EntityNotFoundException e) {
+			modelAndView = new ModelAndView(String.format("redirect:error?error=%s", e.getMessage()));
+		}
+
+		return modelAndView;
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
@@ -67,19 +84,17 @@ public ModelAndView showForm(@RequestParam("userId") long userId,
 				post.setId(existingId);
 			}
 
-			
 			postService.createPost(existingUser, post);
 
 		} catch (EntityNotFoundException e) {
 			model.addAttribute("error", "Need to login");
-			return "postForm";
+			return "redirect:postForm";
 		} catch (Exception e) {
 			model.addAttribute("error", "Unexpected error while creating the post");
-			return "postForm";
+			return "redirect:postForm";
 		}
-		
-		
-		return "home";
+
+		return "redirect:home";
 	}
 
 	private Post createPostInstance(User user, String content) {

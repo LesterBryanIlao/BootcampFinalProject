@@ -1,28 +1,25 @@
 package app.service;
 
-import org.hamcrest.core.AnyOf;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.fasterxml.jackson.databind.exc.InvalidTypeIdException;
-
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.regex.Matcher;
 
 import app.entity.Post;
 import app.entity.User;
 import app.repository.PostRepository;
 import app.repository.UserRepository;
-import app.service.PostServiceImpl;
 
 public class PostServiceImplTest {
 	@Mock

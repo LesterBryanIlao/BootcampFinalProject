@@ -48,9 +48,12 @@ public class PostController {
 		Post selectedPost = postService.getPostById(postId);		
 		CommentForm commentForm = new CommentForm();
 		PostForm postForm = new PostForm();
+		PostDeleteForm postDeleteForm = new PostDeleteForm();
 		User user = userAccountManagementService.getUserById(userId);
+		
 		postForm.setUserId(userId);
 		commentForm.setUserId(userId);
+		postDeleteForm.setExistingPostId(postId);
 	
 		CommentsSorter commentsSorter = new CommentsSorter();
 		List<Comment> commentsList = commentService.getCommentFromPost(selectedPost);
@@ -59,6 +62,7 @@ public class PostController {
 		
 		modelMap.addAttribute("user", user);
 		modelMap.addAttribute("post", selectedPost);
+		modelMap.addAttribute("deleteForm", postDeleteForm);
 //		modelMap.addAttribute("postForm", postForm);
 //		modelMap.addAttribute("upvoteForm", postForm);
 		modelMap.addAttribute("commentForm", commentForm);

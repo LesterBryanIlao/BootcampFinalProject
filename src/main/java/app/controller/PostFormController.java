@@ -2,7 +2,6 @@ package app.controller;
 
 import java.util.Date;
 
-import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import app.base.service.PostService;
-import app.base.service.UserAccountManagementService;
 import app.base.service.UserSessionManagementService;
 import app.bean.PostForm;
 import app.entity.Post;

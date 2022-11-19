@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import app.base.service.PostService;
 import app.base.service.UserAccountManagementService;
+import app.base.service.UserSessionManagementService;
 import app.bean.PostForm;
 import app.entity.Post;
 import app.entity.User;
@@ -28,6 +29,8 @@ public class PostFormControllerTest {
 	private BindingResult bindingResult = mock(BindingResult.class);
 	@Mock
 	private UserAccountManagementService userAccountManagementService = mock(UserAccountManagementService.class);
+	@Mock
+	private UserSessionManagementService userSessionManagementService = mock(UserSessionManagementService.class);
 	@Mock
 	private Model model = mock(Model.class);
 	@Mock
@@ -42,6 +45,7 @@ public class PostFormControllerTest {
 
 		Whitebox.setInternalState(postFormController, "userAccountManagementService", userAccountManagementService);
 		Whitebox.setInternalState(postFormController, "postService", postService);
+		Whitebox.setInternalState(postFormController, "userSessionManagementService", userSessionManagementService);
 	}
 
 	@Test
@@ -51,14 +55,15 @@ public class PostFormControllerTest {
 
 		User user = mock(User.class);
 		Post post = mock(Post.class);
-		when(userAccountManagementService.getUserById(userId)).thenReturn(user);
+		
+		when(userSessionManagementService.getCurrentLoggedInUser(null)).thenReturn(user);
 		when(postService.getPostById(postId)).thenReturn(post);
 		when(post.getUser()).thenReturn(user);
 		when(post.getContent()).thenReturn("");
 		when(post.getUpvotes()).thenReturn(0L);
 		when(user.getId()).thenReturn(userId);
 
-		ModelAndView modelAndView = postFormController.showForm(userId, postId, new ModelMap());
+		ModelAndView modelAndView = postFormController.showForm(postId, new ModelMap());
 		assertTrue(modelAndView.getViewName().equals("postForm"));
 	}
 
@@ -69,7 +74,8 @@ public class PostFormControllerTest {
 
 		User user = mock(User.class);
 		Post post = mock(Post.class);
-		when(userAccountManagementService.getUserById(userId)).thenReturn(user);
+		
+		when(userSessionManagementService.getCurrentLoggedInUser(null)).thenReturn(user);
 		when(postService.getPostById(postId)).thenReturn(post);
 		when(post.getUser()).thenReturn(user);
 		when(post.getContent()).thenReturn("");
@@ -77,7 +83,7 @@ public class PostFormControllerTest {
 		when(user.getId()).thenReturn(userId);
 
 		ModelMap modelMap = new ModelMap();
-		ModelAndView modelAndView = postFormController.showForm(userId, postId, modelMap);
+		ModelAndView modelAndView = postFormController.showForm(postId, modelMap);
 		assertTrue(modelAndView.getViewName().equals("postForm"));
 
 		assertTrue(((PostForm) modelMap.get("postForm")).getUserId() == userId);
@@ -92,6 +98,8 @@ public class PostFormControllerTest {
 		User user = mock(User.class);
 		User user2 = mock(User.class);
 		Post post = mock(Post.class);
+		
+		when(userSessionManagementService.getCurrentLoggedInUser(null)).thenReturn(user);
 		when(userAccountManagementService.getUserById(userId)).thenReturn(user);
 		when(postService.getPostById(postId)).thenReturn(post);
 		when(post.getUser()).thenReturn(user2);
@@ -100,20 +108,19 @@ public class PostFormControllerTest {
 		when(user.getId()).thenReturn(userId);
 		when(user2.getId()).thenReturn(userId2);
 
-		ModelAndView modelAndView = postFormController.showForm(userId, postId, new ModelMap());
+		ModelAndView modelAndView = postFormController.showForm(postId, new ModelMap());
 		assertTrue(modelAndView.getViewName().contains("redirect:error"));
 	}
 
 	@Test
 	public void submit_form_method_should_return_error_when_user_not_exist() {
-		long userId = 1;
 		long postId = 1;
-
 		Post post = mock(Post.class);
-		when(userAccountManagementService.getUserById(userId)).thenReturn(null);
+		
+		when(userSessionManagementService.getCurrentLoggedInUser(null)).thenReturn(null);
 		when(postService.getPostById(postId)).thenReturn(post);
 
-		ModelAndView modelAndView = postFormController.showForm(userId, postId, new ModelMap());
+		ModelAndView modelAndView = postFormController.showForm( postId, new ModelMap());
 		assertTrue(modelAndView.getViewName().contains("redirect:error"));
 	}
 

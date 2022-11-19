@@ -3,7 +3,6 @@ package app.controller;
 import java.util.Date;
 
 import javax.persistence.EntityNotFoundException;
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,7 @@ import app.base.service.CommentService;
 import app.base.service.PostService;
 import app.base.service.UserAccountManagementService;
 import app.bean.CommentForm;
+import app.bean.PostForm;
 import app.entity.Comment;
 import app.entity.Post;
 import app.entity.User;
@@ -41,19 +41,23 @@ public class PostController {
 	public ModelAndView showPost(@RequestParam("userId") long userId, @RequestParam("postId") long postId,
 			ModelMap modelMap) {
 
-		Post selectedPost = postService.getPostById(postId);
+		Post selectedPost = postService.getPostById(postId);		
 		CommentForm commentForm = new CommentForm();
+		PostForm postForm = new PostForm();
+		User user = userAccountManagementService.getUserById(userId);
+		postForm.setUserId(userId);
 		commentForm.setUserId(userId);
 		
+		modelMap.addAttribute("user", user);
 		modelMap.addAttribute("post", selectedPost);
+		modelMap.addAttribute("postForm", postForm);
 		modelMap.addAttribute("commentForm", commentForm);
 		modelMap.addAttribute("comments", commentService.getCommentFromPost(selectedPost));
 		return new ModelAndView("post");
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String submitForm(@Valid @ModelAttribute("commentForm") CommentForm commentForm, BindingResult bindingResult,
-			Model model, HttpServletRequest request) {
+	public String submitCommentForm(@Valid @ModelAttribute("commentForm") CommentForm commentForm, BindingResult bindingResult, Model model) {
 		if (bindingResult.hasErrors()) {
 			return "commentForm";
 		}
@@ -72,8 +76,12 @@ public class PostController {
 			return getRedirectString(commentForm.getUserId(), commentForm.getPostId());
 		}
 		return getRedirectString(commentForm.getUserId(), commentForm.getPostId());
-//                String.format("redirect:post?userId=%s&postId=%s", commentForm.getUserId(), commentForm.getPostId());
 	}
+
+//	@RequestMapping(method = RequestMethod.POST)
+//	public String submitUpvotePost(@Valid @ModelAttribute("UpVoteForm") PostForm postForm, Model model) {
+//		return getRedirectString(postForm.getUserId(), postForm.getExistingPostId());
+//	}
 
 	public Comment createCommentInstance(User user, String content, Post post) {
 		Comment comment = new Comment();

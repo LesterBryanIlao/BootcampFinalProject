@@ -29,9 +29,6 @@ public class PostFormController {
 
 	@Autowired
 	private PostService postService;
-
-	@Autowired
-	private UserAccountManagementService userAccountManagementService;
 	
 	@Autowired
 	private UserSessionManagementService userSessionManagementService;
@@ -82,8 +79,7 @@ public class PostFormController {
 				throw new IllegalArgumentException();
 			}
 
-			User existingUser = userAccountManagementService.getUserById(postForm.getUserId());
-
+			User existingUser = userSessionManagementService.getCurrentLoggedInUser(null);
 			Post post = createPostInstance(existingUser, postForm.getContent());
 
 			long existingId = postForm.getExistingPostId();

@@ -31,12 +31,12 @@
 							<ul class="list-inline">
 								<li>
 									<div class="info">
-										<a href="post?postId=${post.getId()}">
+										
 											<p>
 												<c:out value="Hello ${post.getUser().getUserName()}"></c:out>
 											</p>
 											<p>Posted on:</p> <strong><c:out
-													value="${post.getDate()}"></c:out></strong>
+													value="${post.getTime()}"></c:out></strong>
 									</div>
 
 								</li>
@@ -44,7 +44,7 @@
 						</div>
 					</div>
 
-					<a href="/post">
+					<a href="post?postId=${post.getId()}">
 						<div class="content">
 							<p>
 								<c:out value="${post.getContent()}"></c:out>

@@ -30,7 +30,7 @@
     
     <definition name="commentForm" extends="main_template">
         <put-attribute name="title" value="Comment Form" />
-        <put-attribute name="body" value="/WEB-INF/views/pages/form.jsp" />
+        <put-attribute name="body" value="/WEB-INF/views/pages/post.jsp" />
     </definition>
     
     

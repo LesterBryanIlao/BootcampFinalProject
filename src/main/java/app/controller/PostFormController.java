@@ -1,13 +1,11 @@
 package app.controller;
 
 import java.util.Date;
-import java.util.NoSuchElementException;
 
 import javax.persistence.EntityNotFoundException;
-import javax.servlet.http.HttpServletRequest;
+
 import javax.validation.Valid;
 
-import org.apache.logging.log4j.core.config.plugins.validation.constraints.Required;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,11 +19,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import app.base.service.PostService;
 import app.base.service.UserAccountManagementService;
-import app.base.service.UserSessionManagementService;
+
 import app.bean.PostForm;
 import app.entity.Post;
 import app.entity.User;
-import javassist.expr.NewArray;
 
 @Controller
 @RequestMapping("/postForm")
@@ -38,13 +35,13 @@ public class PostFormController {
 	private UserAccountManagementService userAccountManagementService;
 
 	@RequestMapping(method = RequestMethod.GET)
-  
-public ModelAndView showForm(@RequestParam("userId") long userId,
-			@RequestParam(name = "postId", defaultValue = "0", required = false) long postId, ModelMap modelMap) {
+	public ModelAndView showForm(@RequestParam("userId") long userId, ModelMap modelMap) {
 		PostForm postForm = new PostForm();
-		postForm.setExistingPostId(postId);
 		postForm.setUserId(userId);
-		postForm.setExistingPostId(postId);
+		User existingUser = new User();
+		existingUser.setId(2);
+		existingUser.setUserName("dmatzeitis1");
+		modelMap.addAttribute("user", existingUser);
 		modelMap.addAttribute("postForm", postForm);
 		return new ModelAndView("postForm");
 	}
@@ -67,7 +64,6 @@ public ModelAndView showForm(@RequestParam("userId") long userId,
 				post.setId(existingId);
 			}
 
-			
 			postService.createPost(existingUser, post);
 
 		} catch (EntityNotFoundException e) {
@@ -77,9 +73,7 @@ public ModelAndView showForm(@RequestParam("userId") long userId,
 			model.addAttribute("error", "Unexpected error while creating the post");
 			return "postForm";
 		}
-		
-		
-		return "home";
+		return "redirect:home";
 	}
 
 	private Post createPostInstance(User user, String content) {

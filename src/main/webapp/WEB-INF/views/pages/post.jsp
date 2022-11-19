@@ -10,9 +10,27 @@ Posted by
 Upvotes:
 <c:out value="${post.getUpvotes()}" />
 
-<form:form method="POST" modelAttribute="UpVoteForm">
+<%--
+<form:form method="POST" modelAttribute="upvoteForm">
+	<form:label type="hidden" path="existingPostId"></form:label>
+	<form:input path="existingPostId" value="${post.getId()}"/>
+	<form:errors type="hidden" path="existingPostId" cssClass="error" />
+	
+	<form:label type="hidden" path="content"></form:label>
+	<form:input path="content" value="${post.getContent()}" />
+	<form:errors type="hidden" path="content" cssClass="error" />
+	
+	<form:label type="hidden" path="userId"></form:label>
+	<form:input path="content" value="${user.getId()}" />
+	<form:errors type="hidden" path="userId" cssClass="error" />
+	
+	<form:label type="hidden" path="upvotes"></form:label>
+	<form:input path="content" value="${post.getUpvotes}" />
+	<form:errors type="hidden" path="upvotes" cssClass="error" />
+	
 	<input type="submit" value="Upvote" />
 </form:form>
+--%>
 
 <form:form method="POST" modelAttribute="commentForm">
 

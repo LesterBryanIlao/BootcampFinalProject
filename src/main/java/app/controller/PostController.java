@@ -50,14 +50,16 @@ public class PostController {
 		User user = userAccountManagementService.getUserById(userId);
 		postForm.setUserId(userId);
 		commentForm.setUserId(userId);
-		
+	
 		CommentsSorter commentsSorter = new CommentsSorter();
 		List<Comment> commentsList = commentService.getCommentFromPost(selectedPost);
 		Collections.sort(commentsList , commentsSorter.getByTimeAscendingOrder());
 		
+		
 		modelMap.addAttribute("user", user);
 		modelMap.addAttribute("post", selectedPost);
-		modelMap.addAttribute("postForm", postForm);
+//		modelMap.addAttribute("postForm", postForm);
+//		modelMap.addAttribute("upvoteForm", postForm);
 		modelMap.addAttribute("commentForm", commentForm);
 		modelMap.addAttribute("comments", commentsList);
 		return new ModelAndView("post");
@@ -85,7 +87,21 @@ public class PostController {
 	}
 
 //	@RequestMapping(method = RequestMethod.POST)
-//	public String submitUpvotePost(@Valid @ModelAttribute("UpVoteForm") PostForm postForm, Model model) {
+//	public String submitUpvotePost(@Valid @ModelAttribute("upvoteForm") PostForm postForm, BindingResult bindingResult, Model model) {
+//		if (bindingResult.hasErrors()) {
+//			return "upvoteForm";
+//		}
+//		try {
+//			User existingUser = userAccountManagementService.getUserById(postForm.getUserId());
+//			postService.upVotePost(existingUser, postService.getPostById(postForm.getExistingPostId()));
+//
+//		} catch (EntityNotFoundException e) {
+//			model.addAttribute("error", "Need to login");
+//			return getRedirectString(postForm.getUserId(), postForm.getExistingPostId());
+//		} catch (Exception e) {
+//			model.addAttribute("error", "Unexpected error while creating the post");
+//			return getRedirectString(postForm.getUserId(), postForm.getExistingPostId());
+//		}
 //		return getRedirectString(postForm.getUserId(), postForm.getExistingPostId());
 //	}
 

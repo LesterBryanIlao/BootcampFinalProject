@@ -33,8 +33,8 @@ public class PostFormController {
 	private UserAccountManagementService userAccountManagementService;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView showForm(@RequestParam(name = "userId", required = false, defaultValue = "0") long userId,
-			@RequestParam(name = "postId", defaultValue = "0", required = false) long postId, ModelMap modelMap) {
+	public ModelAndView showForm(@RequestParam(name = "userId",  defaultValue = "0") long userId,
+			@RequestParam(name = "postId", defaultValue = "0") long postId, ModelMap modelMap) {
 
 		ModelAndView modelAndView = null;
 		try {

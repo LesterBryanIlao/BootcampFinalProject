@@ -9,9 +9,6 @@ public class CommentForm {
 //    @NotEmpty
 	private long existingCommentId;
 
-//    @NotNull(message = "User ID is required")
-	private long userId;
-
 //    @NotNull(message = "Post ID is required")
 	private long postId;
 

@@ -30,9 +30,6 @@
 
 
 					<!-- Hidden inputs -->
-					<form:hidden path="userId" />
-					<form:errors path="userId" cssClass="error" />
-
 					<form:hidden path="existingPostId" />
 					<form:errors path="existingPostId" cssClass="error" />
 

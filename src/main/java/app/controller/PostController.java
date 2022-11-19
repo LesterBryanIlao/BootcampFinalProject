@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import app.base.service.CommentService;
 import app.base.service.PostService;
 import app.base.service.UserAccountManagementService;
+import app.base.service.UserSessionManagementService;
 import app.bean.CommentForm;
 import app.bean.PostDeleteForm;
 import app.bean.PostForm;
@@ -41,20 +42,15 @@ public class PostController {
 	private CommentService commentService;
 
 	@Autowired
-	private UserAccountManagementService userAccountManagementService;
+	private UserSessionManagementService userSessionManagementService;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView showPost(@RequestParam("userId") long userId, @RequestParam("postId") long postId,
-			ModelMap modelMap) {
+	public ModelAndView showPost(@RequestParam("postId") long postId, ModelMap modelMap) {
 
 		Post selectedPost = postService.getPostById(postId);
 		CommentForm commentForm = new CommentForm();
 		PostDeleteForm postDeleteForm = new PostDeleteForm();
-		User user = userAccountManagementService.getUserById(userId);
-		
-		commentForm.setUserId(userId);
-		postDeleteForm.setPostId(selectedPost.getId());
-		postDeleteForm.setUserId(user.getId());
+		User user = userSessionManagementService.getCurrentLoggedInUser(null);
 
 		CommentsSorter commentsSorter = new CommentsSorter();
 		List<Comment> commentsList = commentService.getCommentFromPost(selectedPost);
@@ -77,26 +73,26 @@ public class PostController {
 			return "commentForm";
 		}
 		try {
-			User existingUser = userAccountManagementService.getUserById(commentForm.getUserId());
+			User existingUser = userSessionManagementService.getCurrentLoggedInUser(null);
 			Comment comment = createCommentInstance(existingUser, commentForm.getContent(),
 					postService.getPostById(commentForm.getPostId()));
 			commentService.createComment(existingUser, comment);
 
 		} catch (EntityNotFoundException e) {
 			model.addAttribute("error", "Need to login");
-			return getRedirectString(commentForm.getUserId(), commentForm.getPostId());
+			return getRedirectString(commentForm.getPostId());
 		} catch (Exception e) {
 			model.addAttribute("error", "Unexpected error while creating the post");
-			return getRedirectString(commentForm.getUserId(), commentForm.getPostId());
+			return getRedirectString(commentForm.getPostId());
 		}
-		return getRedirectString(commentForm.getUserId(), commentForm.getPostId());
+		return getRedirectString(commentForm.getPostId());
 	}
 
 	@RequestMapping(value = "deletePost", method = RequestMethod.POST)
-	public String submitDeleteForm(@ModelAttribute("deleteForm") PostDeleteForm deleteForm, HttpServletRequest request,
-			BindingResult bindingResult, Model model) {
-		
-		User user = userAccountManagementService.getUserById(deleteForm.getUserId());
+	public String submitDeleteForm(@ModelAttribute("deleteForm") PostDeleteForm deleteForm, BindingResult bindingResult,
+			Model model) {
+
+		User user = userSessionManagementService.getCurrentLoggedInUser(null);
 		Post post = postService.getPostById(deleteForm.getPostId());
 		postService.deletePost(user, post);
 		return String.format("redirect:/app/home");
@@ -129,8 +125,8 @@ public class PostController {
 		return comment;
 	}
 
-	public String getRedirectString(long userId, long postId) {
-		return String.format("redirect:post?userId=%s&postId=%s", userId, postId);
+	public String getRedirectString(long postId) {
+		return String.format("redirect:post?postId=%s", postId);
 	}
 
 }

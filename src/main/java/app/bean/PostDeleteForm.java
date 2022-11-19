@@ -6,6 +6,5 @@ import lombok.Data;
 
 @Data
 public class PostDeleteForm {
-	private long userId;
 	private long postId;
 }

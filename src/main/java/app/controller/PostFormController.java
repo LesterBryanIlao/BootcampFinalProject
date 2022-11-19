@@ -67,6 +67,7 @@ public ModelAndView showForm(@RequestParam("userId") long userId,
 				post.setId(existingId);
 			}
 
+			System.out.println(post.getTime());
 			postService.createPost(existingUser, post);
 
 		} catch (EntityNotFoundException e) {
@@ -76,6 +77,8 @@ public ModelAndView showForm(@RequestParam("userId") long userId,
 			model.addAttribute("error", "Unexpected error while creating the post");
 			return "postForm";
 		}
+		
+		
 		return "home";
 	}
 

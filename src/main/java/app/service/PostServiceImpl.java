@@ -26,7 +26,6 @@ public class PostServiceImpl implements PostService {
 	@Transactional
 	@Override
 	public void createPost(User user, Post post) {
-		System.out.println("here in create post");
 		final Optional<User> existingUser = userRepository.findById(user.getId());
 		if (!existingUser.isPresent()) {
 			throw new RuntimeException("User not found.");

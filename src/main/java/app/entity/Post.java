@@ -37,7 +37,8 @@ public class Post implements Serializable{
 	private String content;
 	
 	@Column(name = "date_posted",nullable = false, updatable=false)
-
+	private Date time;
+	
 	@Column(name = "up_votes", columnDefinition = "INT", nullable = false)
 	private long upvotes;
 

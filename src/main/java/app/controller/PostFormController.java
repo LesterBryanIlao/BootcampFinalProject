@@ -33,7 +33,7 @@ public class PostFormController {
 	private UserAccountManagementService userAccountManagementService;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView showForm(@RequestParam(name = "userId",  defaultValue = "0") long userId,
+	public ModelAndView showForm(@RequestParam(name = "userId", defaultValue = "0") long userId,
 			@RequestParam(name = "postId", defaultValue = "0") long postId, ModelMap modelMap) {
 
 		ModelAndView modelAndView = null;
@@ -50,10 +50,10 @@ public class PostFormController {
 
 			Post post = postService.getPostById(postId);
 			if (post != null) {
-				if(post.getUser().getId() != userId) {
+				if (post.getUser().getId() != userId) {
 					throw new Exception("You don't have the permission to do the action");
 				}
-				
+
 				postForm.setContent(post.getContent());
 				postForm.setUpvotes(post.getUpvotes());
 				postForm.setUpvotes(post.getUpvotes());

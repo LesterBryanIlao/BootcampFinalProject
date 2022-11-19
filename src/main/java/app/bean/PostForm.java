@@ -6,14 +6,13 @@ import lombok.Data;
 
 @Data
 public class PostForm {
-	
+
 	private long existingPostId;
 
 	@NotEmpty(message = "Please write something.")
 	private String content;
-	
+
 	private long userId;
 	private long upvotes;
-
 
 }

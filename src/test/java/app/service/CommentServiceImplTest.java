@@ -110,9 +110,9 @@ public class CommentServiceImplTest {
 		commentServiceImpl.deletePostComments(currentUser, currentPost);
 
 	}
-	
+
 	private void mockPostRepositoryFindByIdWithExistingPost(long id) {
 		when(postRepository.findById(id)).thenReturn(Optional.of(currentPost));
-		
+
 	}
 }

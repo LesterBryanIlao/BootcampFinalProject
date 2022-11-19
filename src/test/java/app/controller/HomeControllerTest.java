@@ -22,7 +22,7 @@ public class HomeControllerTest {
 	private HomeController homeController;
 
 	@Before
-	private void setup() {
+	public void setup() {
 		MockitoAnnotations.initMocks(this);
 		homeController = new HomeController();
 		Whitebox.setInternalState(homeController, "postService", postService);
@@ -30,12 +30,12 @@ public class HomeControllerTest {
 	}
 
 	@Test
-	private void show_post_should_return_view_with_name_of_home_if_provided_userid_is_0() {
+	public void show_post_should_return_view_with_name_of_home_if_provided_userid_is_0() {
 		showPostsShouldHaveModelViewWithNameHome(0);
 	}
 
 	@Test
-	private void show_post_should_return_view_with_name_of_home_if_provided_userid_is_non_0() {
+	public void show_post_should_return_view_with_name_of_home_if_provided_userid_is_non_0() {
 		showPostsShouldHaveModelViewWithNameHome(1);
 		showPostsShouldHaveModelViewWithNameHome(100);
 		showPostsShouldHaveModelViewWithNameHome(12);
@@ -43,13 +43,13 @@ public class HomeControllerTest {
 	}
 
 	@Test
-	private void show_post_should_have_posts_attribute_in_model_map_if_provided_user_id_is_0() {
+	public void show_post_should_have_posts_attribute_in_model_map_if_provided_user_id_is_0() {
 		showPostShouldHavePostsAttributeInModelMap(0);
 
 	}
 
 	@Test
-	private void show_post_should_have_posts_attribute_in_model_map_if_provided_user_id_is_non_0() {
+	public void show_post_should_have_posts_attribute_in_model_map_if_provided_user_id_is_non_0() {
 		showPostShouldHavePostsAttributeInModelMap(Long.MAX_VALUE);
 		showPostShouldHavePostsAttributeInModelMap(Long.MIN_VALUE);
 		showPostShouldHavePostsAttributeInModelMap(100);
@@ -57,13 +57,13 @@ public class HomeControllerTest {
 
 	}
 
-	private void showPostsShouldHaveModelViewWithNameHome(long userId) {
+	public void showPostsShouldHaveModelViewWithNameHome(long userId) {
 		ModelMap modelMap = new ModelMap();
 		String returnPath = homeController.showPosts(modelMap, userId).getViewName();
 		assertTrue(returnPath == "home");
 	}
 
-	private void showPostShouldHavePostsAttributeInModelMap(long userId) {
+	public void showPostShouldHavePostsAttributeInModelMap(long userId) {
 		ModelMap modelMap = new ModelMap();
 		homeController.showPosts(modelMap, userId).getViewName();
 		assertTrue(modelMap.containsAttribute("posts"));

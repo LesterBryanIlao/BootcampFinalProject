@@ -22,6 +22,7 @@ import app.base.service.CommentService;
 import app.base.service.PostService;
 import app.base.service.UserAccountManagementService;
 import app.bean.CommentForm;
+import app.bean.PostDeleteForm;
 import app.bean.PostForm;
 import app.entity.Comment;
 import app.entity.Post;
@@ -86,6 +87,12 @@ public class PostController {
 		return getRedirectString(commentForm.getUserId(), commentForm.getPostId());
 	}
 
+	
+	
+	@RequestMapping(method=RequestMethod.POST)
+	public String submitDeleteForm(@ModelAttribute("deleteForm") PostDeleteForm deleteForm,  BindingResult bindingResult, Model model) {
+		return "redirect:home";
+	}
 //	@RequestMapping(method = RequestMethod.POST)
 //	public String submitUpvotePost(@Valid @ModelAttribute("upvoteForm") PostForm postForm, BindingResult bindingResult, Model model) {
 //		if (bindingResult.hasErrors()) {

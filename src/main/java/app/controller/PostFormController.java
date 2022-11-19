@@ -67,7 +67,7 @@ public ModelAndView showForm(@RequestParam("userId") long userId,
 				post.setId(existingId);
 			}
 
-			System.out.println(post.getTime());
+			
 			postService.createPost(existingUser, post);
 
 		} catch (EntityNotFoundException e) {

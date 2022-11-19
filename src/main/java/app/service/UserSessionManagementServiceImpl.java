@@ -51,43 +51,43 @@ public class UserSessionManagementServiceImpl implements UserSessionManagementSe
 
 	@Override
 	public User getCurrentLoggedInUser(HttpServletRequest request) {
-		HttpSession session = request.getSession();
-//		if (session == null) {
-//			return null;
+//		HttpSession session = request.getSession();
+////		if (session == null) {
+////			return null;
+////		}
+//
+//		User currentUser = null;
+//
+//		Map<String, Cookie> cookiesMap = new HashMap<>();
+//		for (Cookie cookie : request.getCookies()) {
+//			cookiesMap.put(cookie.getName(), cookie);
 //		}
-
-		User currentUser = null;
-
-		Map<String, Cookie> cookiesMap = new HashMap<>();
-		for (Cookie cookie : request.getCookies()) {
-			cookiesMap.put(cookie.getName(), cookie);
-		}
-
-		if (cookiesMap.size() > 0) {
-			Cookie creationTimeCookie = cookiesMap.get("creationTime");
-			Cookie userIdCookie = cookiesMap.get("userIdCookie");
-			Cookie hashVerifierCookie = cookiesMap.get("hashVerifierCookie");
-
-			User tempUser = userRepository.getOne(Long.parseLong(userIdCookie.getValue()));
-			if (tempUser != null) {
-
-				String passwordHash = tempUser.getPasswordHash();
-				String actualHashVerifier = hashVerifierCookie.getValue();
-				String expectedHashVerifier = this.cookieHashVerifierGenerator(String.valueOf(session.getId()),
-						creationTimeCookie.getValue(), String.valueOf(tempUser.getId()), passwordHash);
-
-				if (actualHashVerifier == expectedHashVerifier) {
-					currentUser = tempUser;
-				}
-			}
-		}
-
-		currentUser = new User();
-		currentUser.setId(10);
-		currentUser.setFirstName("User_10");
-		currentUser.setLastName("Doe");
-		currentUser.setPasswordHash("Test");
-		return currentUser;
+//
+//		if (cookiesMap.size() > 0) {
+//			Cookie creationTimeCookie = cookiesMap.get("creationTime");
+//			Cookie userIdCookie = cookiesMap.get("userIdCookie");
+//			Cookie hashVerifierCookie = cookiesMap.get("hashVerifierCookie");
+//
+//			User tempUser = userRepository.getOne(Long.parseLong(userIdCookie.getValue()));
+//			if (tempUser != null) {
+//
+//				String passwordHash = tempUser.getPasswordHash();
+//				String actualHashVerifier = hashVerifierCookie.getValue();
+//				String expectedHashVerifier = this.cookieHashVerifierGenerator(String.valueOf(session.getId()),
+//						creationTimeCookie.getValue(), String.valueOf(tempUser.getId()), passwordHash);
+//
+//				if (actualHashVerifier == expectedHashVerifier) {
+//					currentUser = tempUser;
+//				}
+//			}
+//		}
+//
+//		currentUser = new User();
+//		currentUser.setId(10);
+//		currentUser.setFirstName("User_10");
+//		currentUser.setLastName("Doe");
+//		currentUser.setPasswordHash("Test");
+		return userRepository.findById(1l).orElse(null);
 	}
 
 	@Override

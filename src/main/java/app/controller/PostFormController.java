@@ -33,14 +33,14 @@ public class PostFormController {
 	private UserAccountManagementService userAccountManagementService;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView showForm(@RequestParam(name = "userId", required = false, defaultValue = "0") long userId,
-			@RequestParam(name = "postId", defaultValue = "0", required = false) long postId, ModelMap modelMap) {
+	public ModelAndView showForm(@RequestParam(name = "userId",  defaultValue = "0") long userId,
+			@RequestParam(name = "postId", defaultValue = "0") long postId, ModelMap modelMap) {
 
 		ModelAndView modelAndView = null;
 		try {
 			User existingUser = userAccountManagementService.getUserById(userId);
 			if (existingUser == null) {
-				throw new EntityNotFoundException("Invalid user or not currently logged in");
+				throw new Exception("Invalid user or not currently logged in");
 			}
 
 			PostForm postForm = new PostForm();
@@ -50,6 +50,10 @@ public class PostFormController {
 
 			Post post = postService.getPostById(postId);
 			if (post != null) {
+				if(post.getUser().getId() != userId) {
+					throw new Exception("You don't have the permission to do the action");
+				}
+				
 				postForm.setContent(post.getContent());
 				postForm.setUpvotes(post.getUpvotes());
 				postForm.setUpvotes(post.getUpvotes());
@@ -58,7 +62,7 @@ public class PostFormController {
 			modelMap.addAttribute("postForm", postForm);
 			modelAndView = new ModelAndView("postForm");
 
-		} catch (EntityNotFoundException e) {
+		} catch (Exception e) {
 			modelAndView = new ModelAndView(String.format("redirect:error?error=%s", e.getMessage()));
 		}
 

@@ -3,10 +3,9 @@ package app.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.transaction.annotation.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import app.base.service.PostService;
 import app.entity.Post;
@@ -75,6 +74,6 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public Post getPostById(long postId) {
-		return postRepository.findById(postId).get();
+		return postRepository.findById(postId).orElse(null);
 	}
 }

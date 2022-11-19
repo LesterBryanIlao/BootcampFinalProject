@@ -16,7 +16,6 @@ import app.entity.Post;
 import app.entity.User;
 import app.repository.CommentRepository;
 import app.repository.PostRepository;
-import app.service.CommentServiceImpl;
 
 public class CommentServiceImplTest {
 

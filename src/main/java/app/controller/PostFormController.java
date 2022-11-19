@@ -3,7 +3,6 @@ package app.controller;
 import java.util.Date;
 
 import javax.persistence.EntityNotFoundException;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import app.base.service.PostService;
 import app.base.service.UserAccountManagementService;
-
 import app.bean.PostForm;
 import app.entity.Post;
 import app.entity.User;
@@ -35,15 +33,37 @@ public class PostFormController {
 	private UserAccountManagementService userAccountManagementService;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView showForm(@RequestParam("userId") long userId, ModelMap modelMap) {
-		PostForm postForm = new PostForm();
-		postForm.setUserId(userId);
-		User existingUser = new User();
-		existingUser.setId(2);
-		existingUser.setUserName("dmatzeitis1");
-		modelMap.addAttribute("user", existingUser);
-		modelMap.addAttribute("postForm", postForm);
-		return new ModelAndView("postForm");
+	public ModelAndView showForm(@RequestParam(name = "userId", required = false, defaultValue = "0") long userId,
+			@RequestParam(name = "postId", defaultValue = "0", required = false) long postId, ModelMap modelMap) {
+
+		ModelAndView modelAndView = null;
+		try {
+			User existingUser = userAccountManagementService.getUserById(userId);
+			if (existingUser == null) {
+				throw new EntityNotFoundException("Invalid user or not currently logged in");
+			}
+
+			PostForm postForm = new PostForm();
+			postForm.setExistingPostId(postId);
+			postForm.setUserId(userId);
+			postForm.setExistingPostId(postId);
+
+			Post post = postService.getPostById(postId);
+			if (post != null) {
+				postForm.setContent(post.getContent());
+				postForm.setUpvotes(post.getUpvotes());
+				postForm.setUpvotes(post.getUpvotes());
+			}
+
+			modelMap.addAttribute("postForm", postForm);
+			modelAndView = new ModelAndView("postForm");
+
+		} catch (EntityNotFoundException e) {
+			modelAndView = new ModelAndView(String.format("redirect:error?error=%s", e.getMessage()));
+		}
+
+		return modelAndView;
+
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
@@ -66,9 +86,6 @@ public class PostFormController {
 
 			postService.createPost(existingUser, post);
 
-		} catch (EntityNotFoundException e) {
-			model.addAttribute("error", "Need to login");
-			return "postForm";
 		} catch (Exception e) {
 			model.addAttribute("error", "Unexpected error while creating the post");
 			return "postForm";

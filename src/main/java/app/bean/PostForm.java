@@ -1,10 +1,7 @@
 package app.bean;
 
-import java.util.Date;
-
-import javax.validation.constraints.Min;
-
 import org.hibernate.validator.constraints.NotEmpty;
+
 import lombok.Data;
 
 @Data
@@ -16,9 +13,7 @@ public class PostForm {
 	private String content;
 	
 	private long userId;
-	
-	@Min(value = 0, message = "Minimum value is 0.")
-	private int upvotes;
+	private long upvotes;
 
 
 }

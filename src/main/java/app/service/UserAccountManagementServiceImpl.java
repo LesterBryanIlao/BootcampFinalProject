@@ -15,7 +15,7 @@ public class UserAccountManagementServiceImpl implements UserAccountManagementSe
 
 	@Override
 	public User getUserById(long userId) {
-		return userRepository.getOne(userId);
+		return userRepository.findById(userId).orElse(null);
 	}
 
 	@Override

@@ -1,6 +1,8 @@
 package app.controller;
 
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
@@ -24,6 +26,7 @@ import app.bean.PostForm;
 import app.entity.Comment;
 import app.entity.Post;
 import app.entity.User;
+import app.util.CommentsSorter;
 
 @Controller
 @RequestMapping("/post")
@@ -48,11 +51,15 @@ public class PostController {
 		postForm.setUserId(userId);
 		commentForm.setUserId(userId);
 		
+		CommentsSorter commentsSorter = new CommentsSorter();
+		List<Comment> commentsList = commentService.getCommentFromPost(selectedPost);
+		Collections.sort(commentsList , commentsSorter.getByTimeAscendingOrder());
+		
 		modelMap.addAttribute("user", user);
 		modelMap.addAttribute("post", selectedPost);
 		modelMap.addAttribute("postForm", postForm);
 		modelMap.addAttribute("commentForm", commentForm);
-		modelMap.addAttribute("comments", commentService.getCommentFromPost(selectedPost));
+		modelMap.addAttribute("comments", commentsList);
 		return new ModelAndView("post");
 	}
 

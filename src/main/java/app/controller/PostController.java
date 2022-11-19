@@ -5,8 +5,10 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.hc.core5.http.HttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,21 +47,20 @@ public class PostController {
 	public ModelAndView showPost(@RequestParam("userId") long userId, @RequestParam("postId") long postId,
 			ModelMap modelMap) {
 
-		Post selectedPost = postService.getPostById(postId);		
+		Post selectedPost = postService.getPostById(postId);
 		CommentForm commentForm = new CommentForm();
 		PostForm postForm = new PostForm();
 		PostDeleteForm postDeleteForm = new PostDeleteForm();
 		User user = userAccountManagementService.getUserById(userId);
-		
+
 		postForm.setUserId(userId);
 		commentForm.setUserId(userId);
 		postDeleteForm.setExistingPostId(postId);
-	
+
 		CommentsSorter commentsSorter = new CommentsSorter();
 		List<Comment> commentsList = commentService.getCommentFromPost(selectedPost);
-		Collections.sort(commentsList , commentsSorter.getByTimeAscendingOrder());
-		
-		
+		Collections.sort(commentsList, commentsSorter.getByTimeAscendingOrder());
+
 		modelMap.addAttribute("user", user);
 		modelMap.addAttribute("post", selectedPost);
 		modelMap.addAttribute("deleteForm", postDeleteForm);
@@ -71,7 +72,8 @@ public class PostController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String submitCommentForm(@Valid @ModelAttribute("commentForm") CommentForm commentForm, BindingResult bindingResult, Model model) {
+	public String submitCommentForm(@Valid @ModelAttribute("commentForm") CommentForm commentForm,
+			BindingResult bindingResult, Model model) {
 		if (bindingResult.hasErrors()) {
 			return "commentForm";
 		}
@@ -91,11 +93,12 @@ public class PostController {
 		return getRedirectString(commentForm.getUserId(), commentForm.getPostId());
 	}
 
-	
-	
-	@RequestMapping(value="deletePost", method=RequestMethod.POST)
-	public String submitDeleteForm(@ModelAttribute("deleteForm") PostDeleteForm deleteForm,  BindingResult bindingResult, Model model) {
-		return "redirect:home";
+	@RequestMapping(value = "deletePost", method = RequestMethod.POST)
+	public String submitDeleteForm(@ModelAttribute("deleteForm") PostDeleteForm deleteForm, HttpServletRequest request,
+			BindingResult bindingResult, Model model) {
+		
+
+		return String.format("redirect:/app/home");
 	}
 //	@RequestMapping(method = RequestMethod.POST)
 //	public String submitUpvotePost(@Valid @ModelAttribute("upvoteForm") PostForm postForm, BindingResult bindingResult, Model model) {

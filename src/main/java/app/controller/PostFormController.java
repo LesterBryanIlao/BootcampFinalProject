@@ -29,7 +29,7 @@ public class PostFormController {
 
 	@Autowired
 	private PostService postService;
-	
+
 	@Autowired
 	private UserSessionManagementService userSessionManagementService;
 
@@ -45,7 +45,6 @@ public class PostFormController {
 
 			PostForm postForm = new PostForm();
 			postForm.setExistingPostId(postId);
-			postForm.setUserId(existingUser.getId());
 			postForm.setExistingPostId(postId);
 
 			Post post = postService.getPostById(postId);

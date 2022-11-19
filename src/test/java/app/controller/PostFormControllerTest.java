@@ -64,28 +64,6 @@ public class PostFormControllerTest {
 	}
 
 	@Test
-	public void show_form_method_should_return_the_passed_user_id_inside_a_PostForm_model_if_everything_is_successful() {
-		long userId = 1;
-		long postId = 1;
-
-		User user = mock(User.class);
-		Post post = mock(Post.class);
-
-		when(userSessionManagementService.getCurrentLoggedInUser(null)).thenReturn(user);
-		when(postService.getPostById(postId)).thenReturn(post);
-		when(post.getUser()).thenReturn(user);
-		when(post.getContent()).thenReturn("");
-		when(post.getUpvotes()).thenReturn(0L);
-		when(user.getId()).thenReturn(userId);
-
-		ModelMap modelMap = new ModelMap();
-		ModelAndView modelAndView = postFormController.showForm(postId, modelMap);
-		assertTrue(modelAndView.getViewName().equals("postForm"));
-
-		assertTrue(((PostForm) modelMap.get("postForm")).getUserId() == userId);
-	}
-
-	@Test
 	public void submit_form_method_should_return_error_when_updating_not_owned_post() {
 		long userId = 1;
 		long userId2 = 2;
@@ -145,7 +123,6 @@ public class PostFormControllerTest {
 
 	private void executeSubmitFormFlow(User postOwner, boolean bindingResultHasErrors, String expectedReturnPath) {
 		PostForm postForm = new PostForm();
-		postForm.setUserId(10);
 
 		when(bindingResult.hasErrors()).thenReturn(bindingResultHasErrors);
 

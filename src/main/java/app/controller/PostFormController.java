@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import app.base.service.PostService;
 import app.base.service.UserAccountManagementService;
+import app.base.service.UserSessionManagementService;
 import app.bean.PostForm;
 import app.entity.Post;
 import app.entity.User;
@@ -31,26 +32,28 @@ public class PostFormController {
 
 	@Autowired
 	private UserAccountManagementService userAccountManagementService;
+	
+	@Autowired
+	private UserSessionManagementService userSessionManagementService;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView showForm(@RequestParam(name = "userId", defaultValue = "0") long userId,
-			@RequestParam(name = "postId", defaultValue = "0") long postId, ModelMap modelMap) {
+	public ModelAndView showForm(@RequestParam(name = "postId", defaultValue = "0") long postId, ModelMap modelMap) {
 
 		ModelAndView modelAndView = null;
 		try {
-			User existingUser = userAccountManagementService.getUserById(userId);
+			User existingUser = userSessionManagementService.getCurrentLoggedInUser(null);
 			if (existingUser == null) {
 				throw new Exception("Invalid user or not currently logged in");
 			}
 
 			PostForm postForm = new PostForm();
 			postForm.setExistingPostId(postId);
-			postForm.setUserId(userId);
+			postForm.setUserId(existingUser.getId());
 			postForm.setExistingPostId(postId);
 
 			Post post = postService.getPostById(postId);
 			if (post != null) {
-				if (post.getUser().getId() != userId) {
+				if (post.getUser().getId() != existingUser.getId()) {
 					throw new Exception("You don't have the permission to do the action");
 				}
 

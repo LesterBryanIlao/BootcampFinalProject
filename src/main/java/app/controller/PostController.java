@@ -65,7 +65,6 @@ public class PostController {
 			User existingUser = userAccountManagementService.getUserById(commentForm.getUserId());
 			Comment comment = createCommentInstance(existingUser, commentForm.getContent(),
 					postService.getPostById(commentForm.getPostId()));
-
 			commentService.createComment(existingUser, comment);
 
 		} catch (EntityNotFoundException e) {

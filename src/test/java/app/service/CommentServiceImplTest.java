@@ -1,4 +1,4 @@
-package app;
+package app.service;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -59,7 +59,7 @@ public class CommentServiceImplTest {
 		currentComment.setUser(user2);
 		currentComment.setPost(currentPost);
 
-		mockPostRepositoryFindById(1);
+		mockPostRepositoryFindByIdWithExistingPost(1);
 		commentServiceImpl.createComment(currentUser, currentComment);
 
 	}
@@ -69,7 +69,7 @@ public class CommentServiceImplTest {
 		currentComment.setUser(currentUser);
 		currentComment.setPost(currentPost);
 
-		mockPostRepositoryFindById(1);
+		mockPostRepositoryFindByIdWithExistingPost(1);
 		commentServiceImpl.createComment(currentUser, currentComment);
 
 	}
@@ -79,7 +79,7 @@ public class CommentServiceImplTest {
 		currentComment.setUser(currentUser);
 		currentComment.setPost(currentPost);
 
-		mockPostRepositoryFindById(1);
+		when(postRepository.findById(1L)).thenReturn(Optional.ofNullable(null));
 		commentServiceImpl.createComment(currentUser, currentComment);
 	}
 
@@ -88,7 +88,7 @@ public class CommentServiceImplTest {
 		currentComment.setUser(currentUser);
 		currentComment.setPost(currentPost);
 
-		mockPostRepositoryFindById(1);
+		mockPostRepositoryFindByIdWithExistingPost(1);
 		commentServiceImpl.createComment(currentUser, currentComment);
 	}
 
@@ -99,7 +99,7 @@ public class CommentServiceImplTest {
 
 		currentPost.setUser(user2);
 
-		mockPostRepositoryFindById(1);
+		mockPostRepositoryFindByIdWithExistingPost(1);
 		commentServiceImpl.deletePostComments(currentUser, currentPost);
 	}
 
@@ -107,12 +107,12 @@ public class CommentServiceImplTest {
 	public void deleting_owned_post_comments_should_succeed() {
 		currentPost.setUser(currentUser);
 
-		mockPostRepositoryFindById(1);
+		mockPostRepositoryFindByIdWithExistingPost(1);
 		commentServiceImpl.deletePostComments(currentUser, currentPost);
 
 	}
 	
-	private void mockPostRepositoryFindById(long id) {
+	private void mockPostRepositoryFindByIdWithExistingPost(long id) {
 		when(postRepository.findById(id)).thenReturn(Optional.of(currentPost));
 		
 	}

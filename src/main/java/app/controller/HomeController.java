@@ -29,15 +29,15 @@ public class HomeController {
 	private UserAccountManagementService userAccountManagementService;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView showPosts(HttpServletRequest request, ModelMap modelMap,
-			@RequestParam(value="userId", required=false) String userId) {
+	public ModelAndView showPosts(ModelMap modelMap,
+			@RequestParam(value="userId", required=false, defaultValue = "0") long userId) {
 
 		List<Post> posts = null;
-		if (userId == null) {
+		if (userId == 0) {
 			posts = this.getAllPosts();
 		} else {
 			try {
-				User dummyUser = userAccountManagementService.getUserById(Long.parseLong(userId));
+				User dummyUser = userAccountManagementService.getUserById(userId);
 				posts = postService.getUserPosts(dummyUser);
 			} catch (Exception e) {
 				posts = this.getAllPosts();

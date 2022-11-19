@@ -38,10 +38,13 @@ public class PostFormController {
 	private UserAccountManagementService userAccountManagementService;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView showForm(@RequestParam("userId") long userId, @RequestParam(value="postId", required=false) Long postId, ModelMap modelMap) {
+  
+public ModelAndView showForm(@RequestParam("userId") long userId,
+			@RequestParam(name = "postId", defaultValue = "0", required = false) long postId, ModelMap modelMap) {
 		PostForm postForm = new PostForm();
-//		postForm.setExistingPostId(postId);
+		postForm.setExistingPostId(postId);
 		postForm.setUserId(userId);
+		postForm.setExistingPostId(postId);
 		modelMap.addAttribute("postForm", postForm);
 		return new ModelAndView("postForm");
 	}

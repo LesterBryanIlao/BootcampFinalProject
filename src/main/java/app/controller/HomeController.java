@@ -26,7 +26,7 @@ public class HomeController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView showPosts(ModelMap modelMap,
-			@RequestParam(value="userId", required=false, defaultValue = "0") long userId) {
+			@RequestParam(value = "userId", required = false, defaultValue = "0") long userId) {
 
 		List<Post> posts = null;
 		if (userId == 0) {

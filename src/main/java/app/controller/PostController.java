@@ -89,7 +89,7 @@ public class PostController {
 
 	
 	
-	@RequestMapping(method=RequestMethod.POST)
+	@RequestMapping(value="deletePost", method=RequestMethod.POST)
 	public String submitDeleteForm(@ModelAttribute("deleteForm") PostDeleteForm deleteForm,  BindingResult bindingResult, Model model) {
 		return "redirect:home";
 	}

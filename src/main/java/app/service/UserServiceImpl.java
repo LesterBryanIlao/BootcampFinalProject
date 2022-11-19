@@ -13,24 +13,18 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
     
-    
-   
-    
     @Override
     public List<User> getAllUsers() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public String getUserName(Long userId) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public User getUserBasedOnUserId(Long userId) {
-        // TODO Auto-generated method stub
         return userRepository.getOne(null);
     }
 

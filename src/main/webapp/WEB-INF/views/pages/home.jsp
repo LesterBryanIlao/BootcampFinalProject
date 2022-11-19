@@ -10,6 +10,18 @@
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
 	crossorigin="anonymous" type="text/css">
 
+<style>
+footer {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	background-color: #FF5349;
+	color: white;
+	text-align: center;
+}
+</style>
+
 </head>
 <body>
 
@@ -43,7 +55,6 @@
 						<div class="content">
 							<div class="caption">
 								<a href="post?postId=${post.getId()}">
-									<h3 class="heading">The Heading Text Size Should Match</h3>
 									<p>
 										<c:out value="${post.getContent()}"></c:out>
 									</p>

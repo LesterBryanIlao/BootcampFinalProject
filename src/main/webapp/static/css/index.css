@@ -24,16 +24,6 @@ p {
 	text-align: center;
 }
 
-footer {
-	position: fixed;
-	left: 0;
-	bottom: 0;
-	width: 100%;
-	background-color: #FF5349;
-	color: white;
-	text-align: center;
-}
-
 .post-area h1 {
 	color: red;
 	text-align: center;

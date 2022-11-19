@@ -5,10 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.apache.hc.core5.http.HttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,11 +20,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import app.base.service.CommentService;
 import app.base.service.PostService;
-import app.base.service.UserAccountManagementService;
 import app.base.service.UserSessionManagementService;
 import app.bean.CommentForm;
 import app.bean.PostDeleteForm;
-import app.bean.PostForm;
 import app.entity.Comment;
 import app.entity.Post;
 import app.entity.User;

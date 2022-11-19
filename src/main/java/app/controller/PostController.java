@@ -49,7 +49,7 @@ public class PostController {
 		}
 		try {
 
-			Comment comment = createCommentInstance(null, commentForm.getCommentString(), postService.getPostById(commentForm.getPostId()));
+			Comment comment = createCommentInstance(null, commentForm.getContent(), postService.getPostById(commentForm.getPostId()));
 			commentService.createComment(null, comment);
 		} catch (Exception e) {
 			model.addAttribute("userError", e.getMessage());

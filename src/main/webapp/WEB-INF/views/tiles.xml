@@ -39,4 +39,10 @@
         <put-attribute name="body" value="/WEB-INF/views/pages/post.jsp" />
     </definition>
     
+    
+     <definition name="error" extends="main_template">
+        <put-attribute name="title" value="Laway Error" />
+        <put-attribute name="body" value="/WEB-INF/views/pages/error.jsp" />
+    </definition>
+    
 </tiles-definitions>

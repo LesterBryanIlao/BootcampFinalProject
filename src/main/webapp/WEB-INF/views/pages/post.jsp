@@ -7,7 +7,7 @@
 <c:url value="post/deletePost" var="deletePostActionUrl"/>
 <form:form method="POST" modelAttribute="deleteForm" action="${deletePostActionUrl }">
 	${requestS }
-	<form:input type="hidden" path="postId"/>
+	<form:input type="hidden" path="postId" value="${post.getId()}"/>
 	<input type="submit" value="Delete"/>
 </form:form>
 
@@ -29,7 +29,6 @@ Upvotes:
 	<form:label type="hidden" path="content"></form:label>
 	<form:input path="content" value="${post.getContent()}" />
 	<form:errors type="hidden" path="content" cssClass="error" />
-
 	
 	<form:label type="hidden" path="upvotes"></form:label>
 	<form:input path="content" value="${post.getUpvotes}" />
@@ -65,4 +64,3 @@ Upvotes:
 	<form:errors path="content" cssClass="error" />
 	<input type="submit" value="Comment" />
 </form:form>
-

@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserBasedOnUserId(Long userId) {
-        return userRepository.getOne(null);
+        return userRepository.getOne(userId);
     }
 
 }

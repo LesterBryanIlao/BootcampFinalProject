@@ -56,7 +56,6 @@ public class PostController {
 		modelMap.addAttribute("post", selectedPost);
 		modelMap.addAttribute("deleteForm", postDeleteForm);
 
-//		modelMap.addAttribute("upvoteForm", postForm);
 		modelMap.addAttribute("commentForm", commentForm);
 		modelMap.addAttribute("comments", commentsList);
 		return new ModelAndView("post");
@@ -87,30 +86,26 @@ public class PostController {
 	@RequestMapping(value = "deletePost", method = RequestMethod.POST)
 	public String submitDeleteForm(@ModelAttribute("deleteForm") PostDeleteForm deleteForm, BindingResult bindingResult,
 			Model model) {
+		if (bindingResult.hasErrors()) {
+			return "deleteForm";
+		}
 
-		User user = userSessionManagementService.getCurrentLoggedInUser(null);
-		Post post = postService.getPostById(deleteForm.getPostId());
-		postService.deletePost(user, post);
+		try {
+			User currentUser = userSessionManagementService.getCurrentLoggedInUser(null);
+			Post post = postService.getPostById(deleteForm.getPostId());
+
+			commentService.deletePostComments(currentUser, post);
+			postService.deletePost(post.getUser(), post);
+
+		} catch (EntityNotFoundException e) {
+			model.addAttribute("error", "Need to login");
+			return String.format("redirect:/app/home");
+		} catch (Exception e) {
+			model.addAttribute("error", "Unexpected error while deleting the post");
+			return String.format("redirect:/app/home");
+		}
 		return String.format("redirect:/app/home");
 	}
-//	@RequestMapping(method = RequestMethod.POST)
-//	public String submitUpvotePost(@Valid @ModelAttribute("upvoteForm") PostForm postForm, BindingResult bindingResult, Model model) {
-//		if (bindingResult.hasErrors()) {
-//			return "upvoteForm";
-//		}
-//		try {
-//			User existingUser = userAccountManagementService.getUserById(postForm.getUserId());
-//			postService.upVotePost(existingUser, postService.getPostById(postForm.getExistingPostId()));
-//
-//		} catch (EntityNotFoundException e) {
-//			model.addAttribute("error", "Need to login");
-//			return getRedirectString(postForm.getUserId(), postForm.getExistingPostId());
-//		} catch (Exception e) {
-//			model.addAttribute("error", "Unexpected error while creating the post");
-//			return getRedirectString(postForm.getUserId(), postForm.getExistingPostId());
-//		}
-//		return getRedirectString(postForm.getUserId(), postForm.getExistingPostId());
-//	}
 
 	public Comment createCommentInstance(User user, String content, Post post) {
 		Comment comment = new Comment();

@@ -84,7 +84,7 @@ public class UserSessionManagementServiceImpl implements UserSessionManagementSe
 //		currentUser.setFirstName("User_10");
 //		currentUser.setLastName("Doe");
 //		currentUser.setPasswordHash("Test");
-		return userRepository.findById(1l).orElse(null);
+		return userRepository.findById(1L).orElse(null);
 	}
 
 	@Override

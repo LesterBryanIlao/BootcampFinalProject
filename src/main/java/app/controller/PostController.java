@@ -1,6 +1,5 @@
 package app.controller;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -38,8 +37,6 @@ public class PostController {
 
 	@Autowired
 	private UserSessionManagementService userSessionManagementService;
-
-	
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView showPost(@RequestParam("postId") long postId, ModelMap modelMap) {
@@ -96,14 +93,10 @@ public class PostController {
 			commentService.deletePostComments(currentUser, post);
 			postService.deletePost(post.getUser(), post);
 
-		} catch (EntityNotFoundException e) {
-			model.addAttribute("error", "Need to login");
-			return String.format("redirect:/app/home");
 		} catch (Exception e) {
-			model.addAttribute("error", "Unexpected error while deleting the post");
-			return String.format("redirect:/app/home");
+			return String.format("redirect:error?error=%s", "Unexpected error while deleting the post");
 		}
-		return String.format("redirect:/app/home");
+		return "redirect:/app/home";
 	}
 
 	public Comment createCommentInstance(User user, String content, Post post) {

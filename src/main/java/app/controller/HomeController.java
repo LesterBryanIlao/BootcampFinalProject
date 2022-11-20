@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import app.base.service.PostService;
 import app.base.service.UserAccountManagementService;
+
 import app.entity.Post;
 import app.entity.User;
 
@@ -35,10 +36,12 @@ public class HomeController {
 			try {
 				User postOwner = userAccountManagementService.getUserById(userId);
 				posts = postService.getUserPosts(postOwner);
+
 			} catch (Exception e) {
 				posts = this.getAllPosts();
 			}
 		}
+
 		modelMap.addAttribute("posts", posts);
 		return new ModelAndView("home");
 	}

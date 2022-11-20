@@ -29,12 +29,11 @@
         <put-attribute name="body" value="/WEB-INF/views/pages/post.jsp" />
     </definition>
     
-    <definition name="upvoteForm" extends="main_template">
+    <!--<definition name="upvoteForm" extends="main_template">
         <put-attribute name="title" value="Upvote Form" />
         <put-attribute name="body" value="/WEB-INF/views/pages/post.jsp" />
     </definition>
-    
-    
+    -->
       <definition name="post" extends="main_template">
         <put-attribute name="title" value="Comment Form" />
         <put-attribute name="body" value="/WEB-INF/views/pages/post.jsp" />

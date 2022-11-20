@@ -26,6 +26,12 @@ footer {
 </head>
 <body>
 
+	<c:url value="postForm" var="postFormUrl" />
+	<form:form action="${postFormUrl }">
+		<input  type="submit" value="New Post"/>
+	</form:form>
+	
+	
 	<c:forEach items="${posts}" var="post">
 
 		<div class="container">

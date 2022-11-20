@@ -80,6 +80,15 @@
 			<input type="submit" value="Delete" id="delete-button"/>
 			</div>
 	</form:form>
+	
+	
+	
+	<c:url value="postForm" var="updatePostUrl" />
+
+	<form:form method="GET" action="${updatePostUrl}">
+		<input type="hidden" name="postId" value="${post.getId() }">
+		<input type="submit" value="EditPost" >
+	</form:form>
 
 
 <%--

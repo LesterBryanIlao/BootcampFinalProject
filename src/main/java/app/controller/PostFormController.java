@@ -43,7 +43,6 @@ public class PostFormController {
 
 			PostForm postForm = new PostForm();
 			postForm.setExistingPostId(postId);
-			postForm.setExistingPostId(postId);
 
 			Post post = postService.getPostById(postId);
 			if (post != null) {
@@ -52,7 +51,6 @@ public class PostFormController {
 				}
 
 				postForm.setContent(post.getContent());
-				postForm.setUpvotes(post.getUpvotes());
 				postForm.setUpvotes(post.getUpvotes());
 			}
 
@@ -82,6 +80,7 @@ public class PostFormController {
 			long existingId = postForm.getExistingPostId();
 			if (existingId > 0) {
 				post.setId(existingId);
+				post.setUpvotes(postForm.getUpvotes());
 			}
 
 			postService.createPost(existingUser, post);

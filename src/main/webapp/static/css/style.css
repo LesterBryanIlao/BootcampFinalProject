@@ -29,7 +29,8 @@ img {
 
 .content {
 	background: white;
-	padding-top: 5px;
+	padding-top: 50x;
+	margin-bottom: 100px;
 	border: 1px solid black;
 	width: 450px;
 	max-width: 300px; /* or whatever width you want. */

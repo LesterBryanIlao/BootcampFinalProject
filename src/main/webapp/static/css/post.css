@@ -11,8 +11,7 @@
 	border-top-left-radius: 10px;
 	border-bottom-left-radius: 10px;
 	border-bottom-right-radius: 10px;
-	border: 2px solid black;
-	
+	border: 2px solid black;	
 	resize: none;
 }
 
@@ -22,6 +21,17 @@
    
 }
 
+
+#delete-button{
+	background-color:red;
+}
+.delete-button{
+	color: red;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	text-align: center;
+	
+}
 
 .vertical-center {
 	padding-top: 20px;

@@ -3,7 +3,6 @@ package app.util.sorter;
 import java.util.Comparator;
 
 import app.entity.Comment;
-import app.entity.Post;
 
 public class CommentSorter implements ContentSorter<Comment>{
 	public CommentTimeAscendingSorter getByTimeAscendingOrder() {

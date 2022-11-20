@@ -21,18 +21,12 @@
 			color: white;
 			text-align: center;
 		}
+			
 	
 	</style>
 </head>
 <br />
 
-<c:url value="post/deletePost" var="deletePostActionUrl" />
-<form:form method="POST" modelAttribute="deleteForm"
-	action="${deletePostActionUrl }">
-	${requestS }
-	<form:input type="hidden" path="postId" value="${post.getId()}" />
-	<input type="submit" value="Delete" />
-</form:form>
 
 
 <div class="container">
@@ -66,14 +60,36 @@
 						<p>
 							<c:out value="${post.getContent()}"></c:out>
 						</p>
+						
 						<!--<a class="btn btn-default" href="#" role="button">Read More</a> -->
 					</div>
 				</div>
+				
 			</div>
 		</article>
 		<div class="clearfix"></div>
 	</div>
 </div>
+<c:url value="post/deletePost" var="deletePostActionUrl" />
+
+	<form:form method="POST" modelAttribute="deleteForm"
+		action="${deletePostActionUrl}">
+		${requestS }
+		<form:input type="hidden" path="postId" value="${post.getId()}" />
+		<div class="delete-button">
+			<input type="submit" value="Delete" id="delete-button"/>
+			</div>
+	</form:form>
+	
+	
+	
+	<c:url value="postForm" var="updatePostUrl" />
+
+	<form:form method="GET" action="${updatePostUrl}">
+		<input type="hidden" name="postId" value="${post.getId() }">
+		<input type="submit" value="EditPost" >
+	</form:form>
+
 
 <%--
 <form:form method="POST" modelAttribute="upvoteForm">

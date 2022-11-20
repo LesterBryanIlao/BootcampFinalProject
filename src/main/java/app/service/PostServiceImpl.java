@@ -1,5 +1,6 @@
 package app.service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +13,9 @@ import app.entity.Post;
 import app.entity.User;
 import app.repository.PostRepository;
 import app.repository.UserRepository;
+import app.util.sorter.ContentSorter;
+import app.util.sorter.ContentSorterFactory;
+import app.util.sorter.ContentType;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -21,6 +25,9 @@ public class PostServiceImpl implements PostService {
 
 	@Autowired
 	PostRepository postRepository;
+	
+	@SuppressWarnings("unchecked")
+	ContentSorter<Post> postSorter = (ContentSorter<Post>) ContentSorterFactory.instance().createSorter(ContentType.POST);
 
 	@Transactional
 	@Override
@@ -60,7 +67,9 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public List<Post> getPosts() {
-		return postRepository.findAll();
+		List<Post> postsList = postRepository.findAll();
+		Collections.sort(postsList, postSorter.getByTimeDescendingOrder());
+		return postsList;
 	}
 
 	@Override
@@ -69,7 +78,9 @@ public class PostServiceImpl implements PostService {
 		if (!existingUser.isPresent()) {
 			throw new RuntimeException("User not found.");
 		}
-		return postRepository.getByUserId(user.getId());
+		List<Post> postsList = postRepository.getByUserId(user.getId());
+		Collections.sort(postsList, postSorter.getByTimeDescendingOrder());
+		return postsList;
 	}
 
 	@Override

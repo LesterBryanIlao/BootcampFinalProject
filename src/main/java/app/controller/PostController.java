@@ -26,7 +26,6 @@ import app.bean.PostDeleteForm;
 import app.entity.Comment;
 import app.entity.Post;
 import app.entity.User;
-import app.util.CommentsSorter;
 
 @Controller
 @RequestMapping("/post")
@@ -40,6 +39,8 @@ public class PostController {
 	@Autowired
 	private UserSessionManagementService userSessionManagementService;
 
+	
+
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView showPost(@RequestParam("postId") long postId, ModelMap modelMap) {
 
@@ -48,9 +49,7 @@ public class PostController {
 		PostDeleteForm postDeleteForm = new PostDeleteForm();
 		User user = userSessionManagementService.getCurrentLoggedInUser(null);
 
-		CommentsSorter commentsSorter = new CommentsSorter();
 		List<Comment> commentsList = commentService.getCommentFromPost(selectedPost);
-		Collections.sort(commentsList, commentsSorter.getByTimeAscendingOrder());
 
 		modelMap.addAttribute("user", user);
 		modelMap.addAttribute("post", selectedPost);

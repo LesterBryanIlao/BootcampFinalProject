@@ -1,5 +1,6 @@
 package app.service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +14,9 @@ import app.entity.Post;
 import app.entity.User;
 import app.repository.CommentRepository;
 import app.repository.PostRepository;
+import app.util.sorter.ContentSorter;
+import app.util.sorter.ContentSorterFactory;
+import app.util.sorter.ContentType;
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -21,6 +25,9 @@ public class CommentServiceImpl implements CommentService {
 	private PostRepository postRepository;
 	@Autowired
 	private CommentRepository commentRepository;
+	
+	@SuppressWarnings("unchecked")
+	ContentSorter<Comment> commentSorter = (ContentSorter<Comment>) ContentSorterFactory.instance().createSorter(ContentType.COMMENT);
 
 	@Transactional
 	@Override
@@ -51,7 +58,9 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public List<Comment> getCommentFromPost(Post post) {
-		return commentRepository.getByPostId(post.getId());
+		List<Comment> commentsList = commentRepository.getByPostId(post.getId());
+		Collections.sort(commentsList, commentSorter.getByTimeAscendingOrder());
+		return commentsList;
 
 	}
 

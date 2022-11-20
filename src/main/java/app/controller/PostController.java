@@ -94,7 +94,7 @@ public class PostController {
 			postService.deletePost(post.getUser(), post);
 
 		} catch (Exception e) {
-			return String.format("redirect:error?error=%s", "Unexpected error while deleting the post");
+			return "redirect:error?error=Unexpected error while deleting the post";
 		}
 		return "redirect:/app/home";
 	}

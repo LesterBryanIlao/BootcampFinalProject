@@ -101,12 +101,10 @@ public class ContentSorterTest {
 				&& posts.get(3).equals(post4));
 
 	}
-	
-	
-	
+
 	@Test
 	public void content_sorter_factory_should_return_the_appopriate_sorter() {
-		ContentSorterFactory factory =ContentSorterFactory.instance();
+		ContentSorterFactory factory = ContentSorterFactory.instance();
 		assertTrue(factory.createSorter(ContentType.POST) instanceof PostSorter);
 		assertTrue(factory.createSorter(ContentType.COMMENT) instanceof CommentSorter);
 	}

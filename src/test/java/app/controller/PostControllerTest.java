@@ -29,117 +29,117 @@ import app.entity.Post;
 import app.entity.User;
 
 public class PostControllerTest {
-    @Mock
-    private BindingResult bindingResult = mock(BindingResult.class);
-    @Mock
-    private UserSessionManagementService userSessionManagementService = mock(UserSessionManagementService.class);
-    @Mock
-    private Model model = mock(Model.class);
-    @Mock
-    private PostService postService = mock(PostService.class);
-    @Mock
-    private CommentService commentService = mock(CommentService.class);
-    
-    private PostController postController;
-    
-    private ModelAndView modelAndView;
+	@Mock
+	private BindingResult bindingResult = mock(BindingResult.class);
+	@Mock
+	private UserSessionManagementService userSessionManagementService = mock(UserSessionManagementService.class);
+	@Mock
+	private Model model = mock(Model.class);
+	@Mock
+	private PostService postService = mock(PostService.class);
+	@Mock
+	private CommentService commentService = mock(CommentService.class);
 
-    
-    @Before
-    public void setup() {
-        MockitoAnnotations.initMocks(this);
-        postController = new PostController();
-        Whitebox.setInternalState(postController, "postService", postService);
-        Whitebox.setInternalState(postController, "userSessionManagementService", userSessionManagementService);
-        Whitebox.setInternalState(postController, "commentService", commentService);
-        
-    }
-    
-    @Test
-    public void show_form_method_should_be_equal_to_post_when_successful() {
-        long userId = 1L;
-        long postId = 1L;
-        
-        User user = mock(User.class);
-        Post post = mock(Post.class);
-        List<Comment> commentsList;
-        
-        when(userSessionManagementService.getCurrentLoggedInUser(null)).thenReturn(user);
-        when(postService.getPostById(postId)).thenReturn(post);
-        when(post.getUser()).thenReturn(user);
-        when(user.getId()).thenReturn(userId);
-        when(post.getContent()).thenReturn("");
+	private PostController postController;
 
-        when(commentService.getCommentFromPost(post)).thenReturn(commentsList = new ArrayList<Comment>());
-        modelAndView = postController.showPost(postId, new ModelMap());
-        assertTrue(modelAndView.getViewName().equals("post"));
-    }
-    
-    @Test
-    public void submit_comment_form_should_redirect_when_error() {
-        long postId = 0;
-        User user = new User();
-        boolean bindingResultHasErrors = false;
-        String expectedReturnPath = "redirect:post?postId="+postId;
-        executeSubmitCommentFormFlow(user, bindingResultHasErrors, expectedReturnPath);
-    }
-    
-    @Test
-    public void submit_comment_form_should_return_commentForm_when_user_does_not_exist() {
-        User user = new User();
-        boolean bindingResultHasErrors = true;
-        String expectedReturnPath = "commentForm";
-        executeSubmitCommentFormFlow(user, bindingResultHasErrors, expectedReturnPath);
-    }
-    
-    @Test
-    public void submit_delete_form_should_redirect_to_home() {
-        User user = new User();
-        boolean bindingResultHasErrors = false;
-        String expectedReturnPath = "redirect:/app/home";
-        executeSubmitDeleteFormFlow(user, bindingResultHasErrors, expectedReturnPath);
-    }
-    
-    @Test
-    public void submit_delete_form_should_return_deleteForm_when_user_does_not_exist() {
-        User user = new User();
-        boolean bindingResultHasErrors = true;
-        String expectedReturnPath = "deleteForm";
-        executeSubmitDeleteFormFlow(user, bindingResultHasErrors, expectedReturnPath);
-    }
-    
-    private void executeSubmitCommentFormFlow(User postOwner, boolean bindingResultHasErrors, String expectedReturnPath) {
-        CommentForm commentForm = new CommentForm();
+	private ModelAndView modelAndView;
 
-        when(bindingResult.hasErrors()).thenReturn(bindingResultHasErrors);
+	@Before
+	public void setup() {
+		MockitoAnnotations.initMocks(this);
+		postController = new PostController();
+		Whitebox.setInternalState(postController, "postService", postService);
+		Whitebox.setInternalState(postController, "userSessionManagementService", userSessionManagementService);
+		Whitebox.setInternalState(postController, "commentService", commentService);
 
-        OngoingStubbing<User> getByUserIdStubbing = when(userSessionManagementService.getCurrentLoggedInUser(null));
-        if (postOwner == null) {
-            getByUserIdStubbing.thenThrow(EntityNotFoundException.class);
-        } else {
-            getByUserIdStubbing.thenReturn(postOwner);
-        }
+	}
 
-        String result = postController.submitCommentForm(commentForm, bindingResult, model);
+	@Test
+	public void show_form_method_should_be_equal_to_post_when_successful() {
+		long userId = 1L;
+		long postId = 1L;
 
-        assertEquals(result, expectedReturnPath);
-    }
-    
-    private void executeSubmitDeleteFormFlow(User postOwner, boolean bindingResultHasErrors, String expectedReturnPath) {
-        PostDeleteForm deleteForm = new PostDeleteForm();
+		User user = mock(User.class);
+		Post post = mock(Post.class);
 
-        when(bindingResult.hasErrors()).thenReturn(bindingResultHasErrors);
+		when(userSessionManagementService.getCurrentLoggedInUser(null)).thenReturn(user);
+		when(postService.getPostById(postId)).thenReturn(post);
+		when(post.getUser()).thenReturn(user);
+		when(user.getId()).thenReturn(userId);
+		when(post.getContent()).thenReturn("");
 
-        OngoingStubbing<User> getByUserIdStubbing = when(userSessionManagementService.getCurrentLoggedInUser(null));
-        if (postOwner == null) {
-            getByUserIdStubbing.thenThrow(EntityNotFoundException.class);
-        } else {
-            getByUserIdStubbing.thenReturn(postOwner);
-        }
+		when(commentService.getCommentFromPost(post)).thenReturn(new ArrayList<Comment>());
+		modelAndView = postController.showPost(postId, new ModelMap());
+		assertTrue(modelAndView.getViewName().equals("post"));
+	}
 
-        String result = postController.submitDeleteForm(deleteForm, bindingResult, model);
+	@Test
+	public void submit_comment_form_should_redirect_when_error() {
+		long postId = 0;
+		User user = new User();
+		boolean bindingResultHasErrors = false;
+		String expectedReturnPath = "redirect:post?postId=" + postId;
+		executeSubmitCommentFormFlow(user, bindingResultHasErrors, expectedReturnPath);
+	}
 
-        assertEquals(result, expectedReturnPath);
-    }
-    
+	@Test
+	public void submit_comment_form_should_return_commentForm_when_user_does_not_exist() {
+		User user = new User();
+		boolean bindingResultHasErrors = true;
+		String expectedReturnPath = "commentForm";
+		executeSubmitCommentFormFlow(user, bindingResultHasErrors, expectedReturnPath);
+	}
+
+	@Test
+	public void submit_delete_form_should_redirect_to_home() {
+		User user = new User();
+		boolean bindingResultHasErrors = false;
+		String expectedReturnPath = "redirect:error?error=Unexpected error while deleting the post";
+		executeSubmitDeleteFormFlow(user, bindingResultHasErrors, expectedReturnPath);
+	}
+
+	@Test
+	public void submit_delete_form_should_return_deleteForm_when_user_does_not_exist() {
+		User user = new User();
+		boolean bindingResultHasErrors = true;
+		String expectedReturnPath = "deleteForm";
+		executeSubmitDeleteFormFlow(user, bindingResultHasErrors, expectedReturnPath);
+	}
+
+	private void executeSubmitCommentFormFlow(User postOwner, boolean bindingResultHasErrors,
+			String expectedReturnPath) {
+		CommentForm commentForm = new CommentForm();
+
+		when(bindingResult.hasErrors()).thenReturn(bindingResultHasErrors);
+
+		OngoingStubbing<User> getByUserIdStubbing = when(userSessionManagementService.getCurrentLoggedInUser(null));
+		if (postOwner == null) {
+			getByUserIdStubbing.thenThrow(EntityNotFoundException.class);
+		} else {
+			getByUserIdStubbing.thenReturn(postOwner);
+		}
+
+		String result = postController.submitCommentForm(commentForm, bindingResult, model);
+
+		assertEquals(result, expectedReturnPath);
+	}
+
+	private void executeSubmitDeleteFormFlow(User postOwner, boolean bindingResultHasErrors,
+			String expectedReturnPath) {
+		PostDeleteForm deleteForm = new PostDeleteForm();
+
+		when(bindingResult.hasErrors()).thenReturn(bindingResultHasErrors);
+
+		OngoingStubbing<User> getByUserIdStubbing = when(userSessionManagementService.getCurrentLoggedInUser(null));
+		if (postOwner == null) {
+			getByUserIdStubbing.thenThrow(Exception.class);
+		} else {
+			getByUserIdStubbing.thenReturn(postOwner);
+		}
+
+		String result = postController.submitDeleteForm(deleteForm, bindingResult, model);
+
+		assertEquals(result, expectedReturnPath);
+	}
+
 }

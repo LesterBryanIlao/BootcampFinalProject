@@ -16,6 +16,7 @@ footer {
 	left: 0;
 	bottom: 0;
 	width: 100%;
+	height: 50px;
 	background-color: #FF5349;
 	color: white;
 	text-align: center;
@@ -34,7 +35,8 @@ footer {
 						<div class="col-xs-10 col-sm-5 col-md-5 col-lg-4">
 							<div class="post-type post-img">
 								<a href="#"><img
-									src="https://www.worldfuturecouncil.org/wp-content/uploads/2020/06/blank-profile-picture-973460_1280-1-705x705.png"></a>
+									src="https://avatars.dicebear.com/api/male/john.svg?mood[]=happy&mood[]=sad
+"></a>
 							</div>
 							<div class="author-info author-info-2">
 								<ul class="list-inline">

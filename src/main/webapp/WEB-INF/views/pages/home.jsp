@@ -28,7 +28,9 @@ footer {
 
 	<c:url value="postForm" var="postFormUrl" />
 	<form:form action="${postFormUrl }">
-		<input  type="submit" value="New Post"/>
+	<div class="new-post">
+		<input  type="submit" id="new-post" value="Share your thoughts.."/>
+	</div>
 	</form:form>
 	
 	

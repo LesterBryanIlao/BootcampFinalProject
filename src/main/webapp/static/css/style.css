@@ -13,6 +13,23 @@ textarea {
 	border: 2px solid black;
 }
 
+
+#new-post{
+	border-top-right-radius: 10px;
+	border-top-left-radius: 10px;
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+	border: 2px solid black;	
+	
+}
+
+.new-post{
+	padding-top: 5px;
+	padding-bottom: 5px;
+	text-align: center;
+	
+}
+
 img {
 	width: 70px;
 	height: 70px;

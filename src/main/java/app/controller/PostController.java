@@ -91,8 +91,13 @@ public class PostController {
 
 		try {
 			User currentUser = userSessionManagementService.getCurrentLoggedInUser(null);
+			
+			if(currentUser == null) {
+				throw new Exception("Invalid user.");
+			}
+			
 			Post post = postService.getPostById(deleteForm.getPostId());
-
+			
 			commentService.deletePostComments(currentUser, post);
 			postService.deletePost(post.getUser(), post);
 

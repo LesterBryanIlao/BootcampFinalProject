@@ -55,6 +55,31 @@ img {
 	
 }
 
+#edit-post{
+	
+}
+
+.edit-post{
+	padding-top: 5px;
+	padding-bottom: 5px;
+	text-align: center;
+}
+
+
+
+
+#upvote-button input[type=submit]{
+	background-color:blue;
+}
+.upvote-button{
+
+	color: blue;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	text-align: center;
+	
+}
+
 
 .comment-content {
 	

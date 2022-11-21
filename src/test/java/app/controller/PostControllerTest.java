@@ -94,7 +94,7 @@ public class PostControllerTest {
 	public void submit_delete_form_should_redirect_to_home() {
 		User user = new User();
 		boolean bindingResultHasErrors = false;
-		String expectedReturnPath = "redirect:error?error=Unexpected error while deleting the post";
+		String expectedReturnPath = "redirect:/app/error?error=Unexpected error while deleting the post";
 		executeSubmitDeleteFormFlow(user, bindingResultHasErrors, expectedReturnPath);
 	}
 

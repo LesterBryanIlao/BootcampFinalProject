@@ -1,6 +1,5 @@
 package app.controller;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -23,6 +22,7 @@ import app.base.service.PostService;
 import app.base.service.UserSessionManagementService;
 import app.bean.CommentForm;
 import app.bean.PostDeleteForm;
+import app.bean.UpvoteForm;
 import app.entity.Comment;
 import app.entity.Post;
 import app.entity.User;
@@ -39,14 +39,13 @@ public class PostController {
 	@Autowired
 	private UserSessionManagementService userSessionManagementService;
 
-	
-
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView showPost(@RequestParam("postId") long postId, ModelMap modelMap) {
 
 		Post selectedPost = postService.getPostById(postId);
 		CommentForm commentForm = new CommentForm();
 		PostDeleteForm postDeleteForm = new PostDeleteForm();
+		UpvoteForm upvoteForm = new UpvoteForm();
 		User user = userSessionManagementService.getCurrentLoggedInUser(null);
 
 		List<Comment> commentsList = commentService.getCommentFromPost(selectedPost);
@@ -54,6 +53,7 @@ public class PostController {
 		modelMap.addAttribute("user", user);
 		modelMap.addAttribute("post", selectedPost);
 		modelMap.addAttribute("deleteForm", postDeleteForm);
+		modelMap.addAttribute("upvoteForm", upvoteForm);
 
 		modelMap.addAttribute("commentForm", commentForm);
 		modelMap.addAttribute("comments", commentsList);
@@ -96,14 +96,29 @@ public class PostController {
 			commentService.deletePostComments(currentUser, post);
 			postService.deletePost(post.getUser(), post);
 
-		} catch (EntityNotFoundException e) {
-			model.addAttribute("error", "Need to login");
-			return String.format("redirect:/app/home");
 		} catch (Exception e) {
-			model.addAttribute("error", "Unexpected error while deleting the post");
-			return String.format("redirect:/app/home");
+			return "redirect:error?error=Unexpected error while deleting the post";
 		}
-		return String.format("redirect:/app/home");
+		return "redirect:/app/home";
+	}
+
+	@RequestMapping(value = "upvotePost", method = RequestMethod.POST)
+	public String submitUpvoteForm(@ModelAttribute("upvoteForm") UpvoteForm upvoteForm, BindingResult bindingResult,
+			Model model) {
+		if (bindingResult.hasErrors()) {
+			return "upvoteForm";
+		}
+
+		try {
+			User currentUser = userSessionManagementService.getCurrentLoggedInUser(null);
+			Post post = postService.getPostById(upvoteForm.getPostId());
+
+			postService.upVotePost(currentUser, post);
+
+		} catch (Exception e) {
+			return String.format("redirect:error?error=%s", "Unexpected error while deleting the post");
+		}
+		return String.format("redirect:/app/post?postId=%s", upvoteForm.getPostId());
 	}
 
 	public Comment createCommentInstance(User user, String content, Post post) {

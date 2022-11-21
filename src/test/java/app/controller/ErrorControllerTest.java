@@ -48,4 +48,15 @@ public class ErrorControllerTest {
         assertTrue(modelMap.get("error").equals(error));
         
     }
+=======
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+public class ErrorControllerTest {
+
+	@Test
+	public void test() {
+		
+	}
 }

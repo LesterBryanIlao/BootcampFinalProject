@@ -9,21 +9,19 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
 	crossorigin="anonymous" type="text/css">
-	<link href="/static/css/footer.css" />
-	
-	<style>
-			footer {
-			position: fixed;
-			left: 0;
-			bottom: 0;
-			width: 100%;
-			background-color: #FF5349;
-			color: white;
-			text-align: center;
-		}
-			
-	
-	</style>
+<link href="/static/css/footer.css" />
+
+<style>
+footer {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	background-color: #FF5349;
+	color: white;
+	text-align: center;
+}
+</style>
 </head>
 <br />
 
@@ -60,54 +58,50 @@
 						<p>
 							<c:out value="${post.getContent()}"></c:out>
 						</p>
-						
+
 						<!--<a class="btn btn-default" href="#" role="button">Read More</a> -->
 					</div>
 				</div>
-				
+
 			</div>
 		</article>
 		<div class="clearfix"></div>
 	</div>
 </div>
-<c:url value="post/deletePost" var="deletePostActionUrl" />
 
-	<form:form method="POST" modelAttribute="deleteForm"
-		action="${deletePostActionUrl}">
+<p>
+	Upvotes:
+	<c:out value="${post.getUpvotes()}"></c:out>
+</p>
+
+
+<c:url value="post/upvotePost" var="upvotePostActionUrl" />
+<form:form method="POST" modelAttribute="upvoteForm"
+	action="${upvotePostActionUrl}">
+	${requestS }
+	<form:input type="hidden" path="userId" value="${user.getId()}"/>
+	<form:input type="hidden" path="postId" value="${post.getId()}" />
+
+	<div class="upvote-button">
+		<input type="submit" value="Upvote" id="upvote-button" />
+	</div>
+</form:form>
+
+<c:url value="post/deletePost" var="deletePostActionUrl" />
+<form:form method="POST" modelAttribute="deleteForm"
+	action="${deletePostActionUrl}">
 		${requestS }
 		<form:input type="hidden" path="postId" value="${post.getId()}" />
-		<div class="delete-button">
-			<input type="submit" value="Delete" id="delete-button"/>
-			</div>
-	</form:form>
-	
-	
-	
-	<c:url value="postForm" var="updatePostUrl" />
-
-	<form:form method="GET" action="${updatePostUrl}">
-		<input type="hidden" name="postId" value="${post.getId() }">
-		<input type="submit" value="EditPost" >
-	</form:form>
-
-
-<%--
-<form:form method="POST" modelAttribute="upvoteForm">
-	<form:label type="hidden" path="existingPostId"></form:label>
-	<form:input path="existingPostId" value="${post.getId()}"/>
-	<form:errors type="hidden" path="existingPostId" cssClass="error" />
-	
-	<form:label type="hidden" path="content"></form:label>
-	<form:input path="content" value="${post.getContent()}" />
-	<form:errors type="hidden" path="content" cssClass="error" />
-	
-	<form:label type="hidden" path="upvotes"></form:label>
-	<form:input path="content" value="${post.getUpvotes}" />
-	<form:errors type="hidden" path="upvotes" cssClass="error" />
-	
-	<input type="submit" value="Upvote" />
+	<div class="delete-button">
+		<input type="submit" value="Delete" id="delete-button" />
+	</div>
 </form:form>
---%>
+
+<c:url value="postForm" var="updatePostUrl" />
+<form:form method="GET" action="${updatePostUrl}">
+	<input type="hidden" name="postId" value="${post.getId() }">
+	<input type="submit" value="EditPost">
+</form:form>
 
 <form:form method="POST" modelAttribute="commentForm">
 
@@ -123,7 +117,8 @@
 	<div class="comment-elements">
 		<form:label path="content"></form:label>
 
-		<form:textarea placeholder="Share your thoughts... " path="content" name="comment-content" />
+		<form:textarea placeholder="Share your thoughts... " path="content"
+			name="comment-content" />
 		<form:errors path="content" cssClass="error" />
 
 	</div>

@@ -43,6 +43,10 @@ public class PostController {
 	public ModelAndView showPost(@RequestParam("postId") long postId, ModelMap modelMap) {
 
 		Post selectedPost = postService.getPostById(postId);
+		
+		if (selectedPost==null) {
+			return new ModelAndView("redirect:/app/error?error=Post does not exist");
+		}
 		CommentForm commentForm = new CommentForm();
 		PostDeleteForm postDeleteForm = new PostDeleteForm();
 		UpvoteForm upvoteForm = new UpvoteForm();

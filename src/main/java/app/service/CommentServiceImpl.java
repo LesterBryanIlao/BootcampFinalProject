@@ -59,7 +59,7 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public List<Comment> getCommentFromPost(Post post) {
 		List<Comment> commentsList = commentRepository.getByPostId(post.getId());
-		Collections.sort(commentsList, commentSorter.getByTimeAscendingOrder());
+		Collections.sort(commentsList, commentSorter.getByTimeDescendingOrder());
 		return commentsList;
 
 	}

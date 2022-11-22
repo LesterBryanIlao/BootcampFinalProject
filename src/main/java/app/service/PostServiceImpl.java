@@ -1,5 +1,6 @@
 package app.service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -80,6 +81,8 @@ public class PostServiceImpl implements PostService {
 		}
 		List<Post> postsList = postRepository.getByUserId(user.getId());
 		Collections.sort(postsList, postSorter.getByTimeDescendingOrder());
+		
+		System.out.println(postsList.size());
 		return postsList;
 	}
 

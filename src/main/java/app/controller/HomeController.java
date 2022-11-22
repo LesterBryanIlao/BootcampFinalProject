@@ -38,6 +38,7 @@ public class HomeController {
 				posts = postService.getUserPosts(postOwner);
 
 			} catch (Exception e) {
+				e.printStackTrace();
 				posts = this.getAllPosts();
 			}
 		}
